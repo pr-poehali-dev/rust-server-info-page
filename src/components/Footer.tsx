@@ -35,11 +35,9 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold mb-4 uppercase tracking-wider text-sm">Социальные сети</h3>
             <div className="flex gap-3">
-              <Button variant="outline" size="icon" className="border-primary/30 hover:border-primary hover:bg-primary/10 transition-all" asChild>
+              <Button variant="outline" size="icon" className="border-primary/30 hover:border-primary hover:bg-primary/10 transition-all font-bold" asChild>
                 <a href="https://vk.com/devilrustvk" target="_blank" rel="noopener noreferrer">
-                  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M11.5 24h1c5.44 0 8.15 0 9.83-1.68C24 20.64 24 17.92 24 12.5v-1.02c0-5.4 0-8.12-1.67-9.8C20.65 0 17.93 0 12.5 0h-1C6.06 0 3.35 0 1.67 1.68 0 3.36 0 6.08 0 11.5v1.02c0 5.4 0 8.12 1.68 9.8C3.36 24 6.08 24 11.5 24Z"/>
-                  </svg>
+                  ВК
                 </a>
               </Button>
               <Button variant="outline" size="icon" className="border-primary/30 hover:border-primary hover:bg-primary/10 transition-all" asChild>
