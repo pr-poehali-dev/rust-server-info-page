@@ -156,9 +156,9 @@ const ServersSection = () => {
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-4 glow-text">
             Наши серверы
           </h2>
-          <p className="text-muted-foreground text-lg max-w-[600px] mx-auto">
-            Выберите сервер по своему стилю игры. Каждый предлагает уникальный опыт.
-          </p>
+          <p className="text-muted-foreground text-lg max-w-[600px] mx-auto">Выберите сервер по своему стилю игры. Каждый предлагает уникальный опыт. 
+PVE сервера - Означают «игрок против окружения», в этом режиме игрок противостоит окружению: NPC, боссам, механикам мира.
+PVP сервера - Означают «игрок против игрока», в этом режиме игроки соревнуются друг с другом и друг против друга.</p>
         </div>
 
         <div className="mb-8">
