@@ -386,7 +386,7 @@ const ServersSection = () => {
                   </div>
                 </TooltipTrigger>
                 <TooltipContent className="max-w-xs">
-                  <p>Количество онлайна показано примерное, из-за временных проблем с подключениям к иностранным сервисам</p>
+                  <p>{stats ? 'Сервер включен' : 'Сервер выключен'}</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
