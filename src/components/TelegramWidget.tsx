@@ -105,7 +105,7 @@ const TelegramWidget = () => {
           <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent animate-pulse" />
           
           <div className="relative p-4">
-              <div className="flex items-center gap-3 mb-3">
+            <div className="flex items-center gap-3 mb-3">
                 <div className="relative">
                   <div className="absolute inset-0 bg-primary/30 blur-xl animate-pulse" />
                   <div className="relative bg-primary/20 p-2 rounded-xl border border-primary/40">
@@ -118,24 +118,23 @@ const TelegramWidget = () => {
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <Button
-                  onClick={handleSubscribe}
-                  size="sm"
-                  className="w-full font-semibold uppercase tracking-wider shadow-lg shadow-primary/30 hover:shadow-primary/50 hover:scale-105 transition-all group relative overflow-hidden"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                  <Icon name="Send" className="mr-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  Подпишись
-                </Button>
-                
-                <button
-                  onClick={handleAlreadySubscribed}
-                  className="w-full text-xs text-muted-foreground hover:text-foreground transition-colors underline"
-                >
-                  Уже подписался
-                </button>
-              </div>
+            <div className="space-y-2">
+              <Button
+                onClick={handleSubscribe}
+                size="sm"
+                className="w-full font-semibold uppercase tracking-wider shadow-lg shadow-primary/30 hover:shadow-primary/50 hover:scale-105 transition-all group relative overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                <Icon name="Send" className="mr-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                Подпишись
+              </Button>
+              
+              <button
+                onClick={handleAlreadySubscribed}
+                className="w-full text-xs text-muted-foreground hover:text-foreground transition-colors underline"
+              >
+                Уже подписался
+              </button>
             </div>
           </div>
 
