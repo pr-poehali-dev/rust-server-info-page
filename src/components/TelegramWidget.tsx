@@ -1,0 +1,120 @@
+import { useState, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import Icon from '@/components/ui/icon';
+
+const TelegramWidget = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [showFireworks, setShowFireworks] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsOpen(true);
+      setTimeout(() => setShowFireworks(true), 400);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleSubscribe = () => {
+    window.open('https://t.me/devilrust', '_blank', 'noopener,noreferrer');
+  };
+
+  return (
+    <div className="fixed bottom-6 left-6 z-50 animate-fade-in">
+      <div className="relative">
+        {showFireworks && (
+          <div className="absolute inset-0 pointer-events-none">
+            {Array.from({ length: 12 }).map((_, i) => (
+              <div
+                key={i}
+                className="absolute top-1/2 left-1/2 w-1 h-1 bg-primary rounded-full animate-firework"
+                style={{
+                  animationDelay: `${i * 0.05}s`,
+                  '--angle': `${(i * 30)}deg`,
+                  '--distance': '40px',
+                } as React.CSSProperties}
+              />
+            ))}
+          </div>
+        )}
+
+        <div
+          className={`relative bg-gradient-to-br from-primary/20 to-primary/5 backdrop-blur-sm border-2 border-primary/40 rounded-2xl shadow-2xl shadow-primary/20 transition-all duration-500 overflow-hidden ${
+            isOpen ? 'scale-100 opacity-100' : 'scale-75 opacity-0'
+          }`}
+        >
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent animate-pulse" />
+          
+          <div className="relative p-4">
+            <div
+              className={`transition-all duration-700 ${
+                isOpen ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+              }`}
+            >
+              <div className="flex items-center gap-3 mb-3">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-primary/30 blur-xl animate-pulse" />
+                  <div className="relative bg-primary/20 p-2 rounded-xl border border-primary/40">
+                    <Icon name="Send" className="h-6 w-6 text-primary" />
+                  </div>
+                </div>
+                <div>
+                  <div className="text-sm font-bold text-foreground">Подпишись на Telegram!</div>
+                  <div className="text-xs text-muted-foreground">Новости и обновления</div>
+                </div>
+              </div>
+
+              <Button
+                onClick={handleSubscribe}
+                size="sm"
+                className="w-full font-semibold uppercase tracking-wider shadow-lg shadow-primary/30 hover:shadow-primary/50 hover:scale-105 transition-all group relative overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                <Icon name="Send" className="mr-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                Подпишись
+              </Button>
+            </div>
+          </div>
+
+          <div
+            className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-primary/50 to-primary transition-all duration-1000 ${
+              isOpen ? 'scale-x-100' : 'scale-x-0'
+            }`}
+          />
+        </div>
+
+        <div
+          className={`absolute top-0 left-1/2 -translate-x-1/2 transition-all duration-700 ${
+            isOpen ? '-translate-y-8 opacity-0' : 'translate-y-0 opacity-100'
+          }`}
+        >
+          <div className="relative">
+            <div className="w-16 h-12 bg-gradient-to-br from-primary/30 to-primary/10 border-2 border-primary/40 rounded-t-lg" />
+            <div className="absolute top-0 left-0 right-0 h-1 bg-primary/60" />
+          </div>
+        </div>
+      </div>
+
+      <style>{`
+        @keyframes firework {
+          0% {
+            transform: translate(-50%, -50%) rotate(var(--angle)) translateX(0);
+            opacity: 1;
+            scale: 1;
+          }
+          100% {
+            transform: translate(-50%, -50%) rotate(var(--angle)) translateX(var(--distance));
+            opacity: 0;
+            scale: 0.3;
+          }
+        }
+
+        .animate-firework {
+          animation: firework 0.8s ease-out forwards;
+        }
+      `}</style>
+    </div>
+  );
+};
+
+export default TelegramWidget;

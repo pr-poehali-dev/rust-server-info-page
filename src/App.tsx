@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import BanList from "./pages/BanList";
 import NotFound from "./pages/NotFound";
+import TelegramWidget from "./components/TelegramWidget";
 
 const queryClient = new QueryClient();
 
@@ -15,6 +16,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
+      <TelegramWidget />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
