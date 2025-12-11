@@ -1,0 +1,20 @@
+{
+  "enabled": true,
+  "title": "Временная x2 АКЦИЯ!",
+  "subtitle": "При пополнении баланса Донат магазина от 1 000 рублей - 100% бонус",
+  "startDate": "2024-12-11T00:00:00",
+  "endDate": "2024-12-12T23:59:59",
+  "button": {
+    "text": "Перейти в магазин",
+    "url": "https://devrus.gamestores.app/"
+  },
+  "styling": {
+    "showGifts": true,
+    "accentColor": "#FF4400",
+    "animation": "pulse"
+  },
+  "behavior": {
+    "showOnce": false,
+    "cookieName": "devilrust_promotion_seen"
+  }
+}

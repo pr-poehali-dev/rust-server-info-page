@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import BanList from "./pages/BanList";
 import NotFound from "./pages/NotFound";
 import TelegramWidget from "./components/TelegramWidget";
+import PromotionModal from "./components/PromotionModal";
 
 const queryClient = new QueryClient();
 
@@ -17,6 +18,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <TelegramWidget />
+      <PromotionModal />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />

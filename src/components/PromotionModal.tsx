@@ -1,0 +1,302 @@
+import { useState, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import Icon from '@/components/ui/icon';
+import promotionData from '@/data/promotion.json';
+
+const PromotionModal = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [timeLeft, setTimeLeft] = useState<{
+    days: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+  } | null>(null);
+
+  useEffect(() => {
+    if (!promotionData.enabled) return;
+
+    const checkPromotion = () => {
+      const now = new Date().getTime();
+      const start = new Date(promotionData.startDate).getTime();
+      const end = new Date(promotionData.endDate).getTime();
+
+      if (now < start || now > end) {
+        return false;
+      }
+
+      const cookieName = promotionData.behavior.cookieName;
+      const seen = localStorage.getItem(cookieName);
+      
+      if (promotionData.behavior.showOnce && seen) {
+        return false;
+      }
+
+      return true;
+    };
+
+    if (checkPromotion()) {
+      setTimeout(() => setIsOpen(true), 1000);
+    }
+
+    const timer = setInterval(() => {
+      const now = new Date().getTime();
+      const end = new Date(promotionData.endDate).getTime();
+      const distance = end - now;
+
+      if (distance < 0) {
+        setTimeLeft(null);
+        setIsOpen(false);
+        clearInterval(timer);
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      setTimeLeft({ days, hours, minutes, seconds });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const handleClose = () => {
+    setIsOpen(false);
+    const cookieName = promotionData.behavior.cookieName;
+    localStorage.setItem(cookieName, 'true');
+  };
+
+  const handleButtonClick = () => {
+    window.open(promotionData.button.url, '_blank');
+    handleClose();
+  };
+
+  if (!isOpen || !timeLeft) return null;
+
+  return (
+    <>
+      <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 animate-fade-in" onClick={handleClose} />
+      
+      <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-lg px-4">
+        <div className="relative bg-gradient-to-br from-card via-card to-primary/5 border-2 border-primary rounded-2xl shadow-2xl shadow-primary/20 overflow-hidden animate-scale-in">
+          
+          <button
+            onClick={handleClose}
+            className="absolute top-4 right-4 z-10 text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <Icon name="X" className="h-6 w-6" />
+          </button>
+
+          {promotionData.styling.showGifts && (
+            <>
+              <div className="absolute -top-6 -left-6 text-6xl animate-bounce-slow">
+                🎁
+              </div>
+              <div className="absolute -top-4 -right-4 text-5xl animate-bounce-slow-delay">
+                🎉
+              </div>
+              <div className="absolute -bottom-4 -left-4 text-5xl animate-bounce-slow-delay-2">
+                ✨
+              </div>
+              <div className="absolute -bottom-6 -right-6 text-6xl animate-bounce-slow">
+                🎊
+              </div>
+            </>
+          )}
+
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-primary/10 animate-pulse-slow" />
+
+          <div className="relative p-8 text-center space-y-6">
+            <div className="space-y-2">
+              <div className="inline-block px-4 py-1 bg-primary/20 border border-primary/40 rounded-full text-sm font-semibold text-primary mb-2 animate-pulse">
+                🔥 Горячее предложение
+              </div>
+              
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight animate-glow">
+                <span className="bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent">
+                  {promotionData.title}
+                </span>
+              </h2>
+              
+              <p className="text-lg text-muted-foreground max-w-md mx-auto">
+                {promotionData.subtitle}
+              </p>
+            </div>
+
+            <div className="bg-background/80 backdrop-blur-sm border border-primary/20 rounded-xl p-6 space-y-4">
+              <div className="text-sm text-muted-foreground font-semibold uppercase tracking-wider">
+                ⏰ Акция заканчивается через:
+              </div>
+              
+              <div className="grid grid-cols-4 gap-2">
+                <div className="bg-gradient-to-b from-primary/20 to-primary/5 border border-primary/30 rounded-lg p-3">
+                  <div className="text-3xl font-bold text-primary tabular-nums">
+                    {timeLeft.days}
+                  </div>
+                  <div className="text-xs text-muted-foreground uppercase">
+                    дней
+                  </div>
+                </div>
+                
+                <div className="bg-gradient-to-b from-primary/20 to-primary/5 border border-primary/30 rounded-lg p-3">
+                  <div className="text-3xl font-bold text-primary tabular-nums">
+                    {String(timeLeft.hours).padStart(2, '0')}
+                  </div>
+                  <div className="text-xs text-muted-foreground uppercase">
+                    часов
+                  </div>
+                </div>
+                
+                <div className="bg-gradient-to-b from-primary/20 to-primary/5 border border-primary/30 rounded-lg p-3">
+                  <div className="text-3xl font-bold text-primary tabular-nums">
+                    {String(timeLeft.minutes).padStart(2, '0')}
+                  </div>
+                  <div className="text-xs text-muted-foreground uppercase">
+                    минут
+                  </div>
+                </div>
+                
+                <div className="bg-gradient-to-b from-primary/20 to-primary/5 border border-primary/30 rounded-lg p-3 animate-pulse">
+                  <div className="text-3xl font-bold text-primary tabular-nums">
+                    {String(timeLeft.seconds).padStart(2, '0')}
+                  </div>
+                  <div className="text-xs text-muted-foreground uppercase">
+                    секунд
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <Button
+              onClick={handleButtonClick}
+              size="lg"
+              className="w-full h-14 text-lg font-bold bg-gradient-to-r from-primary via-primary/90 to-primary hover:from-primary/90 hover:via-primary hover:to-primary/90 shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 transition-all animate-pulse-glow"
+            >
+              <Icon name="ShoppingBag" className="mr-2 h-5 w-5" />
+              {promotionData.button.text}
+              <Icon name="ArrowRight" className="ml-2 h-5 w-5" />
+            </Button>
+
+            <button
+              onClick={handleClose}
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors underline"
+            >
+              Напомнить позже
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <style>{`
+        @keyframes scale-in {
+          0% {
+            transform: translate(-50%, -50%) scale(0.9);
+            opacity: 0;
+          }
+          100% {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+          }
+        }
+
+        @keyframes fade-in {
+          0% {
+            opacity: 0;
+          }
+          100% {
+            opacity: 1;
+          }
+        }
+
+        @keyframes bounce-slow {
+          0%, 100% {
+            transform: translateY(0) rotate(0deg);
+          }
+          50% {
+            transform: translateY(-20px) rotate(10deg);
+          }
+        }
+
+        @keyframes bounce-slow-delay {
+          0%, 100% {
+            transform: translateY(0) rotate(0deg);
+          }
+          50% {
+            transform: translateY(-15px) rotate(-10deg);
+          }
+        }
+
+        @keyframes bounce-slow-delay-2 {
+          0%, 100% {
+            transform: translateY(0) rotate(0deg);
+          }
+          50% {
+            transform: translateY(-25px) rotate(15deg);
+          }
+        }
+
+        @keyframes pulse-slow {
+          0%, 100% {
+            opacity: 0.3;
+          }
+          50% {
+            opacity: 0.6;
+          }
+        }
+
+        @keyframes glow {
+          0%, 100% {
+            filter: drop-shadow(0 0 20px rgba(255, 68, 0, 0.5));
+          }
+          50% {
+            filter: drop-shadow(0 0 30px rgba(255, 68, 0, 0.8));
+          }
+        }
+
+        @keyframes pulse-glow {
+          0%, 100% {
+            box-shadow: 0 10px 40px rgba(255, 68, 0, 0.3);
+          }
+          50% {
+            box-shadow: 0 10px 60px rgba(255, 68, 0, 0.5);
+          }
+        }
+
+        .animate-scale-in {
+          animation: scale-in 0.3s ease-out;
+        }
+
+        .animate-fade-in {
+          animation: fade-in 0.3s ease-out;
+        }
+
+        .animate-bounce-slow {
+          animation: bounce-slow 3s ease-in-out infinite;
+        }
+
+        .animate-bounce-slow-delay {
+          animation: bounce-slow-delay 3s ease-in-out infinite 0.5s;
+        }
+
+        .animate-bounce-slow-delay-2 {
+          animation: bounce-slow-delay-2 3s ease-in-out infinite 1s;
+        }
+
+        .animate-pulse-slow {
+          animation: pulse-slow 3s ease-in-out infinite;
+        }
+
+        .animate-glow {
+          animation: glow 2s ease-in-out infinite;
+        }
+
+        .animate-pulse-glow {
+          animation: pulse-glow 2s ease-in-out infinite;
+        }
+      `}</style>
+    </>
+  );
+};
+
+export default PromotionModal;
