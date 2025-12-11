@@ -20,13 +20,13 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold mb-4 uppercase tracking-wider text-sm">Быстрые ссылки</h3>
             <div className="space-y-2 text-sm">
-              <a href="https://1.ru" target="_blank" rel="noopener noreferrer" className="block text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 transform">
+              <a href="https://devilrust.ru/" target="_blank" rel="noopener noreferrer" className="block text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 transform">
                 Магазин
               </a>
-              <a href="https://2.ru" target="_blank" rel="noopener noreferrer" className="block text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 transform">
+              <a href="https://ulauncher.lol/" target="_blank" rel="noopener noreferrer" className="block text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 transform">
                 Скачать лаунчер
               </a>
-              <a href="https://3.ru" target="_blank" rel="noopener noreferrer" className="block text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 transform">
+              <a href="https://devilrust.ru/support" target="_blank" rel="noopener noreferrer" className="block text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 transform">
                 Поддержка
               </a>
               <a href="https://devilrust.ru" target="_blank" rel="noopener noreferrer" className="block text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 transform">
@@ -39,17 +39,17 @@ const Footer = () => {
             <h3 className="font-semibold mb-4 uppercase tracking-wider text-sm">Социальные сети</h3>
             <div className="flex gap-3">
               <Button variant="outline" size="icon" className="border-primary/30 hover:border-primary hover:bg-primary/10 transition-all" asChild>
-                <a href="https://devilrust.ru" target="_blank" rel="noopener noreferrer">
+                <a href="https://vk.com/devilrustvk" target="_blank" rel="noopener noreferrer">
                   <Icon name="MessageCircle" className="h-5 w-5" />
                 </a>
               </Button>
               <Button variant="outline" size="icon" className="border-primary/30 hover:border-primary hover:bg-primary/10 transition-all" asChild>
-                <a href="https://devilrust.ru" target="_blank" rel="noopener noreferrer">
-                  <Icon name="Youtube" className="h-5 w-5" />
+                <a href="https://t.me/devilrust" target="_blank" rel="noopener noreferrer">
+                  <Icon name="Send" className="h-5 w-5" />
                 </a>
               </Button>
               <Button variant="outline" size="icon" className="border-primary/30 hover:border-primary hover:bg-primary/10 transition-all" asChild>
-                <a href="https://devilrust.ru" target="_blank" rel="noopener noreferrer">
+                <a href="https://devilrust.ru/" target="_blank" rel="noopener noreferrer">
                   <Icon name="Globe" className="h-5 w-5" />
                 </a>
               </Button>
