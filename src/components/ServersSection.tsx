@@ -14,6 +14,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import Icon from '@/components/ui/icon';
 import { useToast } from '@/hooks/use-toast';
 
@@ -367,16 +373,25 @@ const ServersSection = () => {
                 {server.mode}
               </span>
             </div>
-            <div className="text-right">
-              <div className="text-2xl font-bold" style={{fontFamily: 'Nunito, sans-serif'}}>
-                <span className={iconColor}>{online}</span>
-                <span className="text-muted-foreground">/</span>
-                <span className="text-muted-foreground">{slots}</span>
-              </div>
-              <div className="text-xs text-muted-foreground uppercase tracking-wider">
-                Online/Slots
-              </div>
-            </div>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="text-right cursor-help">
+                    <div className="text-2xl font-bold" style={{fontFamily: 'Nunito, sans-serif'}}>
+                      <span className={iconColor}>{online}</span>
+                      <span className="text-muted-foreground">/</span>
+                      <span className="text-muted-foreground">{slots}</span>
+                    </div>
+                    <div className="text-xs text-muted-foreground uppercase tracking-wider">
+                      Online/Slots
+                    </div>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent className="max-w-xs">
+                  <p>Количество онлайна показано примерное, из-за временных проблем с подключениям к иностранным сервисам</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
 
           <p className="mb-4 text-sm text-muted-foreground leading-relaxed">
