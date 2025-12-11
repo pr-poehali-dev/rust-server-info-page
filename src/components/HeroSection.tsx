@@ -39,7 +39,7 @@ const HeroSection = () => {
           <div className="space-y-4">
             <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl glow-text">
               Добро пожаловать на
-              <span className="block text-primary mt-2 drop-shadow-[0_0_25px_rgba(255,68,0,0.5)]">DevilRust Servers</span>
+              <span className="block text-primary mt-2 drop-shadow-[0_0_25px_rgba(255,68,0,0.5)]">DevilRust</span>
             </h1>
             <p className="mx-auto max-w-[700px] text-muted-foreground text-lg md:text-xl">
               9 уникальных серверов для каждого стиля игры. От хардкорного ванильного опыта до безумного модифицированного веселья.
