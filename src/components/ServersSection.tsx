@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -23,6 +23,7 @@ const pveServers = [
     name: '#1 [PVE] DevilRust X3',
     mode: 'PVE x3',
     ip: '62.122.214.220:10000',
+    battlemetricsId: '30367639',
     description: 'Сервер с рейтингом добычи ресурсов х3. На сервере присутствуют кастомные NPC, которые немного сложнее стандартных NPC на Редтаунах. Более подробно о всех особенностях можно узнать ниже.',
     features: [
       'Рейты x3',
@@ -40,6 +41,7 @@ const pveServers = [
     name: '#2 [PVE] DevilRust X5',
     mode: 'PVE x5',
     ip: '62.122.214.220:1000',
+    battlemetricsId: '30367639',
     description: 'Сервер с рейтингом добычи ресурсов x5 - что дает более быструю скорость развития вашего персонажа. Более подробно о всех особенностях можно узнать ниже.',
     features: [
       'Рейты x5',
@@ -57,6 +59,7 @@ const pveServers = [
     name: '#3 [PVE] DevilRust X8',
     mode: 'PVE x8',
     ip: '62.122.214.220:3000',
+    battlemetricsId: '30367639',
     description: 'Сервер с рейтингом добычи ресурсов x8 - что дает более быструю скорость развития вашего персонажа. Более подробно о всех особенностях можно узнать ниже.',
     features: [
       'Рейты x8',
@@ -74,6 +77,7 @@ const pveServers = [
     name: '#4 [PVE] DevilRust X10',
     mode: 'PVE x10',
     ip: '62.122.214.220:4000',
+    battlemetricsId: '30367639',
     description: 'Сервер с рейтингом добычи ресурсов x10 - что дает более быструю скорость развития вашего персонажа. Более подробно о всех особенностях можно узнать ниже.',
     features: [
       'Рейты x10',
@@ -91,6 +95,7 @@ const pveServers = [
     name: '#5 [PVE] DevilRust X20',
     mode: 'PVE x20',
     ip: '62.122.214.220:5000',
+    battlemetricsId: '30367639',
     description: 'Сервер с рейтингом добычи ресурсов x20 - что дает более быструю скорость развития вашего персонажа. Более подробно о всех особенностях можно узнать ниже.',
     features: [
       'Рейты x20',
@@ -108,6 +113,7 @@ const pveServers = [
     name: '#6 [PVE] DevilRust EASYBUILD',
     mode: 'PVE EasyBuild',
     ip: '62.122.214.220:6000',
+    battlemetricsId: '30367639',
     description: 'Долгоиграющий сервер с редкими вайпами. Для тех, кто любит строить большие проекты и развиваться долгосрочно.',
     features: [
       'Упрощенное строительство',
@@ -125,6 +131,7 @@ const pveServers = [
     name: '#7 [PVE] DevilRust VANILLA',
     mode: 'PVE Vanilla',
     ip: '62.122.214.220:7000',
+    battlemetricsId: '30367639',
     description: 'Ванильный сервер, в котором можно ощутить все особенности настоящего RUST, нет модификаций, которые ломают классические особенности игры.',
     features: [
       'Ванильный опыт',
@@ -145,6 +152,7 @@ const pvpServers = [
     name: '#8 [PVP] DevilRust - MODDED | x2 | DUO',
     mode: 'PVP Modded x2',
     ip: '62.122.214.220:8000',
+    battlemetricsId: '30367639',
     description: 'Модифицированный сервер для команд максимум из 2х игроков',
     features: [
       'Рейты x2',
@@ -163,6 +171,7 @@ const pvpServers = [
     name: '#9 [PVP] DevilRust - MODDED | x2 | NOLIM',
     mode: 'PVP Modded x2',
     ip: '62.122.214.220:9000',
+    battlemetricsId: '30367639',
     description: 'Модифицированный сервер без лимита игроков в команде.',
     features: [
       'Рейты x2',
@@ -187,6 +196,7 @@ const ServersSection = () => {
   const [selectedServer, setSelectedServer] = useState<typeof pveServers[0] | null>(null);
   const [sortBy, setSortBy] = useState<SortType>('number');
   const [filterBy, setFilterBy] = useState<FilterType>('all');
+  const [serverStats, setServerStats] = useState<Record<string, { players: number; maxPlayers: number }>>({});
 
   const handleConnect = (ip: string) => {
     const connectCommand = `connect ${ip}`;
@@ -209,6 +219,34 @@ const ServersSection = () => {
     setSelectedServer(server);
     setIsDialogOpen(true);
   };
+
+  useEffect(() => {
+    const fetchServerStats = async () => {
+      const allServers = [...pveServers, ...pvpServers];
+      const uniqueIds = [...new Set(allServers.map(s => s.battlemetricsId))];
+      
+      for (const bmId of uniqueIds) {
+        try {
+          const response = await fetch(`https://api.battlemetrics.com/servers/${bmId}`);
+          const data = await response.json();
+          
+          setServerStats(prev => ({
+            ...prev,
+            [bmId]: {
+              players: data.data.attributes.players,
+              maxPlayers: data.data.attributes.maxPlayers
+            }
+          }));
+        } catch (error) {
+          console.error(`Failed to fetch stats for server ${bmId}:`, error);
+        }
+      }
+    };
+
+    fetchServerStats();
+    const interval = setInterval(fetchServerStats, 60000);
+    return () => clearInterval(interval);
+  }, []);
 
   const getDetailedDescription = (serverId: string) => {
     if (['1', '2', '3', '4', '5'].includes(serverId)) {
@@ -311,6 +349,10 @@ const ServersSection = () => {
     const borderColor = isPVE ? 'border-green-500/30' : 'border-red-500/30';
     const badgeColor = isPVE ? 'bg-green-500/20 text-green-500' : 'bg-red-500/20 text-red-500';
     const iconColor = isPVE ? 'text-green-500' : 'text-red-500';
+    
+    const stats = serverStats[server.battlemetricsId];
+    const online = stats?.players ?? '—';
+    const slots = stats?.maxPlayers ?? '—';
 
     return (
       <div className={`group relative overflow-hidden rounded-xl border ${borderColor} bg-gradient-to-br ${cardColor} p-6 transition-all hover:shadow-xl hover:shadow-primary/10 flex flex-col h-full`}>
@@ -327,9 +369,9 @@ const ServersSection = () => {
             </div>
             <div className="text-right">
               <div className="text-2xl font-bold" style={{fontFamily: 'Nunito, sans-serif'}}>
-                <span className={iconColor}>—</span>
+                <span className={iconColor}>{online}</span>
                 <span className="text-muted-foreground">/</span>
-                <span className="text-muted-foreground">—</span>
+                <span className="text-muted-foreground">{slots}</span>
               </div>
               <div className="text-xs text-muted-foreground uppercase tracking-wider">
                 Online/Slots
