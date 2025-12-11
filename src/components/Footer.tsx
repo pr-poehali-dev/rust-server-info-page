@@ -22,6 +22,10 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold mb-4 uppercase tracking-wider text-sm">Быстрые ссылки</h3>
             <div className="space-y-2 text-sm">
+              <a href="/banlist" className="block text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 transform">
+                Банлист
+              </a>
+
               <a href="https://devrus.gamestores.app/" target="_blank" rel="noopener noreferrer" className="block text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 transform">
                 Магазин
               </a>
