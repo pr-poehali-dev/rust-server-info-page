@@ -29,9 +29,9 @@ const Header = () => {
           </a>
         </nav>
 
-        <Button variant="default" size="lg" asChild className="hidden md:flex shadow-lg transition-all px-8 bg-[#171a21] hover:bg-[#1b2838] text-white border-0">
-          <a href="https://devilrust.ru/api/v1/player.login?login" target="_blank" rel="noopener noreferrer">
-            <SteamIcon className="mr-2 h-5 w-5" />
+        <Button variant="default" size="lg" asChild className="hidden md:flex shadow-lg transition-all px-8 bg-[#1b2838] hover:bg-[#2a475e] text-white border-0">
+          <a href="https://devilrust.ru/api/v1/player.login?login" target="_blank" rel="noopener noreferrer" className="flex items-center">
+            <SteamIcon className="mr-3 h-6 w-6" />
             Авторизоваться
           </a>
         </Button>
