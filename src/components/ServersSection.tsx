@@ -95,12 +95,23 @@ const ServersSection = () => {
         if (!response.ok) throw new Error('Network response was not ok');
         
         const data = await response.json();
+        console.log('Monitoring API response:', data);
         
         if (data.result === 'success' && data.data?.servers) {
           const newStats: Record<string, { players: number; maxPlayers: number }> = {};
           
           data.data.servers.forEach((server: any) => {
-            const matchedServer = [...pveServers, ...pvpServers].find(s => s.ip === `${server.ip}:${server.port}`);
+            const serverIp = `${server.ip}:${server.port}`;
+            const matchedServer = [...pveServers, ...pvpServers].find(s => s.ip === serverIp);
+            
+            console.log(`Matching server ${serverIp}:`, {
+              found: !!matchedServer,
+              serverId: matchedServer?.id,
+              battlemetricsId: matchedServer?.battlemetricsId,
+              players: server.players,
+              maxPlayers: server.playersMax
+            });
+            
             if (matchedServer) {
               newStats[matchedServer.battlemetricsId] = {
                 players: server.players,
@@ -109,6 +120,7 @@ const ServersSection = () => {
             }
           });
           
+          console.log('Final stats object:', newStats);
           setServerStats(newStats);
         }
       } catch (error) {
