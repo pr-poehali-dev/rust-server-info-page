@@ -6,6 +6,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import Icon from '@/components/ui/icon';
+import { useToast } from '@/hooks/use-toast';
 
 const pveServers = [
   {
@@ -145,6 +146,17 @@ const pvpServers = [
 ];
 
 const ServersSection = () => {
+  const { toast } = useToast();
+
+  const handleConnect = (ip: string) => {
+    const connectCommand = `connect ${ip}`;
+    navigator.clipboard.writeText(connectCommand);
+    toast({
+      title: "Команда скопирована!",
+      description: `${connectCommand} — вставьте в консоль F1`,
+    });
+  };
+
   return (
     <section id="servers" className="py-20 bg-muted/30">
       <div className="container">
@@ -234,11 +246,9 @@ const ServersSection = () => {
                     </div>
 
                     <div className="pt-4 flex gap-3">
-                      <Button className="flex-1" asChild>
-                        <a href="https://2.ru" target="_blank" rel="noopener noreferrer">
-                          <Icon name="Gamepad2" className="mr-2 h-4 w-4" />
-                          Подключиться
-                        </a>
+                      <Button className="flex-1" onClick={() => handleConnect(server.ip)}>
+                        <Icon name="Gamepad2" className="mr-2 h-4 w-4" />
+                        Подключиться
                       </Button>
                       <Button variant="outline" asChild>
                         <a href="https://devilrust.ru" target="_blank" rel="noopener noreferrer">
@@ -327,11 +337,9 @@ const ServersSection = () => {
                     </div>
 
                     <div className="pt-4 flex gap-3">
-                      <Button className="flex-1" asChild>
-                        <a href="https://2.ru" target="_blank" rel="noopener noreferrer">
-                          <Icon name="Gamepad2" className="mr-2 h-4 w-4" />
-                          Подключиться
-                        </a>
+                      <Button className="flex-1" onClick={() => handleConnect(server.ip)}>
+                        <Icon name="Gamepad2" className="mr-2 h-4 w-4" />
+                        Подключиться
                       </Button>
                       <Button variant="outline" asChild>
                         <a href="https://devilrust.ru" target="_blank" rel="noopener noreferrer">
