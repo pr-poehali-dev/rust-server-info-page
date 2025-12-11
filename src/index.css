@@ -350,4 +350,17 @@
   .diamond-shine:hover .absolute.inset-0 {
     opacity: 0.4 !important;
   }
+
+  @keyframes coinFallScreen {
+    0% {
+      transform: translateY(-10vh) rotate(0deg);
+    }
+    100% {
+      transform: translateY(110vh) rotate(720deg);
+    }
+  }
+
+  .coin-fall {
+    animation: coinFallScreen 4s linear infinite;
+  }
 }

@@ -5,6 +5,7 @@ import Icon from '@/components/ui/icon';
 const HeroSection = () => {
   const [totalPlayers, setTotalPlayers] = useState<number | null>(null);
   const [displayPlayers, setDisplayPlayers] = useState<number>(0);
+  const [coinRain, setCoinRain] = useState(false);
 
   useEffect(() => {
     const calculatePlayers = () => {
@@ -62,6 +63,24 @@ const HeroSection = () => {
 
   return (
     <section className="relative w-full py-24 md:py-32 lg:py-40 overflow-hidden">
+      {coinRain && (
+        <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden">
+          {Array.from({ length: 30 }).map((_, i) => (
+            <Icon
+              key={i}
+              name={['Coins', 'DollarSign', 'CircleDollarSign', 'BadgeDollarSign'][i % 4] as any}
+              className="absolute text-yellow-400 opacity-[0.08] coin-fall"
+              style={{
+                left: `${(i * 3.33) % 100}%`,
+                width: `${20 + (i % 3) * 10}px`,
+                height: `${20 + (i % 3) * 10}px`,
+                animationDelay: `${(i % 10) * 0.3}s`,
+                animationDuration: `${3 + (i % 5) * 0.5}s`,
+              }}
+            />
+          ))}
+        </div>
+      )}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-b from-primary/10 via-transparent to-background" />
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[128px]" />
@@ -94,8 +113,22 @@ const HeroSection = () => {
                 </a>
               </Button>
             </div>
-            <Button size="lg" variant="default" className="text-lg diamond-shine relative overflow-hidden border-0" asChild>
-              <a href="https://devilrust.ru" target="_blank" rel="noopener noreferrer" className="relative z-10">
+            <Button 
+              size="lg" 
+              variant="default" 
+              className="text-lg diamond-shine relative overflow-hidden border-0" 
+              asChild
+              onMouseEnter={() => setCoinRain(true)}
+              onMouseLeave={() => setCoinRain(false)}
+            >
+              <a 
+                href="https://devilrust.ru" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="relative z-10"
+                onMouseEnter={() => setCoinRain(true)}
+                onMouseLeave={() => setCoinRain(false)}
+              >
                 <div className="absolute inset-0 opacity-[0.25] pointer-events-none">
                   <Icon name="Coins" className="absolute top-2 left-4 w-7 h-7 text-yellow-300" />
                   <Icon name="DollarSign" className="absolute bottom-2 right-4 w-9 h-9 text-yellow-200" />
