@@ -388,7 +388,7 @@ const ServersSection = () => {
       </div>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto game-card border-primary/30">
+        <DialogContent className="max-w-3xl max-h-[85vh] overflow-y-auto border-primary/30 bg-card/95 backdrop-blur-sm">
           {selectedServer && getDetailedDescription(selectedServer.id) && (
             <>
               <DialogHeader>
