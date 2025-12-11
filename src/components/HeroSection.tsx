@@ -1,0 +1,55 @@
+import { Button } from '@/components/ui/button';
+import Icon from '@/components/ui/icon';
+
+const HeroSection = () => {
+  return (
+    <section className="relative w-full py-24 md:py-32 lg:py-40 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-primary/20 via-background to-background" />
+      <div className="container relative z-10">
+        <div className="flex flex-col items-center text-center space-y-8 animate-fade-in">
+          <div className="space-y-4">
+            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
+              Добро пожаловать на
+              <span className="block text-primary mt-2">DevilRust Servers</span>
+            </h1>
+            <p className="mx-auto max-w-[700px] text-muted-foreground text-lg md:text-xl">
+              9 уникальных серверов для каждого стиля игры. От хардкорного ванильного опыта до безумного модифицированного веселья.
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-4">
+            <Button size="lg" className="text-lg" asChild>
+              <a href="https://2.ru" target="_blank" rel="noopener noreferrer">
+                <Icon name="Download" className="mr-2 h-5 w-5" />
+                Скачать лаунчер
+              </a>
+            </Button>
+            <Button size="lg" variant="outline" className="text-lg" asChild>
+              <a href="#servers">
+                <Icon name="Server" className="mr-2 h-5 w-5" />
+                Выбрать сервер
+              </a>
+            </Button>
+          </div>
+
+          <div className="grid grid-cols-3 gap-8 pt-8">
+            <div className="flex flex-col items-center">
+              <div className="text-4xl font-bold text-primary">9</div>
+              <div className="text-sm text-muted-foreground">Серверов</div>
+            </div>
+            <div className="flex flex-col items-center">
+              <div className="text-4xl font-bold text-primary">1000+</div>
+              <div className="text-sm text-muted-foreground">Игроков онлайн</div>
+            </div>
+            <div className="flex flex-col items-center">
+              <div className="text-4xl font-bold text-primary">24/7</div>
+              <div className="text-sm text-muted-foreground">Работаем</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default HeroSection;
