@@ -1,4 +1,12 @@
 import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from '@/components/ui/dialog';
 import {
   Select,
   SelectContent,
@@ -6,15 +14,184 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import Icon from '@/components/ui/icon';
 import { useToast } from '@/hooks/use-toast';
-import { pveServers, pvpServers, type SortType, type FilterType, type Server } from './servers/serversData';
-import ServerCard from './servers/ServerCard';
-import ServerDetailsDialog from './servers/ServerDetailsDialog';
+
+const pveServers = [
+  {
+    id: '1',
+    name: '#1 [PVE] DevilRust X3',
+    mode: 'PVE x3',
+    ip: '62.122.214.220:10000',
+    description: 'Сервер с рейтингом добычи ресурсов х3. На сервере присутствуют кастомные NPC, которые немного сложнее стандартных NPC на Редтаунах. Более подробно о всех особенностях можно узнать ниже.',
+    features: [
+      'Скорость сбора x3',
+      'Вайп 1 раз в месяц',
+      'Большой набор баз для рейдов',
+      'Кастомные руды',
+      'Виртуальные карьеры',
+      'Система экономики с внутриигровым магазином',
+      'Кит наборы',
+      'Продвинутое внутриигровое меню',
+      'Бесплатный донат за топ или мини ивенты'
+    ],
+  },
+  {
+    id: '2',
+    name: '#2 [PVE] DevilRust X5',
+    mode: 'PVE x5',
+    ip: '62.122.214.220:1000',
+    description: 'Сервер для команд до 3 игроков с пятикратным ускорением фарма. Динамичный геймплей и быстрое развитие для любителей командной игры.',
+    features: [
+      'Скорость сбора x5',
+      'Вайп 1 раз в месяц',
+      'Большой набор баз для рейдов',
+      'Кастомные руды',
+      'Виртуальные карьеры',
+      'Система экономики с внутриигровым магазином',
+      'Кит наборы',
+      'Продвинутое внутриигровое меню',
+      'Бесплатный донат за топ или мини ивенты'
+    ],
+  },
+  {
+    id: '3',
+    name: '#3 [PVE] DevilRust X8',
+    mode: 'PVE x8',
+    ip: '62.122.214.220:3000',
+    description: 'Сервер для одиночек и пар с максимальной скоростью прогресса. Здесь можно быстро построить базу и начать рейдить уже в первый день.',
+    features: [
+      'Скорость сбора x8',
+      'Вайп 1 раз в месяц',
+      'Большой набор баз для рейдов',
+      'Кастомные руды',
+      'Виртуальные карьеры',
+      'Система экономики с внутриигровым магазином',
+      'Кит наборы',
+      'Продвинутое внутриигровое меню',
+      'Бесплатный донат за топ или мини ивенты'
+    ],
+  },
+  {
+    id: '4',
+    name: '#4 [PVE] DevilRust X10',
+    mode: 'PVE x10',
+    ip: '62.122.214.220:4000',
+    description: 'Арена для PvP сражений с готовым лутом и моментальным респавном. Тренируйте навыки боя и соревнуйтесь с лучшими игроками.',
+    features: [
+      'Скорость сбора x10',
+      'Вайп 1 раз в месяц',
+      'Большой набор баз для рейдов',
+      'Кастомные руды',
+      'Виртуальные карьеры',
+      'Система экономики с внутриигровым магазином',
+      'Кит наборы',
+      'Продвинутое внутриигровое меню',
+      'Бесплатный донат за топ или мини ивенты'
+    ],
+  },
+  {
+    id: '5',
+    name: '#5 [PVE] DevilRust X20',
+    mode: 'PVE x20',
+    ip: '62.122.214.220:5000',
+    description: 'Кооперативный сервер с зомби-апокалипсисом. Объединяйтесь с другими игроками, чтобы выжить против орд нежити.',
+    features: [
+      'Скорость сбора x20',
+      'Вайп 1 раз в месяц',
+      'Большой набор баз для рейдов',
+      'Кастомные руды',
+      'Виртуальные карьеры',
+      'Система экономики с внутриигровым магазином',
+      'Кит наборы',
+      'Продвинутое внутриигровое меню',
+      'Бесплатный донат за топ или мини ивенты'
+    ],
+  },
+  {
+    id: '6',
+    name: '#6 [PVE] DevilRust EASYBUILD',
+    mode: 'PVE EasyBuild',
+    ip: '62.122.214.220:6000',
+    description: 'Креативный режим для строительства без ограничений. Безлимитные ресурсы, полёт и возможность создать любую постройку.',
+    features: [
+      'Упрощенное строительство',
+      'Вайп 1 раз в месяц',
+      'Большой набор баз для рейдов',
+      'Кастомные руды',
+      'Виртуальные карьеры',
+      'Система экономики с внутриигровым магазином',
+      'Кит наборы',
+      'Продвинутое внутриигровое меню',
+      'Бесплатный донат за топ или мини ивенты'
+    ],
+  },
+  {
+    id: '7',
+    name: '#7 [PVE] DevilRust VANILLA',
+    mode: 'PVE Vanilla',
+    ip: '62.122.214.220:7000',
+    description: 'Экстремально модифицированный сервер со стократным ускорением. Максимальный хаос, мгновенный фарм и эпичные рейды.',
+    features: [
+      'Ванильный опыт',
+      'Вайп 1 раз в месяц',
+      'Большой набор баз для рейдов',
+      'Кастомные руды',
+      'Виртуальные карьеры',
+      'Система экономики с внутриигровым магазином',
+      'Кит наборы',
+      'Продвинутое внутриигровое меню',
+      'Бесплатный донат за топ или мини ивенты'
+    ],
+  }
+];
+
+const pvpServers = [
+  {
+    id: '8',
+    name: '#8 [PVP] DevilRust - MODDED | x2 | DUO',
+    mode: 'PVP Modded x2',
+    ip: '62.122.214.220:8000',
+    description: 'Ролевой сервер с уникальными правилами и экономикой. Создавайте свои истории, торгуйте, стройте поселения.',
+    features: [
+      'Скорость сбора x2',
+      'Вайп 1 раз в месяц',
+      'Большой набор баз для рейдов',
+      'Кастомные руды',
+      'Виртуальные карьеры',
+      'Система экономики с внутриигровым магазином',
+      'Кит наборы',
+      'Продвинутое внутриигровое меню',
+      'Бесплатный донат за топ или мини ивенты'
+    ],
+  },
+  {
+    id: '9',
+    name: '#9 [PVP] DevilRust - MODDED | x2 | NOLIM',
+    mode: 'PVP Modded x2',
+    ip: '62.122.214.220:9000',
+    description: 'Долгоиграющий сервер с редкими вайпами. Для тех, кто любит строить большие проекты и развиваться долгосрочно.',
+    features: [
+      'Скорость сбора x2',
+      'Вайп 1 раз в месяц',
+      'Большой набор баз для рейдов',
+      'Кастомные руды',
+      'Виртуальные карьеры',
+      'Система экономики с внутриигровым магазином',
+      'Кит наборы',
+      'Продвинутое внутриигровое меню',
+      'Бесплатный донат за топ или мини ивенты'
+    ],
+  }
+];
+
+type SortType = 'number' | 'rate-asc' | 'rate-desc';
+type FilterType = 'all' | 'pve' | 'pvp';
 
 const ServersSection = () => {
   const { toast } = useToast();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [selectedServer, setSelectedServer] = useState<Server | null>(null);
+  const [selectedServer, setSelectedServer] = useState<typeof pveServers[0] | null>(null);
   const [sortBy, setSortBy] = useState<SortType>('number');
   const [filterBy, setFilterBy] = useState<FilterType>('all');
 
@@ -35,9 +212,83 @@ const ServersSection = () => {
     });
   };
 
-  const handleShowDetails = (server: Server) => {
+  const handleShowDetails = (server: typeof pveServers[0]) => {
     setSelectedServer(server);
     setIsDialogOpen(true);
+  };
+
+  const getDetailedDescription = (serverId: string) => {
+    if (['1', '2', '3', '4', '5'].includes(serverId)) {
+      return {
+        title: 'Полное описание сервера',
+        highlights: [
+          { icon: 'Trophy', text: 'Battlepass' },
+          { icon: 'Skull', text: 'Боссы' },
+          { icon: 'Target', text: 'Испытания' },
+          { icon: 'Users', text: 'Кастомные NPC' },
+          { icon: 'Swords', text: 'Кастомное оружие и броня' },
+          { icon: 'Flame', text: 'Кастомные ивенты' },
+          { icon: 'PartyPopper', text: 'Мини ивенты' },
+          { icon: 'TrendingUp', text: 'Уровни прокачки престижа' },
+          { icon: 'TreeDeciduous', text: 'Дерево навыков' },
+          { icon: 'Backpack', text: 'Рюкзак банк' },
+          { icon: 'Gift', text: 'Ежедневный бонус' },
+          { icon: 'ShoppingCart', text: 'Экономика' },
+          { icon: 'Store', text: 'Внутриигровой магазин' },
+          { icon: 'Zap', text: 'Моментальный крафт' },
+          { icon: 'Hammer', text: 'Кастомный крафт' },
+          { icon: 'Home', text: 'Базы для рейда' },
+          { icon: 'Gem', text: 'Кастомные руды' },
+          { icon: 'Sprout', text: 'Кастомные фермы' },
+          { icon: 'Package', text: 'Кит наборы' },
+          { icon: 'MapPin', text: 'Телепорты' },
+          { icon: 'Pickaxe', text: 'Майнинг фермы' },
+          { icon: 'Layers', text: 'Большие стаки' },
+          { icon: 'Truck', text: 'Кастомная покупка транспорта' },
+          { icon: 'Calendar', text: 'Календарь событий' },
+          { icon: 'Dna', text: 'Кастомная генетика' },
+          { icon: 'Lock', text: 'Приват личного транспорта' },
+          { icon: 'BarChart3', text: 'Подробная система статистики с Донат наградами' },
+        ],
+        description: ''
+      };
+    }
+    if (['6', '7', '8', '9'].includes(serverId)) {
+      return {
+        title: 'Полное описание сервера',
+        highlights: [
+          { icon: 'Trophy', text: 'Battlepass' },
+          { icon: 'Skull', text: 'Боссы' },
+          { icon: 'Target', text: 'Испытания' },
+          { icon: 'Users', text: 'Кастомные NPC' },
+          { icon: 'Swords', text: 'Кастомное оружие и броня' },
+          { icon: 'Flame', text: 'Кастомные ивенты' },
+          { icon: 'PartyPopper', text: 'Мини ивенты' },
+          { icon: 'TrendingUp', text: 'Уровни прокачки престижа' },
+          { icon: 'TreeDeciduous', text: 'Дерево навыков' },
+          { icon: 'Backpack', text: 'Рюкзак банк' },
+          { icon: 'Gift', text: 'Ежедневный бонус' },
+          { icon: 'ShoppingCart', text: 'Экономика' },
+          { icon: 'Store', text: 'Внутриигровой магазин' },
+          { icon: 'Zap', text: 'Моментальный крафт' },
+          { icon: 'Hammer', text: 'Кастомный крафт' },
+          { icon: 'Home', text: 'Базы для рейда' },
+          { icon: 'Gem', text: 'Кастомные руды' },
+          { icon: 'Sprout', text: 'Кастомные фермы' },
+          { icon: 'Package', text: 'Кит наборы' },
+          { icon: 'MapPin', text: 'Телепорты' },
+          { icon: 'Pickaxe', text: 'Майнинг фермы' },
+          { icon: 'Layers', text: 'Большие стаки' },
+          { icon: 'Truck', text: 'Кастомная покупка транспорта' },
+          { icon: 'Calendar', text: 'Календарь событий' },
+          { icon: 'Dna', text: 'Кастомная генетика' },
+          { icon: 'Lock', text: 'Приват личного транспорта' },
+          { icon: 'BarChart3', text: 'Подробная система статистики с Донат наградами' },
+        ],
+        description: ''
+      };
+    }
+    return null;
   };
 
   const extractRate = (mode: string): number => {
@@ -60,6 +311,76 @@ const ServersSection = () => {
     if (sortBy === 'rate-desc') return extractRate(b.mode) - extractRate(a.mode);
     return 0;
   });
+
+  const ServerCard = ({ server }: { server: typeof pveServers[0] }) => {
+    const isPVE = server.mode.includes('PVE');
+    const cardColor = isPVE ? 'from-primary/10 to-primary/5' : 'from-red-500/10 to-red-500/5';
+    const borderColor = isPVE ? 'border-primary/30' : 'border-red-500/30';
+    const badgeColor = isPVE ? 'bg-primary/20 text-primary' : 'bg-red-500/20 text-red-500';
+    const iconColor = isPVE ? 'text-primary' : 'text-red-500';
+
+    return (
+      <div className={`group relative overflow-hidden rounded-xl border ${borderColor} bg-gradient-to-br ${cardColor} p-6 transition-all hover:shadow-xl hover:shadow-primary/10`}>
+        <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-background/50 opacity-0 transition-opacity group-hover:opacity-100" />
+        <div className="relative z-10">
+          <div className="mb-4 flex items-start justify-between">
+            <div>
+              <h3 className="mb-1 text-xl font-bold tracking-wide" style={{fontFamily: 'Nunito, sans-serif'}}>
+                {server.name}
+              </h3>
+              <span className={`inline-block rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider ${badgeColor}`}>
+                {server.mode}
+              </span>
+            </div>
+            <Icon name="Server" className={`h-8 w-8 ${iconColor} transition-transform group-hover:scale-110`} />
+          </div>
+
+          <p className="mb-4 text-sm text-muted-foreground leading-relaxed">
+            {server.description}
+          </p>
+
+          <div className="mb-4 space-y-2">
+            {server.features.slice(0, 3).map((feature, idx) => (
+              <div key={idx} className="flex items-center gap-2 text-sm">
+                <Icon name="Check" className={`h-4 w-4 ${iconColor}`} />
+                <span className="text-muted-foreground">{feature}</span>
+              </div>
+            ))}
+          </div>
+
+          <div className="mb-4 flex items-center gap-2 rounded-lg bg-background/50 p-3 backdrop-blur-sm">
+            <Icon name="Globe" className="h-4 w-4 text-muted-foreground" />
+            <code className="flex-1 text-sm font-mono">{server.ip}</code>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={() => handleCopyIP(server.ip)}
+              className="h-8 w-8 p-0"
+            >
+              <Icon name="Copy" className="h-4 w-4" />
+            </Button>
+          </div>
+
+          <div className="flex gap-2">
+            <Button 
+              className="flex-1 font-semibold uppercase tracking-wider" 
+              onClick={() => handleConnect(server.ip)}
+            >
+              <Icon name="Rocket" className="mr-2 h-4 w-4" />
+              Играть
+            </Button>
+            <Button 
+              variant="outline" 
+              className={`${borderColor} hover:bg-primary/10`}
+              onClick={() => handleShowDetails(server)}
+            >
+              <Icon name="Info" className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <section id="servers" className="py-20 relative overflow-hidden">
@@ -106,24 +427,82 @@ const ServersSection = () => {
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {sortedServers.map((server) => (
-            <ServerCard
-              key={server.id}
-              server={server}
-              onConnect={handleConnect}
-              onCopyIP={handleCopyIP}
-              onShowDetails={handleShowDetails}
-            />
+            <ServerCard key={server.id} server={server} />
           ))}
         </div>
       </div>
 
-      <ServerDetailsDialog
-        isOpen={isDialogOpen}
-        onClose={() => setIsDialogOpen(false)}
-        server={selectedServer}
-        onConnect={handleConnect}
-        onCopyIP={handleCopyIP}
-      />
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-2xl">{selectedServer?.name}</DialogTitle>
+            <DialogDescription className="text-base">
+              {selectedServer?.description}
+            </DialogDescription>
+          </DialogHeader>
+
+          {selectedServer && getDetailedDescription(selectedServer.id) && (
+            <div className="space-y-6 mt-4">
+              <div>
+                <h3 className="text-lg font-semibold mb-4">{getDetailedDescription(selectedServer.id)!.title}</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {getDetailedDescription(selectedServer.id)!.highlights.map((highlight, idx) => (
+                    <div key={idx} className="flex items-center gap-3 p-3 rounded-lg bg-primary/5 border border-primary/10">
+                      <Icon name={highlight.icon as any} className="h-5 w-5 text-primary flex-shrink-0" />
+                      <span className="text-sm">{highlight.text}</span>
+                    </div>
+                  ))}
+                </div>
+                {getDetailedDescription(selectedServer.id)!.description && (
+                  <p className="mt-4 text-sm text-muted-foreground leading-relaxed whitespace-pre-line">
+                    {getDetailedDescription(selectedServer.id)!.description}
+                  </p>
+                )}
+              </div>
+            </div>
+          )}
+
+          <div className="space-y-4 mt-6 pt-6 border-t">
+            <div className="flex items-center gap-3 rounded-lg bg-background/50 p-4">
+              <Icon name="Globe" className="h-5 w-5 text-muted-foreground" />
+              <code className="flex-1 font-mono text-sm">{selectedServer?.ip}</code>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => selectedServer && handleCopyIP(selectedServer.ip)}
+              >
+                <Icon name="Copy" className="h-4 w-4" />
+              </Button>
+            </div>
+
+            <div className="space-y-2">
+              <h4 className="font-semibold text-sm">Основные особенности:</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                {selectedServer?.features.map((feature, idx) => (
+                  <div key={idx} className="flex items-center gap-2 text-sm">
+                    <Icon name="Check" className="h-4 w-4 text-primary" />
+                    <span className="text-muted-foreground">{feature}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <Button 
+              className="w-full font-semibold uppercase tracking-wider" 
+              size="lg"
+              onClick={() => {
+                if (selectedServer) {
+                  handleConnect(selectedServer.ip);
+                  setIsDialogOpen(false);
+                }
+              }}
+            >
+              <Icon name="Rocket" className="mr-2 h-5 w-5" />
+              Подключиться к серверу
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
