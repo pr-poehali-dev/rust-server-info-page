@@ -48,10 +48,10 @@ const HeroSection = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4">
-            <Button size="lg" className="text-lg shadow-lg shadow-primary/50 hover:shadow-primary/70 transition-all" asChild>
-              <a href="https://ulauncher.lol/" target="_blank" rel="noopener noreferrer">
-                <Icon name="Download" className="mr-2 h-5 w-5" />
-                Скачать лаунчер
+            <Button size="lg" className="text-lg shadow-lg shadow-primary/50 hover:shadow-primary/70 hover:scale-105 transition-all group" asChild>
+              <a href="#how-to-start">
+                <Icon name="Play" className="mr-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                Как начать играть
               </a>
             </Button>
             <Button size="lg" variant="outline" className="text-lg border-primary/30 hover:border-primary hover:bg-primary/10" asChild>
