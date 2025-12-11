@@ -31,7 +31,6 @@ const Footer = () => {
               <a href="https://devilrust.ru/support" target="_blank" rel="noopener noreferrer" className="block text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 transform">
                 Поддержка
               </a>
-              <a href="https://devilrust.ru" target="_blank" rel="noopener noreferrer" className="block text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 transform">Гланая</a>
             </div>
           </div>
 
