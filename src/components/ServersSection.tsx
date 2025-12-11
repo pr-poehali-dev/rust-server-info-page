@@ -286,7 +286,7 @@ const ServersSection = () => {
                         </Button>
                       ) : (
                         <Button variant="outline" className="flex-1 border-primary/30 hover:border-primary hover:bg-primary/10" asChild>
-                          <a href="https://devilrust.ru" target="_blank" rel="noopener noreferrer">
+                          <a href="https://devrus.gamestores.app" target="_blank" rel="noopener noreferrer">
                             <Icon name="Info" className="mr-2 h-4 w-4" />
                             Подробнее
                           </a>
@@ -373,7 +373,7 @@ const ServersSection = () => {
                         Подключиться
                       </Button>
                       <Button variant="outline" className="flex-1 border-primary/30 hover:border-primary hover:bg-primary/10" asChild>
-                        <a href="https://devilrust.ru" target="_blank" rel="noopener noreferrer">
+                        <a href="https://devrus.gamestores.app" target="_blank" rel="noopener noreferrer">
                           <Icon name="Info" className="mr-2 h-4 w-4" />
                           Подробнее
                         </a>

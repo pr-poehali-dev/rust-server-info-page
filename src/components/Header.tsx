@@ -5,7 +5,7 @@ const Header = () => {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-primary/20 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 shadow-lg shadow-primary/5">
       <div className="container flex h-16 items-center justify-between">
-        <a href="https://devilrust.ru" className="flex items-center space-x-2 group">
+        <a href="https://devrus.gamestores.app" className="flex items-center space-x-2 group">
           <img 
             src="https://s3.regru.cloud/img.devilrust/devilrust_logo.png" 
             alt="DevilRust" 
@@ -18,10 +18,10 @@ const Header = () => {
           <a href="#" className="text-sm font-medium text-foreground hover:text-primary transition-colors uppercase tracking-wider">
             Главная
           </a>
-          <a href="https://devilrust.ru/" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-foreground hover:text-primary transition-colors uppercase tracking-wider">
+          <a href="https://devrus.gamestores.app/" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-foreground hover:text-primary transition-colors uppercase tracking-wider">
             Магазин
           </a>
-          <a href="https://devilrust.ru/support" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-foreground hover:text-primary transition-colors uppercase tracking-wider">
+          <a href="https://devrus.gamestores.app/support" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-foreground hover:text-primary transition-colors uppercase tracking-wider">
             Поддержка
           </a>
         </nav>

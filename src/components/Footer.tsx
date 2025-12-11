@@ -22,11 +22,11 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold mb-4 uppercase tracking-wider text-sm">Быстрые ссылки</h3>
             <div className="space-y-2 text-sm">
-              <a href="https://devilrust.ru/" target="_blank" rel="noopener noreferrer" className="block text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 transform">
+              <a href="https://devrus.gamestores.app/" target="_blank" rel="noopener noreferrer" className="block text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 transform">
                 Магазин
               </a>
 
-              <a href="https://devilrust.ru/support" target="_blank" rel="noopener noreferrer" className="block text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 transform">
+              <a href="https://devrus.gamestores.app/support" target="_blank" rel="noopener noreferrer" className="block text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 transform">
                 Поддержка
               </a>
             </div>
@@ -46,7 +46,7 @@ const Footer = () => {
                 </a>
               </Button>
               <Button variant="outline" size="icon" className="border-primary/30 hover:border-primary hover:bg-primary/10 transition-all" asChild>
-                <a href="https://devilrust.ru/" target="_blank" rel="noopener noreferrer">
+                <a href="https://devrus.gamestores.app/" target="_blank" rel="noopener noreferrer">
                   <Icon name="Globe" className="h-5 w-5" />
                 </a>
               </Button>
