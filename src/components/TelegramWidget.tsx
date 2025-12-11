@@ -141,8 +141,6 @@ const TelegramWidget = () => {
 
           <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-primary/50 to-primary" />
         </div>
-
-
       </div>
 
       <style>{`
