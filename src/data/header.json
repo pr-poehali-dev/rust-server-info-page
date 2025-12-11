@@ -22,13 +22,19 @@
     {
       "id": "shop",
       "label": "Магазин",
-      "href": "https://devrus.gamestores.app/",
+      "href": "https://devulrust.ru/",
       "external": true
     },
     {
       "id": "support",
       "label": "Поддержка",
       "href": "https://devilrust.ru/support/",
+      "external": true
+    },
+    {
+      "id": "wiki",
+      "label": "Wiki\Гайды",
+      "href": "https://wiki.devilrust.ru/",
       "external": true
     }
   ],
