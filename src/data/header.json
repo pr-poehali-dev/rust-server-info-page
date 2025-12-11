@@ -1,0 +1,53 @@
+{
+  "logo": {
+    "imageUrl": "https://s3.regru.cloud/img.devilrust/devilrust_logo.png",
+    "alt": "DevilRust",
+    "text": "DEVILRUST",
+    "fontFamily": "Nunito, sans-serif",
+    "fontStyle": "italic"
+  },
+  "navigation": [
+    {
+      "id": "home",
+      "label": "Главная",
+      "href": "/",
+      "external": false
+    },
+    {
+      "id": "banlist",
+      "label": "Банлист",
+      "href": "/banlist",
+      "external": false
+    },
+    {
+      "id": "shop",
+      "label": "Магазин",
+      "href": "https://devrus.gamestores.app/",
+      "external": true
+    },
+    {
+      "id": "support",
+      "label": "Поддержка",
+      "href": "https://devilrust.ru/support/",
+      "external": true
+    }
+  ],
+  "auth": {
+    "loginUrl": "https://devilrust.ru/api/v1/player.login?login",
+    "profileUrl": "https://devilrust.ru/profile",
+    "verifyUrl": "https://functions.poehali.dev/1209b0b2-d734-418e-8549-797b75d1f0db",
+    "steamPopupOrigin": "https://devilrust.ru",
+    "buttons": {
+      "login": "Авторизоваться",
+      "profile": "Профиль",
+      "alreadyLoggedIn": "Уже авторизованы?"
+    }
+  },
+  "styling": {
+    "stickyHeader": true,
+    "backdropBlur": true,
+    "borderColor": "border-primary/20",
+    "backgroundColor": "bg-background/95",
+    "shadowColor": "shadow-primary/5"
+  }
+}

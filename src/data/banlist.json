@@ -1,0 +1,43 @@
+{
+  "apiUrl": "https://functions.poehali.dev/9ad8141c-6c62-40b3-a062-9af87755a278",
+  "title": "Банлист",
+  "subtitle": "Список заблокированных игроков на серверах DevilRust",
+  "searchPlaceholder": "Поиск по никнейму или Steam ID...",
+  "tableHeaders": {
+    "nickname": "Никнейм",
+    "steamId": "Steam ID",
+    "expiration": "Срок истечения",
+    "reason": "Причина",
+    "actions": "Действия"
+  },
+  "messages": {
+    "loading": "Загрузка...",
+    "noResults": "Ничего не найдено",
+    "emptyList": "Список банов пуст",
+    "totalBans": "Всего банов",
+    "permanent": "Навсегда",
+    "reasonNotSpecified": "Не указана",
+    "unknownNickname": "Неизвестно"
+  },
+  "buttons": {
+    "moreDetails": "Подробнее",
+    "copy": "Копировать"
+  },
+  "detailsDialog": {
+    "title": "Детали бана",
+    "fields": {
+      "nickname": "Никнейм",
+      "steamId": "Steam ID",
+      "ipAddress": "IP Адрес",
+      "banType": "Тип бана",
+      "expirationDate": "Дата истечения",
+      "reason": "Причина",
+      "server": "Сервер",
+      "serverAddress": "Адрес сервера",
+      "bannedBy": "Забанил",
+      "nicknameHistory": "История никнеймов",
+      "ipHistory": "История IP",
+      "steamIdHistory": "История Steam ID"
+    }
+  }
+}
