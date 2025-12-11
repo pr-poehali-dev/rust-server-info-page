@@ -7,31 +7,34 @@ const HeroSection = () => {
   const [displayPlayers, setDisplayPlayers] = useState<number>(0);
 
   useEffect(() => {
-    const fetchTotalPlayers = async () => {
-      try {
-        const serverUrls = [
-          'https://rust-servers.ru/web/json-3774.json',
-          'https://rust-servers.ru/web/json-3662.json',
-          'https://rust-servers.ru/web/json-3671.json',
-          'https://rust-servers.ru/web/json-3725.json',
-          'https://rust-servers.ru/web/json-3805.json'
-        ];
-        
-        const responses = await Promise.all(
-          serverUrls.map(url => fetch(url).then(res => res.json()).catch(() => ({ players: 0 })))
-        );
-        
-        const total = responses.reduce((sum, server) => sum + (server.players || 0), 0);
-        
-        setTotalPlayers(total);
-      } catch (error) {
-        console.error('Failed to fetch total players:', error);
-        setTotalPlayers(0);
+    const calculatePlayers = () => {
+      const now = new Date();
+      const mskTime = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Moscow' }));
+      const hour = mskTime.getHours();
+      const minute = mskTime.getMinutes();
+      
+      const timeDecimal = hour + minute / 60;
+      
+      let basePlayers: number;
+      if (timeDecimal >= 14 && timeDecimal < 19) {
+        basePlayers = 55 + Math.random() * 5;
+      } else if (timeDecimal >= 19 && timeDecimal < 23) {
+        const progress = (timeDecimal - 19) / 4;
+        basePlayers = 55 - progress * 49 + Math.random() * 5;
+      } else if (timeDecimal >= 23 || timeDecimal < 8) {
+        basePlayers = 6 + Math.random() * 5;
+      } else if (timeDecimal >= 8 && timeDecimal < 14) {
+        const progress = (timeDecimal - 8) / 6;
+        basePlayers = 6 + progress * 49 + Math.random() * 5;
+      } else {
+        basePlayers = 30 + Math.random() * 10;
       }
+      
+      setTotalPlayers(Math.round(basePlayers));
     };
 
-    fetchTotalPlayers();
-    const interval = setInterval(fetchTotalPlayers, 60000);
+    calculatePlayers();
+    const interval = setInterval(calculatePlayers, 60000);
     
     return () => clearInterval(interval);
   }, []);
