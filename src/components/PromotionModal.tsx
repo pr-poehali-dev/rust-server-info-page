@@ -154,7 +154,7 @@ const PromotionModal = () => {
                 </span>
               </h2>
               
-              <p className="text-lg text-muted-foreground max-w-md mx-auto">
+              <p className="text-muted-foreground max-w-md mx-auto text-base">
                 {promotionData.subtitle}
               </p>
             </div>
