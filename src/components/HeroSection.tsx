@@ -4,7 +4,6 @@ import Icon from '@/components/ui/icon';
 
 const HeroSection = () => {
   const [totalPlayers, setTotalPlayers] = useState<number | null>(null);
-  const [monthlyPlayers, setMonthlyPlayers] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchTotalPlayers = async () => {
@@ -23,23 +22,8 @@ const HeroSection = () => {
       }
     };
 
-    const fetchMonthlyPlayers = async () => {
-      try {
-        const response = await fetch('https://functions.poehali.dev/29a510aa-a4fb-41e8-8f99-84b7fb5ae95a');
-        const data = await response.json();
-        setMonthlyPlayers(data.total_players);
-      } catch (error) {
-        console.error('Failed to fetch monthly players:', error);
-        setMonthlyPlayers(0);
-      }
-    };
-
     fetchTotalPlayers();
-    fetchMonthlyPlayers();
-    const interval = setInterval(() => {
-      fetchTotalPlayers();
-      fetchMonthlyPlayers();
-    }, 60000);
+    const interval = setInterval(fetchTotalPlayers, 60000);
     
     return () => clearInterval(interval);
   }, []);
@@ -90,10 +74,8 @@ const HeroSection = () => {
               <div className="text-sm text-muted-foreground uppercase tracking-wider">Игроков онлайн</div>
             </div>
             <div className="flex flex-col items-center p-4 rounded-lg glow-border bg-card/50 backdrop-blur-sm">
-              <div className="text-4xl font-bold text-primary glow-text">
-                {monthlyPlayers !== null ? monthlyPlayers : '...'}
-              </div>
-              <div className="text-sm text-muted-foreground uppercase tracking-wider">Игроков в этом месяце</div>
+              <div className="text-4xl font-bold text-primary glow-text">24/7</div>
+              <div className="text-sm text-muted-foreground uppercase tracking-wider">Работаем</div>
             </div>
           </div>
         </div>
