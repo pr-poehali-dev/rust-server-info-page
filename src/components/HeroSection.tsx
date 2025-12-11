@@ -1,7 +1,32 @@
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
 
 const HeroSection = () => {
+  const [totalPlayers, setTotalPlayers] = useState<number | null>(null);
+
+  useEffect(() => {
+    const fetchTotalPlayers = async () => {
+      try {
+        const response = await fetch('https://functions.poehali.dev/b14b5f14-6ba8-4329-b83b-bdc21195459d');
+        const data = await response.json();
+        
+        const total = data.servers.reduce((sum: number, server: any) => {
+          return sum + (server.players || 0);
+        }, 0);
+        
+        setTotalPlayers(total);
+      } catch (error) {
+        console.error('Failed to fetch total players:', error);
+      }
+    };
+
+    fetchTotalPlayers();
+    const interval = setInterval(fetchTotalPlayers, 60000);
+    
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section className="relative w-full py-24 md:py-32 lg:py-40 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-primary/20 via-background to-background" />
@@ -38,7 +63,9 @@ const HeroSection = () => {
               <div className="text-sm text-muted-foreground">Серверов</div>
             </div>
             <div className="flex flex-col items-center">
-              <div className="text-4xl font-bold text-primary">1000+</div>
+              <div className="text-4xl font-bold text-primary">
+                {totalPlayers !== null ? totalPlayers : '...'}
+              </div>
               <div className="text-sm text-muted-foreground">Игроков онлайн</div>
             </div>
             <div className="flex flex-col items-center">
