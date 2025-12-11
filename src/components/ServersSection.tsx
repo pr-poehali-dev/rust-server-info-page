@@ -195,9 +195,23 @@ const ServersSection = () => {
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-4 glow-text">
             Наши серверы
           </h2>
-          <p className="text-muted-foreground text-lg max-w-[900px] mx-auto">Выберите сервер по своему стилю игры. Каждый предлагает уникальный опыт. 
-• PVE сервера - Означают «игрок против окружения», в этом режиме игрок противостоит окружению: NPC, боссам, механикам мира. 
-• PVP сервера - Означают «игрок против игрока», в этом режиме игроки соревнуются друг с другом и друг против друга.</p>
+          <p className="text-muted-foreground text-lg max-w-[900px] mx-auto leading-relaxed">
+            Выберите сервер по своему стилю игры. Каждый предлагает уникальный опыт.
+          </p>
+          <div className="mt-6 max-w-[800px] mx-auto space-y-3 text-left">
+            <div className="flex gap-3 items-start">
+              <span className="text-green-500 font-bold mt-1">•</span>
+              <p className="text-muted-foreground">
+                <span className="font-semibold text-foreground">PVE сервера</span> — игрок против окружения. Противостойте NPC, боссам и механикам мира.
+              </p>
+            </div>
+            <div className="flex gap-3 items-start">
+              <span className="text-red-500 font-bold mt-1">•</span>
+              <p className="text-muted-foreground">
+                <span className="font-semibold text-foreground">PVP сервера</span> — игрок против игрока. Соревнуйтесь с другими игроками в битве за выживание.
+              </p>
+            </div>
+          </div>
         </div>
 
         <div className="mb-8">
