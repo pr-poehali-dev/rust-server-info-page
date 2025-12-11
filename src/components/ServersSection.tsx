@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Accordion,
@@ -7,6 +8,13 @@ import {
 } from '@/components/ui/accordion';
 import Icon from '@/components/ui/icon';
 import { useToast } from '@/hooks/use-toast';
+
+interface ServerStatus {
+  id: string;
+  players: number;
+  maxPlayers: number;
+  status: string;
+}
 
 const pveServers = [
   {
@@ -147,6 +155,33 @@ const pvpServers = [
 
 const ServersSection = () => {
   const { toast } = useToast();
+  const [serverStatus, setServerStatus] = useState<Record<string, ServerStatus>>({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchServerStatus = async () => {
+      try {
+        const response = await fetch('https://functions.poehali.dev/b14b5f14-6ba8-4329-b83b-bdc21195459d');
+        const data = await response.json();
+        
+        const statusMap: Record<string, ServerStatus> = {};
+        data.servers.forEach((server: ServerStatus) => {
+          statusMap[server.id] = server;
+        });
+        
+        setServerStatus(statusMap);
+        setLoading(false);
+      } catch (error) {
+        console.error('Failed to fetch server status:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchServerStatus();
+    const interval = setInterval(fetchServerStatus, 60000);
+    
+    return () => clearInterval(interval);
+  }, []);
 
   const handleConnect = (ip: string) => {
     const connectCommand = `connect ${ip}`;
@@ -155,6 +190,15 @@ const ServersSection = () => {
       title: "Команда скопирована!",
       description: `${connectCommand} — вставьте в консоль F1`,
     });
+  };
+
+  const getOnlineDisplay = (serverId: string, fallback: string) => {
+    if (loading) return 'загрузка...';
+    const status = serverStatus[serverId];
+    if (status && status.status === 'online') {
+      return `${status.players}/${status.maxPlayers}`;
+    }
+    return fallback;
   };
 
   return (
@@ -198,7 +242,7 @@ const ServersSection = () => {
                     </div>
                     <div className="hidden sm:flex items-center gap-2 text-sm">
                       <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                      <span className="font-medium">{server.online}</span>
+                      <span className="font-medium">{getOnlineDisplay(server.id, server.online)}</span>
                     </div>
                   </div>
                 </AccordionTrigger>
@@ -292,7 +336,7 @@ const ServersSection = () => {
                     </div>
                     <div className="hidden sm:flex items-center gap-2 text-sm">
                       <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                      <span className="font-medium">{server.online}</span>
+                      <span className="font-medium">{getOnlineDisplay(server.id, server.online)}</span>
                     </div>
                   </div>
                 </AccordionTrigger>
