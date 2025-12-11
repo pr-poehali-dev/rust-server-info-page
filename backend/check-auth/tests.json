@@ -1,0 +1,36 @@
+{
+  "tests": [
+    {
+      "name": "Test OPTIONS request for CORS",
+      "method": "OPTIONS",
+      "path": "/",
+      "expectedStatus": 200
+    },
+    {
+      "name": "Test missing token",
+      "method": "POST",
+      "path": "/",
+      "body": {},
+      "expectedStatus": 400,
+      "expectedBody": {
+        "error": "string"
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Test valid token",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "token": "test_token_123"
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "authenticated": true,
+        "nickname": "string",
+        "steamId": "string"
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}

@@ -7,25 +7,56 @@ const Header = () => {
   const [user, setUser] = useState<{ nickname: string } | null>(null);
 
   useEffect(() => {
-    const userData = localStorage.getItem('steam_user');
-    if (userData) {
-      try {
-        setUser(JSON.parse(userData));
-      } catch (e) {
-        localStorage.removeItem('steam_user');
+    const checkAuth = async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const authToken = urlParams.get('auth_token');
+      
+      if (authToken) {
+        try {
+          const response = await fetch('https://functions.poehali.dev/1209b0b2-d734-418e-8549-797b75d1f0db', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ token: authToken })
+          });
+          
+          if (response.ok) {
+            const data = await response.json();
+            if (data.authenticated) {
+              const userInfo = { 
+                nickname: data.nickname,
+                steamId: data.steamId
+              };
+              localStorage.setItem('steam_user', JSON.stringify(userInfo));
+              setUser(userInfo);
+              window.history.replaceState({}, '', window.location.pathname);
+            }
+          }
+        } catch (error) {
+          console.error('Auth check failed:', error);
+        }
       }
-    }
+
+      const userData = localStorage.getItem('steam_user');
+      if (userData) {
+        try {
+          setUser(JSON.parse(userData));
+        } catch (e) {
+          localStorage.removeItem('steam_user');
+        }
+      }
+    };
 
     const handleMessage = (event: MessageEvent) => {
       if (event.origin !== 'https://devilrust.ru') return;
       
-      if (event.data.type === 'steam_auth_success' && event.data.user) {
-        const userInfo = { nickname: event.data.user.nickname };
-        localStorage.setItem('steam_user', JSON.stringify(userInfo));
-        setUser(userInfo);
+      if (event.data.type === 'steam_auth_success' && event.data.token) {
+        window.location.href = `${window.location.origin}?auth_token=${event.data.token}`;
       }
     };
 
+    checkAuth();
     window.addEventListener('message', handleMessage);
     return () => window.removeEventListener('message', handleMessage);
   }, []);
