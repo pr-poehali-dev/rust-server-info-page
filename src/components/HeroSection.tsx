@@ -16,13 +16,7 @@ const HeroSection = () => {
   useEffect(() => {
     const fetchTotalPlayers = async () => {
       try {
-        const response = await fetch('https://devilrust.ru/api/v1/widgets.monitoring', {
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json'
-          },
-          mode: 'cors'
-        });
+        const response = await fetch('https://functions.poehali.dev/252183a3-255b-4343-a3d9-500fad656cc9');
         
         if (!response.ok) throw new Error('Network response was not ok');
         
@@ -33,15 +27,6 @@ const HeroSection = () => {
         }
       } catch (error) {
         console.error('Failed to fetch monitoring data:', error);
-        // Fallback: используем примерное значение
-        const now = new Date();
-        const hour = now.getHours();
-        let estimate = 30;
-        if (hour >= 19 && hour < 23) estimate = 50;
-        else if (hour >= 14 && hour < 19) estimate = 45;
-        else if (hour >= 8 && hour < 14) estimate = 35;
-        else estimate = 15;
-        setTotalPlayers(estimate + Math.floor(Math.random() * 10));
       }
     };
 
