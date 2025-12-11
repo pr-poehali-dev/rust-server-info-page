@@ -313,9 +313,9 @@ const ServersSection = () => {
     const iconColor = isPVE ? 'text-green-500' : 'text-red-500';
 
     return (
-      <div className={`group relative overflow-hidden rounded-xl border ${borderColor} bg-gradient-to-br ${cardColor} p-6 transition-all hover:shadow-xl hover:shadow-primary/10`}>
+      <div className={`group relative overflow-hidden rounded-xl border ${borderColor} bg-gradient-to-br ${cardColor} p-6 transition-all hover:shadow-xl hover:shadow-primary/10 flex flex-col h-full`}>
         <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-background/50 opacity-0 transition-opacity group-hover:opacity-100" />
-        <div className="relative z-10">
+        <div className="relative z-10 flex flex-col h-full">
           <div className="mb-4 flex items-start justify-between">
             <div>
               <h3 className="mb-1 text-xl font-bold tracking-wide" style={{fontFamily: 'Nunito, sans-serif'}}>
@@ -341,34 +341,36 @@ const ServersSection = () => {
             ))}
           </div>
 
-          <div className="mb-4 flex items-center gap-2 rounded-lg bg-background/50 p-3 backdrop-blur-sm">
-            <Icon name="Globe" className="h-4 w-4 text-muted-foreground" />
-            <code className="flex-1 text-sm font-mono">{server.ip}</code>
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              onClick={() => handleCopyIP(server.ip)}
-              className="h-8 w-8 p-0"
-            >
-              <Icon name="Copy" className="h-4 w-4" />
-            </Button>
-          </div>
+          <div className="mt-auto space-y-4">
+            <div className="flex items-center gap-2 rounded-lg bg-background/50 p-3 backdrop-blur-sm">
+              <Icon name="Globe" className="h-4 w-4 text-muted-foreground" />
+              <code className="flex-1 text-sm font-mono">{server.ip}</code>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => handleCopyIP(server.ip)}
+                className="h-8 w-8 p-0"
+              >
+                <Icon name="Copy" className="h-4 w-4" />
+              </Button>
+            </div>
 
-          <div className="flex gap-2">
-            <Button 
-              className="flex-1 font-semibold uppercase tracking-wider" 
-              onClick={() => handleConnect(server.ip)}
-            >
-              <Icon name="Rocket" className="mr-2 h-4 w-4" />
-              Играть
-            </Button>
-            <Button 
-              variant="outline" 
-              className={`${borderColor} hover:bg-primary/10`}
-              onClick={() => handleShowDetails(server)}
-            >
-              <Icon name="Info" className="h-4 w-4" />
-            </Button>
+            <div className="flex gap-2">
+              <Button 
+                className="flex-1 font-semibold uppercase tracking-wider" 
+                onClick={() => handleConnect(server.ip)}
+              >
+                <Icon name="Rocket" className="mr-2 h-4 w-4" />
+                Играть
+              </Button>
+              <Button 
+                variant="outline" 
+                className={`${borderColor} hover:bg-primary/10`}
+                onClick={() => handleShowDetails(server)}
+              >
+                <Icon name="Info" className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
         </div>
       </div>
