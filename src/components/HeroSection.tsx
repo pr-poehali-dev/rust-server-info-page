@@ -92,6 +92,12 @@ const HeroSection = () => {
                 Выбрать сервер
               </a>
             </Button>
+            <Button size="lg" variant="default" className="text-lg bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50 hover:scale-105 transition-all border-0" asChild>
+              <a href="https://devilrust.ru" target="_blank" rel="noopener noreferrer">
+                <Icon name="ShoppingBag" className="mr-2 h-5 w-5" />
+                Донат магазин
+              </a>
+            </Button>
           </div>
 
           <div className="grid grid-cols-3 gap-8 pt-8">
