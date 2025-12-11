@@ -8,12 +8,19 @@ const HeroSection = () => {
   useEffect(() => {
     const fetchTotalPlayers = async () => {
       try {
-        const response = await fetch('https://functions.poehali.dev/b14b5f14-6ba8-4329-b83b-bdc21195459d');
-        const data = await response.json();
+        const serverUrls = [
+          'https://rust-servers.ru/web/json-3774.json',
+          'https://rust-servers.ru/web/json-3662.json',
+          'https://rust-servers.ru/web/json-3671.json',
+          'https://rust-servers.ru/web/json-3725.json',
+          'https://rust-servers.ru/web/json-3805.json'
+        ];
         
-        const total = data.servers.reduce((sum: number, server: any) => {
-          return sum + (server.players || 0);
-        }, 0);
+        const responses = await Promise.all(
+          serverUrls.map(url => fetch(url).then(res => res.json()).catch(() => ({ players: 0 })))
+        );
+        
+        const total = responses.reduce((sum, server) => sum + (server.players || 0), 0);
         
         setTotalPlayers(total);
       } catch (error) {
