@@ -89,9 +89,7 @@ const HeroSection = () => {
               Добро пожаловать на
               <span className="block text-primary mt-2 drop-shadow-[0_0_25px_rgba(255,68,0,0.5)]">DevilRust</span>
             </h1>
-            <p className="mx-auto max-w-[700px] text-muted-foreground text-lg md:text-xl">
-              9 уникальных серверов для каждого стиля игры. От хардкорного ванильного опыта до безумного модифицированного веселья.
-            </p>
+            <p className="mx-auto max-w-[700px] text-muted-foreground text-lg md:text-xl">9 уникальных серверов для каждого стиля игры. От хардкорно-ванильного опыта до безумно-модифицированного веселья.</p>
           </div>
 
           <div className="flex flex-col items-center gap-4">
