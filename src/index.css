@@ -138,4 +138,21 @@
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 68, 0, 0.5) rgba(0, 0, 0, 0.3);
   }
+
+  @keyframes steamGradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  .steam-animate {
+    background-size: 200% 200%;
+    animation: steamGradient 3s ease infinite;
+  }
 }
