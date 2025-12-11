@@ -348,6 +348,19 @@ const ServersSection = () => {
             ))}
           </div>
 
+          <div className="mb-4 flex items-center gap-2 rounded-lg bg-background/50 p-3 backdrop-blur-sm">
+            <Icon name="Globe" className="h-4 w-4 text-muted-foreground" />
+            <code className="flex-1 text-sm font-mono">{server.ip}</code>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={() => handleCopyIP(server.ip)}
+              className="h-8 w-8 p-0"
+            >
+              <Icon name="Copy" className="h-4 w-4" />
+            </Button>
+          </div>
+
           <div className="flex gap-2">
             <Button 
               className="flex-1 font-semibold uppercase tracking-wider" 
@@ -450,18 +463,6 @@ const ServersSection = () => {
           )}
 
           <div className="space-y-4 mt-6 pt-6 border-t">
-            <div className="flex items-center gap-3 rounded-lg bg-background/50 p-4">
-              <Icon name="Globe" className="h-5 w-5 text-muted-foreground" />
-              <code className="flex-1 font-mono text-sm">{selectedServer?.ip}</code>
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                onClick={() => selectedServer && handleCopyIP(selectedServer.ip)}
-              >
-                <Icon name="Copy" className="h-4 w-4" />
-              </Button>
-            </div>
-
             <div className="space-y-2">
               <h4 className="font-semibold text-sm">Основные особенности:</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
