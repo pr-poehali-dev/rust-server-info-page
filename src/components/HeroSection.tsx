@@ -8,34 +8,29 @@ const HeroSection = () => {
   const [coinRain, setCoinRain] = useState(false);
 
   useEffect(() => {
-    const calculatePlayers = () => {
-      const now = new Date();
-      const mskTime = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Moscow' }));
-      const hour = mskTime.getHours();
-      const minute = mskTime.getMinutes();
+    const serverIds = [
+      '30367639', '30367642', '30367644', '30367643', '33982243',
+      '34635173', '35130037', '36442240', '30367639'
+    ];
+
+    const fetchTotalPlayers = async () => {
+      let total = 0;
       
-      const timeDecimal = hour + minute / 60;
-      
-      let basePlayers: number;
-      if (timeDecimal >= 14 && timeDecimal < 19) {
-        basePlayers = 55 + Math.random() * 5;
-      } else if (timeDecimal >= 19 && timeDecimal < 23) {
-        const progress = (timeDecimal - 19) / 4;
-        basePlayers = 55 - progress * 49 + Math.random() * 5;
-      } else if (timeDecimal >= 23 || timeDecimal < 8) {
-        basePlayers = 6 + Math.random() * 5;
-      } else if (timeDecimal >= 8 && timeDecimal < 14) {
-        const progress = (timeDecimal - 8) / 6;
-        basePlayers = 6 + progress * 49 + Math.random() * 5;
-      } else {
-        basePlayers = 30 + Math.random() * 10;
+      for (const bmId of serverIds) {
+        try {
+          const response = await fetch(`https://api.battlemetrics.com/servers/${bmId}`);
+          const data = await response.json();
+          total += data.data.attributes.players || 0;
+        } catch (error) {
+          console.error(`Failed to fetch stats for server ${bmId}:`, error);
+        }
       }
       
-      setTotalPlayers(Math.round(basePlayers));
+      setTotalPlayers(total);
     };
 
-    calculatePlayers();
-    const interval = setInterval(calculatePlayers, 60000);
+    fetchTotalPlayers();
+    const interval = setInterval(fetchTotalPlayers, 60000);
     
     return () => clearInterval(interval);
   }, []);
