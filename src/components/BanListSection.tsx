@@ -53,7 +53,7 @@ const BanListSection = () => {
   const fetchBans = async () => {
     try {
       setLoading(true);
-      const response = await fetch('https://functions.poehali.dev/4b5f265a-1602-4c50-a601-92475a1e8027');
+      const response = await fetch('https://functions.poehali.dev/9ad8141c-6c62-40b3-a062-9af87755a278');
       const data = await response.json();
       setBans(data.bans || []);
       setFilteredBans(data.bans || []);

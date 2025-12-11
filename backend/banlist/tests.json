@@ -1,0 +1,15 @@
+{
+  "tests": [
+    {
+      "name": "Get banlist - should return bans array",
+      "method": "GET",
+      "path": "/",
+      "expectedStatus": 200,
+      "expectedBody": {
+        "bans": "array",
+        "total": "number"
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}
