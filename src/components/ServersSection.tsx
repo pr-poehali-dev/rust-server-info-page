@@ -218,24 +218,74 @@ const ServersSection = () => {
   };
 
   const getDetailedDescription = (serverId: string) => {
-    if (['1', '2', '3', '4', '5', '6', '7', '8', '9'].includes(serverId)) {
+    if (['1', '2', '3', '4', '5'].includes(serverId)) {
       return {
         title: 'Полное описание сервера',
         highlights: [
-          { icon: 'Zap', text: 'Увеличенная скорость добычи ресурсов' },
-          { icon: 'Users', text: 'Кастомные NPC на всех монументах' },
-          { icon: 'Skull', text: 'Уникальные боссы и испытания' },
-          { icon: 'Trophy', text: 'Боевой пропуск и мини-соревнования' },
-          { icon: 'Gift', text: 'Ежедневные бонусы для игроков' },
-          { icon: 'ShoppingCart', text: 'Продвинутая система экономики' },
+          { icon: 'Trophy', text: 'Battlepass' },
+          { icon: 'Skull', text: 'Боссы' },
+          { icon: 'Target', text: 'Испытания' },
+          { icon: 'Users', text: 'Кастомные NPC' },
+          { icon: 'Swords', text: 'Кастомное оружие и броня' },
+          { icon: 'Flame', text: 'Кастомные ивенты' },
+          { icon: 'PartyPopper', text: 'Мини ивенты' },
+          { icon: 'TrendingUp', text: 'Уровни прокачки престижа' },
+          { icon: 'TreeDeciduous', text: 'Дерево навыков' },
+          { icon: 'Backpack', text: 'Рюкзак банк' },
+          { icon: 'Gift', text: 'Ежедневный бонус' },
+          { icon: 'ShoppingCart', text: 'Экономика' },
           { icon: 'Store', text: 'Внутриигровой магазин' },
-          { icon: 'Hammer', text: 'Большая система кастомного крафта' },
-          { icon: 'Gem', text: 'Кастомные добываемые руды' },
-          { icon: 'Package', text: 'Множество кит-наборов' },
-          { icon: 'TrendingUp', text: 'Система прокачки навыков и престижа' },
-          { icon: 'Backpack', text: 'Дополнительный рюкзак на 144 слота' },
+          { icon: 'Zap', text: 'Моментальный крафт' },
+          { icon: 'Hammer', text: 'Кастомный крафт' },
+          { icon: 'Home', text: 'Базы для рейда' },
+          { icon: 'Gem', text: 'Кастомные руды' },
+          { icon: 'Sprout', text: 'Кастомные фермы' },
+          { icon: 'Package', text: 'Кит наборы' },
+          { icon: 'MapPin', text: 'Телепорты' },
+          { icon: 'Pickaxe', text: 'Майнинг фермы' },
+          { icon: 'Layers', text: 'Большие стаки' },
+          { icon: 'Truck', text: 'Кастомная покупка транспорта' },
+          { icon: 'Calendar', text: 'Календарь событий' },
+          { icon: 'Dna', text: 'Кастомная генетика' },
+          { icon: 'Lock', text: 'Приват личного транспорта' },
+          { icon: 'BarChart3', text: 'Подробная система статистики с Донат наградами' },
         ],
-        description: 'Сервер предлагает уникальный игровой опыт с кастомными NPC, которые добавляют сложности при PVE выживании. Встречайте боссов, участвуйте в кастомных мероприятиях с испытаниями, боевым пропуском и мини-соревнованиями.\n\nПродвинутая система экономики и внутриигровой магазин помогут упростить выживание, а большая система кастомного крафта и кастомные руды позволят воплотить любые фантазии.\n\nОсобенность сервера — система прокачки навыков и уровней престижа, дающая уникальные возможности. Ваш дополнительный рюкзак сохранит до 144 слотов лута на целый год — он не пропадет после смерти и перенесется даже после глобального вайпа!'
+        description: ''
+      };
+    }
+    if (['6', '7', '8', '9'].includes(serverId)) {
+      return {
+        title: 'Полное описание сервера',
+        highlights: [
+          { icon: 'Trophy', text: 'Battlepass' },
+          { icon: 'Skull', text: 'Боссы' },
+          { icon: 'Target', text: 'Испытания' },
+          { icon: 'Users', text: 'Кастомные NPC' },
+          { icon: 'Swords', text: 'Кастомное оружие и броня' },
+          { icon: 'Flame', text: 'Кастомные ивенты' },
+          { icon: 'PartyPopper', text: 'Мини ивенты' },
+          { icon: 'TrendingUp', text: 'Уровни прокачки престижа' },
+          { icon: 'TreeDeciduous', text: 'Дерево навыков' },
+          { icon: 'Backpack', text: 'Рюкзак банк' },
+          { icon: 'Gift', text: 'Ежедневный бонус' },
+          { icon: 'ShoppingCart', text: 'Экономика' },
+          { icon: 'Store', text: 'Внутриигровой магазин' },
+          { icon: 'Zap', text: 'Моментальный крафт' },
+          { icon: 'Hammer', text: 'Кастомный крафт' },
+          { icon: 'Home', text: 'Базы для рейда' },
+          { icon: 'Gem', text: 'Кастомные руды' },
+          { icon: 'Sprout', text: 'Кастомные фермы' },
+          { icon: 'Package', text: 'Кит наборы' },
+          { icon: 'MapPin', text: 'Телепорты' },
+          { icon: 'Pickaxe', text: 'Майнинг фермы' },
+          { icon: 'Layers', text: 'Большие стаки' },
+          { icon: 'Truck', text: 'Кастомная покупка транспорта' },
+          { icon: 'Calendar', text: 'Календарь событий' },
+          { icon: 'Dna', text: 'Кастомная генетика' },
+          { icon: 'Lock', text: 'Приват личного транспорта' },
+          { icon: 'BarChart3', text: 'Подробная система статистики с Донат наградами' },
+        ],
+        description: ''
       };
     }
     return null;
