@@ -353,6 +353,10 @@ const ServersSection = () => {
           { icon: 'Zap', text: 'Оптимизированная производительность' },
           { icon: 'Coins', text: 'Экономическая система' },
           { icon: 'Store', text: 'Внутриигровой магазин' },
+          { icon: 'Navigation', text: 'Телепортация' },
+          { icon: 'ShieldAlert', text: 'Рейдблок' },
+          { icon: 'Swords', text: 'Комбатблок' },
+          { icon: 'Calendar', text: 'Вайпблок' },
         ],
         description: ''
       };
@@ -366,6 +370,10 @@ const ServersSection = () => {
           { icon: 'Coins', text: 'Экономическая система' },
           { icon: 'Store', text: 'Внутриигровой магазин' },
           { icon: 'Users2', text: 'Кланы и альянсы' },
+          { icon: 'Navigation', text: 'Телепортация' },
+          { icon: 'ShieldAlert', text: 'Рейдблок' },
+          { icon: 'Swords', text: 'Комбатблок' },
+          { icon: 'Calendar', text: 'Вайпблок' },
         ],
         description: ''
       };
