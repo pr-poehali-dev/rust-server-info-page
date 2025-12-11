@@ -4,6 +4,7 @@ import Icon from '@/components/ui/icon';
 
 const HeroSection = () => {
   const [totalPlayers, setTotalPlayers] = useState<number | null>(null);
+  const [displayPlayers, setDisplayPlayers] = useState<number>(0);
 
   useEffect(() => {
     const fetchTotalPlayers = async () => {
@@ -34,6 +35,27 @@ const HeroSection = () => {
     
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (totalPlayers === null) return;
+    
+    const duration = 800;
+    const steps = 40;
+    const increment = (totalPlayers - displayPlayers) / steps;
+    let currentStep = 0;
+    
+    const timer = setInterval(() => {
+      currentStep++;
+      if (currentStep >= steps) {
+        setDisplayPlayers(totalPlayers);
+        clearInterval(timer);
+      } else {
+        setDisplayPlayers(prev => Math.round(prev + increment));
+      }
+    }, duration / steps);
+    
+    return () => clearInterval(timer);
+  }, [totalPlayers]);
 
   return (
     <section className="relative w-full py-24 md:py-32 lg:py-40 overflow-hidden">
@@ -75,8 +97,8 @@ const HeroSection = () => {
               <div className="text-sm text-muted-foreground uppercase tracking-wider">Серверов</div>
             </div>
 <div className="flex flex-col items-center p-4 rounded-lg glow-border bg-card/50 backdrop-blur-sm">
-              <div className="text-4xl font-bold text-primary glow-text">
-                {totalPlayers !== null ? totalPlayers : '...'}
+              <div className="text-4xl font-bold text-primary glow-text transition-all duration-300">
+                {totalPlayers !== null ? displayPlayers : '...'}
               </div>
               <div className="text-sm text-muted-foreground uppercase tracking-wider">Игроков онлайн</div>
             </div>
