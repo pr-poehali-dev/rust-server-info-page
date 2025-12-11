@@ -325,7 +325,16 @@ const ServersSection = () => {
                 {server.mode}
               </span>
             </div>
-            <Icon name="Server" className={`h-8 w-8 ${iconColor} transition-transform group-hover:scale-110`} />
+            <div className="text-right">
+              <div className="text-2xl font-bold" style={{fontFamily: 'Nunito, sans-serif'}}>
+                <span className={iconColor}>—</span>
+                <span className="text-muted-foreground">/</span>
+                <span className="text-muted-foreground">—</span>
+              </div>
+              <div className="text-xs text-muted-foreground uppercase tracking-wider">
+                Online/Slots
+              </div>
+            </div>
           </div>
 
           <p className="mb-4 text-sm text-muted-foreground leading-relaxed">
