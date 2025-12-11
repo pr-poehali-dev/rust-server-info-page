@@ -9,8 +9,12 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <div className="flex items-center space-x-2 mb-4 group">
-              <Icon name="Flame" className="h-6 w-6 text-primary group-hover:drop-shadow-[0_0_8px_rgba(255,68,0,0.8)] transition-all" />
-              <span className="text-xl font-bold tracking-wide">DevilRust</span>
+              <img 
+                src="https://s3.regru.cloud/img.devilrust/devilrust_logo.png" 
+                alt="DevilRust" 
+                className="h-6 w-auto group-hover:drop-shadow-[0_0_8px_rgba(255,68,0,0.8)] transition-all"
+              />
+              <span className="text-xl font-bold tracking-wide" style={{fontFamily: 'Nunito, sans-serif', fontStyle: 'italic'}}>DevilRust</span>
             </div>
             <p className="text-sm text-muted-foreground">
               Лучшие Rust серверы в СНГ. Присоединяйтесь к тысячам игроков уже сегодня!
@@ -23,9 +27,7 @@ const Footer = () => {
               <a href="https://devilrust.ru/" target="_blank" rel="noopener noreferrer" className="block text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 transform">
                 Магазин
               </a>
-              <a href="https://ulauncher.lol/" target="_blank" rel="noopener noreferrer" className="block text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 transform">
-                Скачать лаунчер
-              </a>
+
               <a href="https://devilrust.ru/support" target="_blank" rel="noopener noreferrer" className="block text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 transform">
                 Поддержка
               </a>
