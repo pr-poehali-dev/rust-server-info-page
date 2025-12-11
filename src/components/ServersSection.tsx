@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Accordion,
@@ -8,13 +7,6 @@ import {
 } from '@/components/ui/accordion';
 import Icon from '@/components/ui/icon';
 import { useToast } from '@/hooks/use-toast';
-
-interface ServerStatus {
-  id: string;
-  players: number;
-  maxPlayers: number;
-  status: string;
-}
 
 const pveServers = [
   {
@@ -34,7 +26,6 @@ const pveServers = [
       'Продвинутое внутриигровое меню',
       'Бесплатный донат за топ или мини ивенты'
     ],
-    online: '156/200'
   },
   {
     id: '2',
@@ -53,7 +44,6 @@ const pveServers = [
       'Продвинутое внутриигровое меню',
       'Бесплатный донат за топ или мини ивенты'
     ],
-    online: '142/150'
   },
   {
     id: '3',
@@ -72,7 +62,6 @@ const pveServers = [
       'Продвинутое внутриигровое меню',
       'Бесплатный донат за топ или мини ивенты'
     ],
-    online: '178/200'
   },
   {
     id: '4',
@@ -91,7 +80,6 @@ const pveServers = [
       'Продвинутое внутриигровое меню',
       'Бесплатный донат за топ или мини ивенты'
     ],
-    online: '89/100'
   },
   {
     id: '5',
@@ -110,7 +98,6 @@ const pveServers = [
       'Продвинутое внутриигровое меню',
       'Бесплатный донат за топ или мини ивенты'
     ],
-    online: '67/100'
   },
   {
     id: '6',
@@ -118,8 +105,7 @@ const pveServers = [
     mode: 'PVE EasyBuild',
     ip: '62.122.214.220:6000',
     description: 'Креативный режим для строительства без ограничений. Безлимитные ресурсы, полёт и возможность создать любую постройку.',
-    features: ['Упрощенное строительство', 'Больше ресурсов', 'PVE режим', 'Сохранение построек'],
-    online: '34/50'
+    features: ['Упрощенное строительство', 'Больше ресурсов', 'PVE режим', 'Сохранение построек']
   },
   {
     id: '7',
@@ -127,8 +113,7 @@ const pveServers = [
     mode: 'PVE Vanilla',
     ip: '62.122.214.220:7000',
     description: 'Экстремально модифицированный сервер со стократным ускорением. Максимальный хаос, мгновенный фарм и эпичные рейды.',
-    features: ['Ванильный опыт', 'Без модов', 'Классический геймплей', 'PVE режим'],
-    online: '195/250'
+    features: ['Ванильный опыт', 'Без модов', 'Классический геймплей', 'PVE режим']
   }
 ];
 
@@ -139,8 +124,7 @@ const pvpServers = [
     mode: 'PVP Modded x2',
     ip: '62.122.214.220:8000',
     description: 'Ролевой сервер с уникальными правилами и экономикой. Создавайте свои истории, торгуйте, стройте поселения.',
-    features: ['PVP режим', 'Скорость сбора x2', 'Только DUO', 'Модифицированный'],
-    online: '78/150'
+    features: ['PVP режим', 'Скорость сбора x2', 'Только DUO', 'Модифицированный']
   },
   {
     id: '9',
@@ -148,40 +132,12 @@ const pvpServers = [
     mode: 'PVP Modded x2',
     ip: '62.122.214.220:9000',
     description: 'Долгоиграющий сервер с редкими вайпами. Для тех, кто любит строить большие проекты и развиваться долгосрочно.',
-    features: ['PVP режим', 'Скорость сбора x2', 'Без ограничений команд', 'Модифицированный'],
-    online: '123/200'
+    features: ['PVP режим', 'Скорость сбора x2', 'Без ограничений команд', 'Модифицированный']
   }
 ];
 
 const ServersSection = () => {
   const { toast } = useToast();
-  const [serverStatus, setServerStatus] = useState<Record<string, ServerStatus>>({});
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchServerStatus = async () => {
-      try {
-        const response = await fetch('https://functions.poehali.dev/b14b5f14-6ba8-4329-b83b-bdc21195459d');
-        const data = await response.json();
-        
-        const statusMap: Record<string, ServerStatus> = {};
-        data.servers.forEach((server: ServerStatus) => {
-          statusMap[server.id] = server;
-        });
-        
-        setServerStatus(statusMap);
-        setLoading(false);
-      } catch (error) {
-        console.error('Failed to fetch server status:', error);
-        setLoading(false);
-      }
-    };
-
-    fetchServerStatus();
-    const interval = setInterval(fetchServerStatus, 60000);
-    
-    return () => clearInterval(interval);
-  }, []);
 
   const handleConnect = (ip: string) => {
     const connectCommand = `connect ${ip}`;
@@ -190,15 +146,6 @@ const ServersSection = () => {
       title: "Команда скопирована!",
       description: `${connectCommand} — вставьте в консоль F1`,
     });
-  };
-
-  const getOnlineDisplay = (serverId: string, fallback: string) => {
-    if (loading) return 'загрузка...';
-    const status = serverStatus[serverId];
-    if (status) {
-      return `${status.players || 0}/${status.maxPlayers || 0}`;
-    }
-    return fallback;
   };
 
   return (
@@ -231,19 +178,13 @@ const ServersSection = () => {
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-green-500/5 transition-all">
-                  <div className="flex items-center justify-between w-full pr-4">
-                    <div className="flex items-center gap-4">
-                      <div className="flex items-center justify-center w-12 h-12 rounded-full bg-green-500/20 text-green-500 font-bold text-xl">
-                        {server.id}
-                      </div>
-                      <div className="text-left">
-                        <h3 className="text-xl font-bold">{server.name}</h3>
-                        <p className="text-sm text-muted-foreground">{server.mode}</p>
-                      </div>
+                  <div className="flex items-center gap-4">
+                    <div className="flex items-center justify-center w-12 h-12 rounded-full bg-green-500/20 text-green-500 font-bold text-xl">
+                      {server.id}
                     </div>
-                    <div className="hidden sm:flex items-center gap-2 text-sm">
-                      <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                      <span className="font-medium">{getOnlineDisplay(server.id, server.online)}</span>
+                    <div className="text-left">
+                      <h3 className="text-xl font-bold">{server.name}</h3>
+                      <p className="text-sm text-muted-foreground">{server.mode}</p>
                     </div>
                   </div>
                 </AccordionTrigger>
@@ -290,13 +231,14 @@ const ServersSection = () => {
                       })}
                     </div>
 
-                    <div className="pt-4 flex gap-3">
+                    <div className="pt-4 flex flex-col sm:flex-row gap-3">
                       <Button className="flex-1 shadow-lg shadow-primary/30 hover:shadow-primary/50 transition-all" onClick={() => handleConnect(server.ip)}>
                         <Icon name="Gamepad2" className="mr-2 h-4 w-4" />
                         Подключиться
                       </Button>
-                      <Button variant="outline" className="border-primary/30 hover:border-primary hover:bg-primary/10" asChild>
+                      <Button variant="outline" className="flex-1 border-primary/30 hover:border-primary hover:bg-primary/10" asChild>
                         <a href="https://devilrust.ru" target="_blank" rel="noopener noreferrer">
+                          <Icon name="Info" className="mr-2 h-4 w-4" />
                           Подробнее
                         </a>
                       </Button>
@@ -325,19 +267,13 @@ const ServersSection = () => {
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-destructive/5 transition-all">
-                  <div className="flex items-center justify-between w-full pr-4">
-                    <div className="flex items-center gap-4">
-                      <div className="flex items-center justify-center w-12 h-12 rounded-full bg-destructive/20 text-destructive font-bold text-xl">
-                        {server.id}
-                      </div>
-                      <div className="text-left">
-                        <h3 className="text-xl font-bold">{server.name}</h3>
-                        <p className="text-sm text-muted-foreground">{server.mode}</p>
-                      </div>
+                  <div className="flex items-center gap-4">
+                    <div className="flex items-center justify-center w-12 h-12 rounded-full bg-destructive/20 text-destructive font-bold text-xl">
+                      {server.id}
                     </div>
-                    <div className="hidden sm:flex items-center gap-2 text-sm">
-                      <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                      <span className="font-medium">{getOnlineDisplay(server.id, server.online)}</span>
+                    <div className="text-left">
+                      <h3 className="text-xl font-bold">{server.name}</h3>
+                      <p className="text-sm text-muted-foreground">{server.mode}</p>
                     </div>
                   </div>
                 </AccordionTrigger>
@@ -381,13 +317,14 @@ const ServersSection = () => {
                       })}
                     </div>
 
-                    <div className="pt-4 flex gap-3">
+                    <div className="pt-4 flex flex-col sm:flex-row gap-3">
                       <Button className="flex-1 shadow-lg shadow-primary/30 hover:shadow-primary/50 transition-all" onClick={() => handleConnect(server.ip)}>
                         <Icon name="Gamepad2" className="mr-2 h-4 w-4" />
                         Подключиться
                       </Button>
-                      <Button variant="outline" className="border-primary/30 hover:border-primary hover:bg-primary/10" asChild>
+                      <Button variant="outline" className="flex-1 border-primary/30 hover:border-primary hover:bg-primary/10" asChild>
                         <a href="https://devilrust.ru" target="_blank" rel="noopener noreferrer">
+                          <Icon name="Info" className="mr-2 h-4 w-4" />
                           Подробнее
                         </a>
                       </Button>
