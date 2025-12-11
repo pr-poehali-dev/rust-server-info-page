@@ -26,7 +26,7 @@ const HowToStartSection = () => {
                   1
                 </div>
                 <div className="flex-1 pt-1">
-                  <h4 className="font-semibold mb-1">Скачайте Лаунчер или купите игру в Steam</h4>
+                  <h4 className="font-semibold mb-1">Купите игру в Steam или скачайте Лаунчер</h4>
                   <p className="text-sm text-muted-foreground">
                     Мы не поддерживаем пиратство и советуем купить игру на площадке STEAM, во избежании проблем с подключением к нашим серверам.
                   </p>
