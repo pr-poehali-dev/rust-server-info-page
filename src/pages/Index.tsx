@@ -309,12 +309,24 @@ const Index = () => {
                       </div>
 
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        {server.features.map((feature, idx) => (
-                          <div key={idx} className="flex items-center gap-2 text-sm">
-                            <Icon name="CheckCircle2" className="h-4 w-4 text-green-500 flex-shrink-0" />
-                            <span>{feature}</span>
-                          </div>
-                        ))}
+                        {server.features.map((feature, idx) => {
+                          let icon = 'CheckCircle2';
+                          if (feature.includes('экономики') || feature.includes('магазином')) icon = 'ShoppingCart';
+                          else if (feature.includes('донат') || feature.includes('топ')) icon = 'Gift';
+                          else if (feature.includes('карьеры')) icon = 'Pickaxe';
+                          else if (feature.includes('руды')) icon = 'Gem';
+                          else if (feature.includes('меню')) icon = 'Settings';
+                          else if (feature.includes('Кит')) icon = 'Package';
+                          else if (feature.includes('Вайп')) icon = 'Calendar';
+                          else if (feature.includes('рейдов')) icon = 'Castle';
+                          
+                          return (
+                            <div key={idx} className="flex items-center gap-2 text-sm">
+                              <Icon name={icon} className="h-4 w-4 text-green-500 flex-shrink-0" />
+                              <span>{feature}</span>
+                            </div>
+                          );
+                        })}
                       </div>
 
                       <div className="pt-4 flex gap-3">
@@ -393,12 +405,21 @@ const Index = () => {
                       </div>
 
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        {server.features.map((feature, idx) => (
-                          <div key={idx} className="flex items-center gap-2 text-sm">
-                            <Icon name="CheckCircle2" className="h-4 w-4 text-destructive flex-shrink-0" />
-                            <span>{feature}</span>
-                          </div>
-                        ))}
+                        {server.features.map((feature, idx) => {
+                          let icon = 'CheckCircle2';
+                          if (feature.includes('PVP')) icon = 'Swords';
+                          else if (feature.includes('DUO')) icon = 'Users';
+                          else if (feature.includes('NOLIM') || feature.includes('ограничений')) icon = 'Infinity';
+                          else if (feature.includes('Модифицированный')) icon = 'Wrench';
+                          else if (feature.includes('Скорость')) icon = 'Zap';
+                          
+                          return (
+                            <div key={idx} className="flex items-center gap-2 text-sm">
+                              <Icon name={icon} className="h-4 w-4 text-destructive flex-shrink-0" />
+                              <span>{feature}</span>
+                            </div>
+                          );
+                        })}
                       </div>
 
                       <div className="pt-4 flex gap-3">
