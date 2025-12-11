@@ -14,25 +14,17 @@ const HeroSection = () => {
   const [coinRain, setCoinRain] = useState(false);
 
   useEffect(() => {
-    const serverIds = [
-      '30367639', '30367642', '30367644', '30367643', '33982243',
-      '34635173', '35130037', '36442240', '30367639'
-    ];
-
     const fetchTotalPlayers = async () => {
-      let total = 0;
-      
-      for (const bmId of serverIds) {
-        try {
-          const response = await fetch(`https://api.battlemetrics.com/servers/${bmId}`);
-          const data = await response.json();
-          total += data.data.attributes.players || 0;
-        } catch (error) {
-          console.error(`Failed to fetch stats for server ${bmId}:`, error);
+      try {
+        const response = await fetch('https://devilrust.ru/api/v1/widgets.monitoring');
+        const data = await response.json();
+        
+        if (data.result === 'success' && data.data?.total?.players !== undefined) {
+          setTotalPlayers(data.data.total.players);
         }
+      } catch (error) {
+        console.error('Failed to fetch monitoring data:', error);
       }
-      
-      setTotalPlayers(total);
     };
 
     fetchTotalPlayers();

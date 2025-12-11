@@ -228,24 +228,27 @@ const ServersSection = () => {
 
   useEffect(() => {
     const fetchServerStats = async () => {
-      const allServers = [...pveServers, ...pvpServers];
-      const uniqueIds = [...new Set(allServers.map(s => s.battlemetricsId))];
-      
-      for (const bmId of uniqueIds) {
-        try {
-          const response = await fetch(`https://api.battlemetrics.com/servers/${bmId}`);
-          const data = await response.json();
+      try {
+        const response = await fetch('https://devilrust.ru/api/v1/widgets.monitoring');
+        const data = await response.json();
+        
+        if (data.result === 'success' && data.data?.servers) {
+          const newStats: Record<string, { players: number; maxPlayers: number }> = {};
           
-          setServerStats(prev => ({
-            ...prev,
-            [bmId]: {
-              players: data.data.attributes.players,
-              maxPlayers: data.data.attributes.maxPlayers
+          data.data.servers.forEach((server: any) => {
+            const matchedServer = [...pveServers, ...pvpServers].find(s => s.ip === `${server.ip}:${server.port}`);
+            if (matchedServer) {
+              newStats[matchedServer.battlemetricsId] = {
+                players: server.players,
+                maxPlayers: server.playersMax
+              };
             }
-          }));
-        } catch (error) {
-          console.error(`Failed to fetch stats for server ${bmId}:`, error);
+          });
+          
+          setServerStats(newStats);
         }
+      } catch (error) {
+        console.error('Failed to fetch monitoring data:', error);
       }
     };
 
