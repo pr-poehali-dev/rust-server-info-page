@@ -38,7 +38,27 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         }
     
     rcon_creds_str: str = os.environ.get('RCON_CREDENTIALS', '{}')
-    rcon_creds: Dict[str, Dict[str, Any]] = json.loads(rcon_creds_str)
+    
+    # Очищаем строку от возможных лишних символов
+    rcon_creds_str = rcon_creds_str.strip()
+    
+    # Fallback на хардкод если секрет не настроен
+    default_creds = {
+        '1': {'password': 'jhSDQdfPBghUIGutyftyfGUDFyijgYF667337823', 'port': 10002},
+        '2': {'password': 'zrd1ukdMfDSOvemHqVSae0bC', 'port': 2002},
+        '3': {'password': 'BcIqAoR512YoyKh0TC8c2WHm', 'port': 3002},
+        '4': {'password': 'QoSCMvSBKtY9kb7Y5eGeacyx', 'port': 4002},
+        '5': {'password': 'Kfeuhcnj63545', 'port': 5002},
+        '6': {'password': 'qRiQU2whLy6g', 'port': 6002},
+        '7': {'password': 'DAwdpsdUuq12asddsawawe1164352484', 'port': 7002},
+        '8': {'password': 'IuD1FkGGkEMdsmxDuBZ1r3Zs', 'port': 8002},
+        '9': {'password': 'whv19kSAjnt5vikkj123z6CZQ5Wx7', 'port': 9002}
+    }
+    
+    try:
+        rcon_creds: Dict[str, Dict[str, Any]] = json.loads(rcon_creds_str)
+    except:
+        rcon_creds = default_creds
     
     server_host: str = '62.122.214.220'
     
@@ -65,7 +85,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         
         try:
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            sock.settimeout(3)
+            sock.settimeout(1.5)
             sock.connect((server_host, rcon_port))
             
             request_id = 1
@@ -75,41 +95,55 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             sock.sendall(auth_packet)
             
             # Читаем ответ аутентификации
+            sock.settimeout(1.0)
             auth_response = sock.recv(4096)
             
             if len(auth_response) >= 12:
                 response_id = struct.unpack('<i', auth_response[4:8])[0]
                 
                 if response_id == request_id:
-                    # Команда для получения информации о сервере
-                    command = 'serverinfo'
+                    # Команда global.playercount - быстрее чем serverinfo
+                    command = 'global.playercount'
                     request_id = 2
                     cmd_packet = struct.pack('<iii', 10 + len(command), request_id, 2) + command.encode('utf-8') + b'\x00\x00'
                     sock.sendall(cmd_packet)
                     
                     # Читаем ответ
-                    response = sock.recv(8192)
+                    response = sock.recv(4096)
                     
                     if len(response) > 12:
-                        body = response[12:-2].decode('utf-8', errors='ignore')
+                        body = response[12:-2].decode('utf-8', errors='ignore').strip()
                         
-                        # Парсим serverinfo для получения количества игроков
-                        if 'players' in body.lower():
-                            lines = body.split('\n')
-                            for line in lines:
-                                if 'players' in line.lower():
-                                    parts = line.split(':')
-                                    if len(parts) >= 2:
-                                        player_info = parts[1].strip()
-                                        if '/' in player_info:
-                                            current = player_info.split('/')[0].strip()
-                                            try:
-                                                players = int(current)
-                                                status = 'online'
-                                            except:
-                                                pass
-                        else:
+                        # global.playercount возвращает просто число
+                        try:
+                            players = int(body)
                             status = 'online'
+                        except:
+                            # Если не получилось - пробуем serverinfo
+                            command2 = 'serverinfo'
+                            request_id = 3
+                            cmd_packet2 = struct.pack('<iii', 10 + len(command2), request_id, 2) + command2.encode('utf-8') + b'\x00\x00'
+                            sock.sendall(cmd_packet2)
+                            response2 = sock.recv(8192)
+                            
+                            if len(response2) > 12:
+                                body2 = response2[12:-2].decode('utf-8', errors='ignore')
+                                if 'players' in body2.lower():
+                                    lines = body2.split('\n')
+                                    for line in lines:
+                                        if 'players' in line.lower() and ':' in line:
+                                            parts = line.split(':')
+                                            if len(parts) >= 2:
+                                                player_info = parts[1].strip()
+                                                try:
+                                                    if '/' in player_info:
+                                                        players = int(player_info.split('/')[0].strip())
+                                                    else:
+                                                        players = int(player_info.split()[0])
+                                                    status = 'online'
+                                                except:
+                                                    status = 'online'
+                                                break
             
             sock.close()
             
