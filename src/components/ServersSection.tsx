@@ -307,10 +307,10 @@ const ServersSection = () => {
 
   const ServerCard = ({ server }: { server: typeof pveServers[0] }) => {
     const isPVE = server.mode.includes('PVE');
-    const cardColor = isPVE ? 'from-primary/10 to-primary/5' : 'from-red-500/10 to-red-500/5';
-    const borderColor = isPVE ? 'border-primary/30' : 'border-red-500/30';
-    const badgeColor = isPVE ? 'bg-primary/20 text-primary' : 'bg-red-500/20 text-red-500';
-    const iconColor = isPVE ? 'text-primary' : 'text-red-500';
+    const cardColor = isPVE ? 'from-green-500/10 to-green-500/5' : 'from-red-500/10 to-red-500/5';
+    const borderColor = isPVE ? 'border-green-500/30' : 'border-red-500/30';
+    const badgeColor = isPVE ? 'bg-green-500/20 text-green-500' : 'bg-red-500/20 text-red-500';
+    const iconColor = isPVE ? 'text-green-500' : 'text-red-500';
 
     return (
       <div className={`group relative overflow-hidden rounded-xl border ${borderColor} bg-gradient-to-br ${cardColor} p-6 transition-all hover:shadow-xl hover:shadow-primary/10`}>
