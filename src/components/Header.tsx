@@ -15,8 +15,11 @@ const Header = () => {
         </a>
 
         <nav className="hidden md:flex items-center space-x-6">
-          <a href="#" className="text-sm font-medium text-foreground hover:text-primary transition-colors uppercase tracking-wider">
+          <a href="/" className="text-sm font-medium text-foreground hover:text-primary transition-colors uppercase tracking-wider">
             Главная
+          </a>
+          <a href="/banlist" className="text-sm font-medium text-foreground hover:text-primary transition-colors uppercase tracking-wider">
+            Банлист
           </a>
           <a href="https://devrus.gamestores.app/" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-foreground hover:text-primary transition-colors uppercase tracking-wider">
             Магазин
