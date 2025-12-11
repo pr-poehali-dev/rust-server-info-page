@@ -14,6 +14,7 @@ const servers = [
     id: '1',
     name: 'DevilRust X2 Classic',
     mode: 'Vanilla x2',
+    ip: '62.122.214.220:10000',
     description: 'Классический Rust с удвоенной скоростью сбора ресурсов. Идеально подходит для тех, кто ценит оригинальный геймплей, но хочет немного ускорить прогресс.',
     features: ['Скорость сбора x2', 'Еженедельный вайп', 'Максимум 200 игроков', 'Карта 4000'],
     online: '156/200'
@@ -22,6 +23,7 @@ const servers = [
     id: '2',
     name: 'DevilRust X5 Trio',
     mode: 'Trio x5',
+    ip: '62.122.214.220:1000',
     description: 'Сервер для команд до 3 игроков с пятикратным ускорением фарма. Динамичный геймплей и быстрое развитие для любителей командной игры.',
     features: ['Только команды до 3 чел', 'Скорость сбора x5', 'Вайп раз в 2 недели', 'Карта 3500'],
     online: '142/150'
@@ -30,6 +32,7 @@ const servers = [
     id: '3',
     name: 'DevilRust X10 Solo/Duo',
     mode: 'Solo/Duo x10',
+    ip: '62.122.214.220:3000',
     description: 'Сервер для одиночек и пар с максимальной скоростью прогресса. Здесь можно быстро построить базу и начать рейдить уже в первый день.',
     features: ['Соло или дуо', 'Скорость сбора x10', 'Вайп каждый четверг', 'Карта 3000'],
     online: '178/200'
@@ -38,6 +41,7 @@ const servers = [
     id: '4',
     name: 'DevilRust Battlefield',
     mode: 'PvP Arena',
+    ip: '62.122.214.220:4000',
     description: 'Арена для PvP сражений с готовым лутом и моментальным респавном. Тренируйте навыки боя и соревнуйтесь с лучшими игроками.',
     features: ['Бесконечный респавн', 'Готовый лут', 'Разные арены', 'Рейтинговая система'],
     online: '89/100'
@@ -46,6 +50,7 @@ const servers = [
     id: '5',
     name: 'DevilRust Zombies',
     mode: 'PvE Zombie',
+    ip: '62.122.214.220:5000',
     description: 'Кооперативный сервер с зомби-апокалипсисом. Объединяйтесь с другими игроками, чтобы выжить против орд нежити.',
     features: ['PvE режим', 'Волны зомби', 'Боссы', 'Прокачка персонажа'],
     online: '67/100'
@@ -54,6 +59,7 @@ const servers = [
     id: '6',
     name: 'DevilRust Creative',
     mode: 'Creative',
+    ip: '62.122.214.220:6000',
     description: 'Креативный режим для строительства без ограничений. Безлимитные ресурсы, полёт и возможность создать любую постройку.',
     features: ['Безлимитные ресурсы', 'Режим полёта', 'Без PvP', 'Сохранение построек'],
     online: '34/50'
@@ -62,6 +68,7 @@ const servers = [
     id: '7',
     name: 'DevilRust Modded X100',
     mode: 'Modded x100',
+    ip: '62.122.214.220:7000',
     description: 'Экстремально модифицированный сервер со стократным ускорением. Максимальный хаос, мгновенный фарм и эпичные рейды.',
     features: ['Скорость сбора x100', 'Кастомные плагины', 'Увеличенный лут', 'Особые ивенты'],
     online: '195/250'
@@ -70,6 +77,7 @@ const servers = [
     id: '8',
     name: 'DevilRust RP',
     mode: 'RolePlay',
+    ip: '62.122.214.220:8000',
     description: 'Ролевой сервер с уникальными правилами и экономикой. Создавайте свои истории, торгуйте, стройте поселения.',
     features: ['RP правила', 'Экономика', 'Профессии', 'Фракции'],
     online: '78/150'
@@ -78,6 +86,7 @@ const servers = [
     id: '9',
     name: 'DevilRust Long Wipe',
     mode: 'Long Term',
+    ip: '62.122.214.220:9000',
     description: 'Долгоиграющий сервер с редкими вайпами. Для тех, кто любит строить большие проекты и развиваться долгосрочно.',
     features: ['Вайп раз в месяц', 'Скорость сбора x3', 'Карта 5000', 'Стабильная экономика'],
     online: '123/200'
@@ -221,6 +230,22 @@ const Index = () => {
                     <p className="text-muted-foreground leading-relaxed">
                       {server.description}
                     </p>
+
+                    <div className="flex items-center gap-2 p-3 bg-muted/50 rounded-lg border border-primary/30">
+                      <Icon name="Globe" className="h-5 w-5 text-primary flex-shrink-0" />
+                      <div className="flex-1">
+                        <div className="text-xs text-muted-foreground mb-1">IP-адрес сервера:</div>
+                        <code className="text-sm font-mono text-foreground select-all">{server.ip}</code>
+                      </div>
+                      <Button 
+                        size="sm" 
+                        variant="ghost"
+                        onClick={() => navigator.clipboard.writeText(server.ip)}
+                        className="flex-shrink-0"
+                      >
+                        <Icon name="Copy" className="h-4 w-4" />
+                      </Button>
+                    </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {server.features.map((feature, idx) => (
