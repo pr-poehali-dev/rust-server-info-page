@@ -144,7 +144,7 @@ const HeroSection = () => {
             </div>
 <div className="flex flex-col items-center p-4 rounded-lg glow-border bg-card/50 backdrop-blur-sm">
               <div className="text-4xl font-bold text-primary glow-text transition-all duration-300">
-                {totalPlayers !== null ? displayPlayers : '...'}
+                {totalPlayers !== null ? `≈ ${displayPlayers}` : '...'}
               </div>
               <div className="text-sm text-muted-foreground uppercase tracking-wider">Игроков онлайн</div>
             </div>
