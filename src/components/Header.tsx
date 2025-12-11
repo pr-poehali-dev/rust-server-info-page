@@ -6,8 +6,11 @@ const Header = () => {
     <header className="sticky top-0 z-50 w-full border-b border-primary/20 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 shadow-lg shadow-primary/5">
       <div className="container flex h-16 items-center justify-between">
         <a href="https://devilrust.ru" className="flex items-center space-x-2 group">
-          <Icon name="Flame" className="h-6 w-6 text-primary group-hover:drop-shadow-[0_0_8px_rgba(255,68,0,0.8)] transition-all" />
-          <span className="text-2xl font-bold tracking-wide">DevilRust</span>
+          <img 
+            src="https://s3.regru.cloud/img.devilrust/devilrust_logo.png" 
+            alt="DevilRust" 
+            className="h-10 w-auto group-hover:drop-shadow-[0_0_12px_rgba(255,68,0,0.6)] transition-all"
+          />
         </a>
 
         <nav className="hidden md:flex items-center space-x-6">
