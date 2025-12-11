@@ -41,7 +41,7 @@ const pveServers = [
     name: '#2 [PVE] DevilRust X5',
     mode: 'PVE x5',
     ip: '62.122.214.220:1000',
-    battlemetricsId: '30367639',
+    battlemetricsId: '30367642',
     description: 'Сервер с рейтингом добычи ресурсов x5 - что дает более быструю скорость развития вашего персонажа. Более подробно о всех особенностях можно узнать ниже.',
     features: [
       'Рейты x5',
@@ -59,7 +59,7 @@ const pveServers = [
     name: '#3 [PVE] DevilRust X8',
     mode: 'PVE x8',
     ip: '62.122.214.220:3000',
-    battlemetricsId: '30367639',
+    battlemetricsId: '30367644',
     description: 'Сервер с рейтингом добычи ресурсов x8 - что дает более быструю скорость развития вашего персонажа. Более подробно о всех особенностях можно узнать ниже.',
     features: [
       'Рейты x8',
@@ -77,7 +77,7 @@ const pveServers = [
     name: '#4 [PVE] DevilRust X10',
     mode: 'PVE x10',
     ip: '62.122.214.220:4000',
-    battlemetricsId: '30367639',
+    battlemetricsId: '30367643',
     description: 'Сервер с рейтингом добычи ресурсов x10 - что дает более быструю скорость развития вашего персонажа. Более подробно о всех особенностях можно узнать ниже.',
     features: [
       'Рейты x10',
@@ -95,7 +95,7 @@ const pveServers = [
     name: '#5 [PVE] DevilRust X20',
     mode: 'PVE x20',
     ip: '62.122.214.220:5000',
-    battlemetricsId: '30367639',
+    battlemetricsId: '33982243',
     description: 'Сервер с рейтингом добычи ресурсов x20 - что дает более быструю скорость развития вашего персонажа. Более подробно о всех особенностях можно узнать ниже.',
     features: [
       'Рейты x20',
@@ -113,7 +113,7 @@ const pveServers = [
     name: '#6 [PVE] DevilRust EASYBUILD',
     mode: 'PVE EasyBuild',
     ip: '62.122.214.220:6000',
-    battlemetricsId: '30367639',
+    battlemetricsId: '34635173',
     description: 'Долгоиграющий сервер с редкими вайпами. Для тех, кто любит строить большие проекты и развиваться долгосрочно.',
     features: [
       'Упрощенное строительство',
@@ -131,7 +131,7 @@ const pveServers = [
     name: '#7 [PVE] DevilRust VANILLA',
     mode: 'PVE Vanilla',
     ip: '62.122.214.220:7000',
-    battlemetricsId: '30367639',
+    battlemetricsId: '35130037',
     description: 'Ванильный сервер, в котором можно ощутить все особенности настоящего RUST, нет модификаций, которые ломают классические особенности игры.',
     features: [
       'Ванильный опыт',
@@ -152,7 +152,7 @@ const pvpServers = [
     name: '#8 [PVP] DevilRust - MODDED | x2 | DUO',
     mode: 'PVP Modded x2',
     ip: '62.122.214.220:8000',
-    battlemetricsId: '30367639',
+    battlemetricsId: '36442240',
     description: 'Модифицированный сервер для команд максимум из 2х игроков',
     features: [
       'Рейты x2',
