@@ -1,4 +1,4 @@
-const SteamIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
+const SteamIcon = ({ className = "" }: { className?: string }) => (
   <svg 
     viewBox="0 0 20 20" 
     xmlns="http://www.w3.org/2000/svg"
