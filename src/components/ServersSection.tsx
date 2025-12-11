@@ -195,8 +195,8 @@ const ServersSection = () => {
   const getOnlineDisplay = (serverId: string, fallback: string) => {
     if (loading) return 'загрузка...';
     const status = serverStatus[serverId];
-    if (status && status.status === 'online') {
-      return `${status.players}/${status.maxPlayers}`;
+    if (status) {
+      return `${status.players || 0}/${status.maxPlayers || 0}`;
     }
     return fallback;
   };
