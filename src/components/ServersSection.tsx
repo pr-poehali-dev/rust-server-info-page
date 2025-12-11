@@ -528,15 +528,22 @@ const ServersSection = () => {
           )}
 
           <div className="space-y-4 mt-6 pt-6 border-t">
-            <div className="space-y-2">
-              <h4 className="font-semibold text-sm">Основные особенности:</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                {selectedServer?.features.map((feature, idx) => (
-                  <div key={idx} className="flex items-center gap-2 text-sm">
-                    <Icon name="Check" className="h-4 w-4 text-primary" />
-                    <span className="text-muted-foreground">{feature}</span>
-                  </div>
-                ))}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="flex items-center gap-2 text-sm">
+                <Icon name="Check" className="h-4 w-4 text-primary" />
+                <span className="text-muted-foreground">Ванильный опыт</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm">
+                <Icon name="Check" className="h-4 w-4 text-primary" />
+                <span className="text-muted-foreground">Вайп 1 раз в месяц</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm">
+                <Icon name="Check" className="h-4 w-4 text-primary" />
+                <span className="text-muted-foreground">Базы для рейдов</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm">
+                <Icon name="Check" className="h-4 w-4 text-primary" />
+                <span className="text-muted-foreground">Статистика</span>
               </div>
             </div>
 
