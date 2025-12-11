@@ -51,9 +51,7 @@ const HowToStartSection = () => {
                 </div>
                 <div className="flex-1 pt-1">
                   <h4 className="font-semibold mb-1">Подключитесь и играйте</h4>
-                  <p className="text-sm text-muted-foreground">
-                    Запустите игру через лаунчер и начните своё приключение на DevilRust!
-                  </p>
+                  <p className="text-sm text-muted-foreground">Запустите игру, находясь в главном меню нажмите клавишу F1 и вставьте туда: Connect "Адрес сервера", нажмите ентер  и начните своё приключение на DevilRust!</p>
                 </div>
               </div>
             </div>
