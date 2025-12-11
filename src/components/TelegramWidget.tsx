@@ -5,6 +5,7 @@ import Icon from '@/components/ui/icon';
 const TelegramWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showFireworks, setShowFireworks] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -38,10 +39,29 @@ const TelegramWidget = () => {
           </div>
         )}
 
+        {isHovered && (
+          <div className="absolute inset-0 pointer-events-none">
+            {Array.from({ length: 20 }).map((_, i) => (
+              <div
+                key={`hover-${i}`}
+                className="absolute top-1/2 left-1/2 w-2 h-2 rounded-full animate-firework-hover"
+                style={{
+                  background: i % 3 === 0 ? '#ff4400' : i % 3 === 1 ? '#ffaa00' : '#ffdd00',
+                  animationDelay: `${i * 0.03}s`,
+                  '--angle': `${(i * 18)}deg`,
+                  '--distance': `${60 + Math.random() * 30}px`,
+                } as React.CSSProperties}
+              />
+            ))}
+          </div>
+        )}
+
         <div
-          className={`relative bg-gradient-to-br from-primary/20 to-primary/5 backdrop-blur-sm border-2 border-primary/40 rounded-2xl shadow-2xl shadow-primary/20 transition-all duration-500 overflow-hidden ${
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          className={`relative bg-gradient-to-br from-primary/20 to-primary/5 backdrop-blur-sm border-2 border-primary/40 rounded-2xl shadow-2xl shadow-primary/20 transition-all duration-500 overflow-visible ${
             isOpen ? 'scale-100 opacity-100' : 'scale-75 opacity-0'
-          }`}
+          } ${isHovered ? 'animate-shake' : ''}`}
         >
           <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent animate-pulse" />
           
@@ -109,8 +129,43 @@ const TelegramWidget = () => {
           }
         }
 
+        @keyframes firework-hover {
+          0% {
+            transform: translate(-50%, -50%) rotate(var(--angle)) translateX(0) scale(1);
+            opacity: 1;
+          }
+          50% {
+            opacity: 1;
+          }
+          100% {
+            transform: translate(-50%, -50%) rotate(var(--angle)) translateX(var(--distance)) scale(0);
+            opacity: 0;
+          }
+        }
+
+        @keyframes shake {
+          0%, 100% { transform: translateX(0) rotate(0deg); }
+          10% { transform: translateX(-3px) rotate(-2deg); }
+          20% { transform: translateX(3px) rotate(2deg); }
+          30% { transform: translateX(-3px) rotate(-2deg); }
+          40% { transform: translateX(3px) rotate(2deg); }
+          50% { transform: translateX(-2px) rotate(-1deg); }
+          60% { transform: translateX(2px) rotate(1deg); }
+          70% { transform: translateX(-2px) rotate(-1deg); }
+          80% { transform: translateX(2px) rotate(1deg); }
+          90% { transform: translateX(-1px) rotate(-0.5deg); }
+        }
+
         .animate-firework {
           animation: firework 0.8s ease-out forwards;
+        }
+
+        .animate-firework-hover {
+          animation: firework-hover 1s ease-out forwards;
+        }
+
+        .animate-shake {
+          animation: shake 0.5s ease-in-out infinite;
         }
       `}</style>
     </div>
