@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import SteamIcon from '@/components/ui/icons/steam';
 import Icon from '@/components/ui/icon';
 import { useEffect, useState } from 'react';
+import authConfig from '@/data/authorization.json';
 
 const Header = () => {
   const [user, setUser] = useState<{ nickname: string } | null>(null);
@@ -105,7 +106,7 @@ const Header = () => {
           </a>
         </nav>
 
-        {user ? (
+{user ? (
           <Button variant="default" size="lg" asChild className="hidden md:flex shadow-lg transition-all px-8 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white border-0">
             <a 
               href="https://devilrust.ru/profile" 
@@ -119,24 +120,28 @@ const Header = () => {
           </Button>
         ) : (
           <div className="hidden md:flex flex-col items-center gap-2">
-            <Button variant="default" size="lg" asChild className="shadow-lg transition-all px-8 bg-gradient-to-r from-[#06BFFF] via-[#2A3F5F] to-[#06BFFF] steam-animate text-white border-0">
+            {authConfig.showAuthButton && (
+              <Button variant="default" size="lg" asChild className="shadow-lg transition-all px-8 bg-gradient-to-r from-[#06BFFF] via-[#2A3F5F] to-[#06BFFF] steam-animate text-white border-0">
+                <a 
+                  href="https://devilrust.ru/api/v1/player.login?login" 
+                  onClick={handleAuthClick}
+                  className="flex items-center"
+                >
+                  <SteamIcon className="mr-3 h-28 w-28" />
+                  Авторизоваться
+                </a>
+              </Button>
+            )}
+            {authConfig.showAlreadyAuthorizedLink && (
               <a 
-                href="https://devilrust.ru/api/v1/player.login?login" 
-                onClick={handleAuthClick}
-                className="flex items-center"
+                href="https://devilrust.ru/profile" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs text-muted-foreground hover:text-primary transition-colors"
               >
-                <SteamIcon className="mr-3 h-28 w-28" />
-                Авторизоваться
+                Уже авторизованы?
               </a>
-            </Button>
-            <a 
-              href="https://devilrust.ru/profile" 
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs text-muted-foreground hover:text-primary transition-colors"
-            >
-              Уже авторизованы?
-            </a>
+            )}
           </div>
         )}
       </div>
