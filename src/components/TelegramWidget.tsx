@@ -6,6 +6,7 @@ const TelegramWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showFireworks, setShowFireworks] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -15,6 +16,14 @@ const TelegramWidget = () => {
 
     return () => clearTimeout(timer);
   }, []);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setMousePos({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  };
 
   const handleSubscribe = () => {
     window.open('https://t.me/devilrust', '_blank', 'noopener,noreferrer');
@@ -47,8 +56,10 @@ const TelegramWidget = () => {
               return (
                 <div
                   key={`hover-${i}`}
-                  className={`absolute top-1/2 left-1/2 ${isConfetti ? 'animate-confetti' : 'animate-firework-hover'}`}
+                  className={`absolute ${isConfetti ? 'animate-confetti' : 'animate-firework-hover'}`}
                   style={{
+                    left: `${mousePos.x}px`,
+                    top: `${mousePos.y}px`,
                     width: isConfetti ? '8px' : '6px',
                     height: isConfetti ? '12px' : '6px',
                     background: colors[i % colors.length],
@@ -67,6 +78,7 @@ const TelegramWidget = () => {
         <div
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
+          onMouseMove={handleMouseMove}
           className={`relative bg-gradient-to-br from-primary/20 to-primary/5 backdrop-blur-sm border-2 border-primary/40 rounded-2xl shadow-2xl shadow-primary/20 transition-all duration-500 overflow-visible ${
             isOpen ? 'scale-100 opacity-100' : 'scale-75 opacity-0'
           } ${isHovered ? 'animate-shake' : ''}`}
