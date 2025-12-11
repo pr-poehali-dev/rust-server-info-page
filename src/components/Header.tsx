@@ -118,16 +118,26 @@ const Header = () => {
             </a>
           </Button>
         ) : (
-          <Button variant="default" size="lg" asChild className="hidden md:flex shadow-lg transition-all px-8 bg-gradient-to-r from-[#06BFFF] via-[#2A3F5F] to-[#06BFFF] steam-animate text-white border-0">
+          <div className="hidden md:flex flex-col items-center gap-2">
+            <Button variant="default" size="lg" asChild className="shadow-lg transition-all px-8 bg-gradient-to-r from-[#06BFFF] via-[#2A3F5F] to-[#06BFFF] steam-animate text-white border-0">
+              <a 
+                href="https://devilrust.ru/api/v1/player.login?login" 
+                onClick={handleAuthClick}
+                className="flex items-center"
+              >
+                <SteamIcon className="mr-3 h-28 w-28" />
+                Авторизоваться
+              </a>
+            </Button>
             <a 
-              href="https://devilrust.ru/api/v1/player.login?login" 
-              onClick={handleAuthClick}
-              className="flex items-center"
+              href="https://devilrust.ru/profile" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-muted-foreground hover:text-primary transition-colors"
             >
-              <SteamIcon className="mr-3 h-28 w-28" />
-              Авторизоваться
+              Уже авторизованы?
             </a>
-          </Button>
+          </div>
         )}
       </div>
     </header>
