@@ -9,6 +9,19 @@ const TelegramWidget = () => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
+    const hiddenUntil = localStorage.getItem('telegram_widget_hidden_until');
+    
+    if (hiddenUntil) {
+      const hiddenTime = parseInt(hiddenUntil);
+      const now = new Date().getTime();
+      
+      if (now < hiddenTime) {
+        return;
+      } else {
+        localStorage.removeItem('telegram_widget_hidden_until');
+      }
+    }
+
     const timer = setTimeout(() => {
       setIsOpen(true);
       setTimeout(() => setShowFireworks(true), 400);
@@ -27,6 +40,12 @@ const TelegramWidget = () => {
 
   const handleSubscribe = () => {
     window.open('https://t.me/devilrust', '_blank', 'noopener,noreferrer');
+  };
+
+  const handleAlreadySubscribed = () => {
+    const hideUntil = new Date().getTime() + (24 * 60 * 60 * 1000);
+    localStorage.setItem('telegram_widget_hidden_until', hideUntil.toString());
+    setIsOpen(false);
   };
 
   return (
@@ -104,15 +123,24 @@ const TelegramWidget = () => {
                 </div>
               </div>
 
-              <Button
-                onClick={handleSubscribe}
-                size="sm"
-                className="w-full font-semibold uppercase tracking-wider shadow-lg shadow-primary/30 hover:shadow-primary/50 hover:scale-105 transition-all group relative overflow-hidden"
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                <Icon name="Send" className="mr-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                Подпишись
-              </Button>
+              <div className="space-y-2">
+                <Button
+                  onClick={handleSubscribe}
+                  size="sm"
+                  className="w-full font-semibold uppercase tracking-wider shadow-lg shadow-primary/30 hover:shadow-primary/50 hover:scale-105 transition-all group relative overflow-hidden"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                  <Icon name="Send" className="mr-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  Подпишись
+                </Button>
+                
+                <button
+                  onClick={handleAlreadySubscribed}
+                  className="w-full text-xs text-muted-foreground hover:text-foreground transition-colors underline"
+                >
+                  Уже подписался
+                </button>
+              </div>
             </div>
           </div>
 

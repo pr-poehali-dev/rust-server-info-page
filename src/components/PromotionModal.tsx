@@ -43,6 +43,17 @@ const PromotionModal = () => {
         return false;
       }
 
+      const hiddenUntil = localStorage.getItem('promotion_hidden_until');
+      if (hiddenUntil) {
+        const hiddenTime = parseInt(hiddenUntil);
+        if (now < hiddenTime) {
+          console.log('PromotionModal: hidden until', new Date(hiddenTime).toISOString());
+          return false;
+        } else {
+          localStorage.removeItem('promotion_hidden_until');
+        }
+      }
+
       const cookieName = promotionData.behavior.cookieName;
       const seen = localStorage.getItem(cookieName);
       
@@ -96,33 +107,26 @@ const PromotionModal = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const handleClose = () => {
+  const handleRemindLater = () => {
+    const hideUntil = new Date().getTime() + (60 * 60 * 1000);
+    localStorage.setItem('promotion_hidden_until', hideUntil.toString());
     setIsOpen(false);
-    const cookieName = promotionData.behavior.cookieName;
-    localStorage.setItem(cookieName, 'true');
   };
 
   const handleButtonClick = () => {
     window.open(promotionData.button.url, '_blank');
-    handleClose();
+    setIsOpen(false);
   };
 
   if (!isOpen || !timeLeft) return null;
 
   return (
     <>
-      <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 animate-fade-in" onClick={handleClose} />
+      <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 animate-fade-in" onClick={handleRemindLater} />
       
       <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-lg px-4">
         <div className="relative bg-gradient-to-br from-card via-card to-primary/5 border-2 border-primary rounded-2xl shadow-2xl shadow-primary/20 overflow-hidden animate-scale-in">
           
-          <button
-            onClick={handleClose}
-            className="absolute top-4 right-4 z-10 text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <Icon name="X" className="h-6 w-6" />
-          </button>
-
           {promotionData.styling.showGifts && (
             <>
               <div className="absolute -top-6 -left-6 text-6xl animate-bounce-slow">
@@ -214,7 +218,7 @@ const PromotionModal = () => {
             </Button>
 
             <button
-              onClick={handleClose}
+              onClick={handleRemindLater}
               className="text-sm text-muted-foreground hover:text-foreground transition-colors underline"
             >
               Напомнить позже
