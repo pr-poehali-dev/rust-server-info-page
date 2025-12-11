@@ -277,6 +277,6 @@
   }
 
   .diamond-shine:hover .absolute.inset-0 {
-    opacity: 0.15 !important;
+    opacity: 0.4 !important;
   }
 }
