@@ -8,21 +8,17 @@ const HeroSection = () => {
   useEffect(() => {
     const fetchTotalPlayers = async () => {
       try {
-        const response = await fetch('https://devilrust.ru/');
-        const html = await response.text();
+        const response = await fetch('https://functions.poehali.dev/b14b5f14-6ba8-4329-b83b-bdc21195459d');
+        const data = await response.json();
         
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
+        const total = data.servers.reduce((sum: number, server: any) => {
+          return sum + (server.players || 0);
+        }, 0);
         
-        const totalElement = doc.querySelector('.MonitoringWidget-module__total');
-        if (totalElement) {
-          const totalText = totalElement.textContent?.match(/\d+/)?.[0];
-          if (totalText) {
-            setTotalPlayers(parseInt(totalText, 10));
-          }
-        }
+        setTotalPlayers(total);
       } catch (error) {
         console.error('Failed to fetch total players:', error);
+        setTotalPlayers(0);
       }
     };
 

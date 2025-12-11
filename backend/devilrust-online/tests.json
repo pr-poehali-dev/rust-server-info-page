@@ -1,0 +1,14 @@
+{
+  "tests": [
+    {
+      "name": "Get online players count",
+      "method": "GET",
+      "path": "/",
+      "expectedStatus": 200,
+      "expectedBody": {
+        "online": "number"
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}
