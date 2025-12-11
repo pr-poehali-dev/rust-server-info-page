@@ -377,14 +377,12 @@ const ServersSection = () => {
               <Tooltip>
                 <TooltipTrigger asChild>
                   <div className="text-right cursor-help">
-                    <div className="text-2xl font-bold" style={{fontFamily: 'Nunito, sans-serif'}}>
+                    <div className="text-2xl font-bold mb-2" style={{fontFamily: 'Nunito, sans-serif'}}>
                       <span className={iconColor}>{online}</span>
                       <span className="text-muted-foreground">/</span>
                       <span className="text-muted-foreground">{slots}</span>
                     </div>
-                    <div className="text-xs text-muted-foreground uppercase tracking-wider">
-                      Online/Slots
-                    </div>
+                    <div className={`h-1.5 w-full rounded-full ${stats ? 'bg-green-500' : 'bg-red-500'}`} />
                   </div>
                 </TooltipTrigger>
                 <TooltipContent className="max-w-xs">
