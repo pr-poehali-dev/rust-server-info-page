@@ -48,6 +48,8 @@ const TelegramWidget = () => {
     setIsOpen(false);
   };
 
+  if (!isOpen) return null;
+
   return (
     <div className="fixed bottom-6 left-6 z-50 animate-fade-in">
       <div className="relative">

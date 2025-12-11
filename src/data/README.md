@@ -151,16 +151,42 @@
 
 Если ссылка внешняя (на другой сайт), установите `"external": true`.
 
-#### Изменение текста кнопок:
+#### Управление авторизацией:
 
 ```json
 "auth": {
+  "enabled": true,                      // Включить/выключить блок авторизации полностью
+  "showLoginButton": true,              // Показать кнопку "Авторизоваться"
+  "showAlreadyLoggedInButton": true,    // Показать текст "Уже авторизованы?"
+  "loginUrl": "URL для авторизации",
+  "profileUrl": "URL профиля",
+  "verifyUrl": "URL проверки токена",
+  "steamPopupOrigin": "https://devilrust.ru",
   "buttons": {
     "login": "Войти через Steam",
     "profile": "Мой профиль",
     "alreadyLoggedIn": "Уже есть аккаунт?"
   }
 }
+```
+
+**Примеры использования:**
+
+1. Скрыть кнопку авторизации (оставить только "Уже авторизованы?"):
+```json
+"showLoginButton": false,
+"showAlreadyLoggedInButton": true
+```
+
+2. Скрыть текст "Уже авторизованы?" (оставить только кнопку):
+```json
+"showLoginButton": true,
+"showAlreadyLoggedInButton": false
+```
+
+3. Полностью отключить авторизацию:
+```json
+"enabled": false
 ```
 
 #### Изменение URL авторизации:
