@@ -40,19 +40,27 @@ const TelegramWidget = () => {
         )}
 
         {isHovered && (
-          <div className="absolute inset-0 pointer-events-none">
-            {Array.from({ length: 20 }).map((_, i) => (
-              <div
-                key={`hover-${i}`}
-                className="absolute top-1/2 left-1/2 w-2 h-2 rounded-full animate-firework-hover"
-                style={{
-                  background: i % 3 === 0 ? '#ff4400' : i % 3 === 1 ? '#ffaa00' : '#ffdd00',
-                  animationDelay: `${i * 0.03}s`,
-                  '--angle': `${(i * 18)}deg`,
-                  '--distance': `${60 + Math.random() * 30}px`,
-                } as React.CSSProperties}
-              />
-            ))}
+          <div className="absolute inset-0 pointer-events-none z-50">
+            {Array.from({ length: 30 }).map((_, i) => {
+              const colors = ['#ff4400', '#ffaa00', '#ffdd00', '#00ff88', '#0088ff', '#ff00ff', '#ff0066', '#00ffff'];
+              const isConfetti = i >= 20;
+              return (
+                <div
+                  key={`hover-${i}`}
+                  className={`absolute top-1/2 left-1/2 ${isConfetti ? 'animate-confetti' : 'animate-firework-hover'}`}
+                  style={{
+                    width: isConfetti ? '8px' : '6px',
+                    height: isConfetti ? '12px' : '6px',
+                    background: colors[i % colors.length],
+                    borderRadius: isConfetti ? '2px' : '50%',
+                    animationDelay: `${i * 0.03}s`,
+                    '--angle': `${(i * 12)}deg`,
+                    '--distance': `${180 + Math.random() * 90}px`,
+                    '--rotation': `${Math.random() * 720}deg`,
+                  } as React.CSSProperties}
+                />
+              );
+            })}
           </div>
         )}
 
@@ -156,16 +164,31 @@ const TelegramWidget = () => {
           90% { transform: translateX(-1px) rotate(-0.5deg); }
         }
 
+        @keyframes confetti {
+          0% {
+            transform: translate(-50%, -50%) rotate(var(--angle)) translateX(0) rotate(0deg);
+            opacity: 1;
+          }
+          100% {
+            transform: translate(-50%, -50%) rotate(var(--angle)) translateX(var(--distance)) rotate(var(--rotation));
+            opacity: 0;
+          }
+        }
+
         .animate-firework {
           animation: firework 0.8s ease-out forwards;
         }
 
         .animate-firework-hover {
-          animation: firework-hover 1s ease-out forwards;
+          animation: firework-hover 1.2s ease-out forwards;
+        }
+
+        .animate-confetti {
+          animation: confetti 1.5s ease-out forwards;
         }
 
         .animate-shake {
-          animation: shake 0.5s ease-in-out infinite;
+          animation: shake 1s ease-in-out infinite;
         }
       `}</style>
     </div>
