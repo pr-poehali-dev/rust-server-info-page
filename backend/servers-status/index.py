@@ -1,19 +1,18 @@
 import json
 import os
+import socket
+import struct
 from typing import Dict, Any, List
-import urllib.request
-import urllib.error
 
 def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     '''
-    Получает актуальный статус серверов DevilRust через Pterodactyl Panel API
+    Получает актуальный статус серверов DevilRust через RCON
     Args: event - HTTP запрос
           context - контекст выполнения функции
     Returns: JSON с данными об онлайне серверов
     '''
     method: str = event.get('httpMethod', 'GET')
     
-    # CORS preflight
     if method == 'OPTIONS':
         return {
             'statusCode': 200,
@@ -38,98 +37,94 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             'isBase64Encoded': False
         }
     
-    api_key: str = os.environ.get('PTERODACTYL_API_KEY', '')
-    panel_url: str = 'https://panel.alkad.org'
+    rcon_creds_str: str = os.environ.get('RCON_CREDENTIALS', '{}')
+    rcon_creds: Dict[str, Dict[str, Any]] = json.loads(rcon_creds_str)
     
-    # Маппинг IP:port к ID серверов в DevilRust
-    server_mapping = {
-        '62.122.214.220:10000': {'id': '1', 'maxPlayers': 200},
-        '62.122.214.220:1000': {'id': '2', 'maxPlayers': 150},
-        '62.122.214.220:3000': {'id': '3', 'maxPlayers': 200},
-        '62.122.214.220:4000': {'id': '4', 'maxPlayers': 100},
-        '62.122.214.220:5000': {'id': '5', 'maxPlayers': 100},
-        '62.122.214.220:6000': {'id': '6', 'maxPlayers': 50},
-        '62.122.214.220:7000': {'id': '7', 'maxPlayers': 250},
-        '62.122.214.220:8000': {'id': '8', 'maxPlayers': 150},
-        '62.122.214.220:9000': {'id': '9', 'maxPlayers': 200},
-    }
+    server_host: str = '62.122.214.220'
     
     results: List[Dict[str, Any]] = []
     
-    try:
-        # Получаем список всех серверов из Pterodactyl
-        req = urllib.request.Request(
-            f'{panel_url}/api/client',
-            headers={
-                'Authorization': f'Bearer {api_key}',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        )
+    for server_id, creds in rcon_creds.items():
+        rcon_port: int = creds['port']
+        rcon_password: str = creds['password']
         
-        with urllib.request.urlopen(req, timeout=5) as response:
-            data = json.loads(response.read().decode('utf-8'))
-            servers_list = data.get('data', [])
+        game_port_map = {
+            '1': 10000, '2': 1000, '3': 3000, '4': 4000, '5': 5000,
+            '6': 6000, '7': 7000, '8': 8000, '9': 9000
+        }
+        max_players_map = {
+            '1': 200, '2': 150, '3': 200, '4': 100, '5': 100,
+            '6': 50, '7': 250, '8': 150, '9': 200
+        }
+        
+        game_port = game_port_map.get(server_id, 0)
+        max_players = max_players_map.get(server_id, 200)
+        
+        players = 0
+        status = 'offline'
+        
+        try:
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.settimeout(3)
+            sock.connect((server_host, rcon_port))
             
-            for server_data in servers_list:
-                server_attrs = server_data.get('attributes', {})
-                server_id = server_attrs.get('identifier', '')
+            request_id = 1
+            
+            # Аутентификация
+            auth_packet = struct.pack('<iii', 10 + len(rcon_password), request_id, 3) + rcon_password.encode('utf-8') + b'\x00\x00'
+            sock.sendall(auth_packet)
+            
+            # Читаем ответ аутентификации
+            auth_response = sock.recv(4096)
+            
+            if len(auth_response) >= 12:
+                response_id = struct.unpack('<i', auth_response[4:8])[0]
                 
-                # Получаем детальную информацию о сервере
-                detail_req = urllib.request.Request(
-                    f'{panel_url}/api/client/servers/{server_id}/resources',
-                    headers={
-                        'Authorization': f'Bearer {api_key}',
-                        'Accept': 'application/json'
-                    }
-                )
-                
-                try:
-                    with urllib.request.urlopen(detail_req, timeout=5) as detail_response:
-                        detail_data = json.loads(detail_response.read().decode('utf-8'))
-                        attrs = detail_data.get('attributes', {})
+                if response_id == request_id:
+                    # Команда для получения информации о сервере
+                    command = 'serverinfo'
+                    request_id = 2
+                    cmd_packet = struct.pack('<iii', 10 + len(command), request_id, 2) + command.encode('utf-8') + b'\x00\x00'
+                    sock.sendall(cmd_packet)
+                    
+                    # Читаем ответ
+                    response = sock.recv(8192)
+                    
+                    if len(response) > 12:
+                        body = response[12:-2].decode('utf-8', errors='ignore')
                         
-                        # Получаем IP и порт из allocations
-                        allocations = server_attrs.get('relationships', {}).get('allocations', {}).get('data', [])
-                        if allocations:
-                            alloc = allocations[0].get('attributes', {})
-                            ip = alloc.get('ip', '')
-                            port = alloc.get('port', 0)
-                            ip_port = f'{ip}:{port}'
-                            
-                            if ip_port in server_mapping:
-                                mapping = server_mapping[ip_port]
-                                
-                                # Pterodactyl возвращает current_state и resources
-                                current_state = attrs.get('current_state', 'offline')
-                                is_online = current_state == 'running'
-                                
-                                # Для Rust серверов онлайн игроков нужно парсить из query
-                                # Но в базовом API это может быть недоступно
-                                # Поэтому используем приблизительные данные на основе статуса
-                                
-                                results.append({
-                                    'id': mapping['id'],
-                                    'ip': ip_port,
-                                    'players': 0 if not is_online else None,  # будет обновлено ниже
-                                    'maxPlayers': mapping['maxPlayers'],
-                                    'status': 'online' if is_online else 'offline'
-                                })
-                except Exception:
-                    continue
+                        # Парсим serverinfo для получения количества игроков
+                        if 'players' in body.lower():
+                            lines = body.split('\n')
+                            for line in lines:
+                                if 'players' in line.lower():
+                                    parts = line.split(':')
+                                    if len(parts) >= 2:
+                                        player_info = parts[1].strip()
+                                        if '/' in player_info:
+                                            current = player_info.split('/')[0].strip()
+                                            try:
+                                                players = int(current)
+                                                status = 'online'
+                                            except:
+                                                pass
+                        else:
+                            status = 'online'
+            
+            sock.close()
+            
+        except Exception as e:
+            status = 'offline'
+            players = 0
+        
+        results.append({
+            'id': server_id,
+            'ip': f'{server_host}:{game_port}',
+            'players': players,
+            'maxPlayers': max_players,
+            'status': status
+        })
     
-    except Exception as e:
-        # В случае ошибки возвращаем fallback данные
-        for ip_port, mapping in server_mapping.items():
-            results.append({
-                'id': mapping['id'],
-                'ip': ip_port,
-                'players': 0,
-                'maxPlayers': mapping['maxPlayers'],
-                'status': 'unknown'
-            })
-    
-    # Сортируем по ID
     results.sort(key=lambda x: int(x['id']))
     
     return {
