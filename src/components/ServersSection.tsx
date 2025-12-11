@@ -333,7 +333,7 @@ const ServersSection = () => {
           </p>
 
           <div className="mb-4 space-y-2">
-            {server.features.slice(0, 3).map((feature, idx) => (
+            {server.features.slice(0, 2).map((feature, idx) => (
               <div key={idx} className="flex items-center gap-2 text-sm">
                 <Icon name="Check" className={`h-4 w-4 ${iconColor}`} />
                 <span className="text-muted-foreground">{feature}</span>
