@@ -90,7 +90,7 @@ const ServersSection = () => {
   useEffect(() => {
     const fetchServerStats = async () => {
       try {
-        const response = await fetch('https://devilrust.ru/api/v1/widgets.monitoring');
+        const response = await fetch('https://functions.poehali.dev/252183a3-255b-4343-a3d9-500fad656cc9');
         
         if (!response.ok) throw new Error('Network response was not ok');
         
