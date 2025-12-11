@@ -96,6 +96,13 @@ const HeroSection = () => {
             </div>
             <Button size="lg" variant="default" className="text-lg diamond-shine relative overflow-hidden border-0" asChild>
               <a href="https://devilrust.ru" target="_blank" rel="noopener noreferrer" className="relative z-10">
+                <div className="absolute inset-0 opacity-[0.08] pointer-events-none">
+                  <Icon name="Coins" className="absolute top-2 left-4 w-6 h-6 text-yellow-200" />
+                  <Icon name="DollarSign" className="absolute bottom-2 right-4 w-8 h-8 text-yellow-100" />
+                  <Icon name="Gem" className="absolute top-1/2 left-1/4 -translate-y-1/2 w-5 h-5 text-orange-200" />
+                  <Icon name="BadgeDollarSign" className="absolute top-3 right-8 w-7 h-7 text-yellow-300" />
+                  <Icon name="CircleDollarSign" className="absolute bottom-3 left-8 w-6 h-6 text-amber-200" />
+                </div>
                 <Icon name="ShoppingBag" className="mr-2 h-5 w-5" />
                 Донат магазин
               </a>

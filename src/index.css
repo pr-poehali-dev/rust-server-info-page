@@ -261,4 +261,22 @@
       diamondPulse 2s ease-in-out infinite;
     transform: scale(1.05);
   }
+
+  @keyframes floatCoin {
+    0%,
+    100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-5px) rotate(180deg);
+    }
+  }
+
+  .diamond-shine:hover .absolute.inset-0 > * {
+    animation: floatCoin 2s ease-in-out infinite;
+  }
+
+  .diamond-shine:hover .absolute.inset-0 {
+    opacity: 0.15 !important;
+  }
 }
