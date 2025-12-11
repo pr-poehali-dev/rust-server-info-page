@@ -8,14 +8,19 @@ const HeroSection = () => {
   useEffect(() => {
     const fetchTotalPlayers = async () => {
       try {
-        const response = await fetch('https://functions.poehali.dev/b14b5f14-6ba8-4329-b83b-bdc21195459d');
-        const data = await response.json();
+        const response = await fetch('https://devilrust.ru/');
+        const html = await response.text();
         
-        const total = data.servers.reduce((sum: number, server: any) => {
-          return sum + (server.players || 0);
-        }, 0);
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
         
-        setTotalPlayers(total);
+        const totalElement = doc.querySelector('.MonitoringWidget-module__total');
+        if (totalElement) {
+          const totalText = totalElement.textContent?.match(/\d+/)?.[0];
+          if (totalText) {
+            setTotalPlayers(parseInt(totalText, 10));
+          }
+        }
       } catch (error) {
         console.error('Failed to fetch total players:', error);
       }
@@ -48,7 +53,7 @@ const HeroSection = () => {
 
           <div className="flex flex-col sm:flex-row gap-4">
             <Button size="lg" className="text-lg shadow-lg shadow-primary/50 hover:shadow-primary/70 transition-all" asChild>
-              <a href="https://2.ru" target="_blank" rel="noopener noreferrer">
+              <a href="https://ulauncher.lol/" target="_blank" rel="noopener noreferrer">
                 <Icon name="Download" className="mr-2 h-5 w-5" />
                 Скачать лаунчер
               </a>

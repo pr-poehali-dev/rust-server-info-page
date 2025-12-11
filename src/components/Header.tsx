@@ -18,19 +18,19 @@ const Header = () => {
           <a href="#" className="text-sm font-medium text-foreground hover:text-primary transition-colors uppercase tracking-wider">
             Главная
           </a>
-          <a href="https://1.ru" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-foreground hover:text-primary transition-colors uppercase tracking-wider">
+          <a href="https://devilrust.ru/" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-foreground hover:text-primary transition-colors uppercase tracking-wider">
             Магазин
           </a>
-          <a href="https://2.ru" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-foreground hover:text-primary transition-colors uppercase tracking-wider">
+          <a href="https://ulauncher.lol/" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-foreground hover:text-primary transition-colors uppercase tracking-wider">
             Скачать лаунчер
           </a>
-          <a href="https://3.ru" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-foreground hover:text-primary transition-colors uppercase tracking-wider">
+          <a href="https://devilrust.ru/support" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-foreground hover:text-primary transition-colors uppercase tracking-wider">
             Поддержка
           </a>
         </nav>
 
         <Button variant="default" size="sm" asChild className="hidden md:flex shadow-lg shadow-primary/40 hover:shadow-primary/60 transition-all">
-          <a href="https://2.ru" target="_blank" rel="noopener noreferrer">
+          <a href="https://ulauncher.lol/" target="_blank" rel="noopener noreferrer">
             <Icon name="Download" className="mr-2 h-4 w-4" />
             Играть
           </a>
