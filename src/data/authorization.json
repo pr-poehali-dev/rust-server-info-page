@@ -1,4 +1,4 @@
 {
-  "showAuthButton": true,
-  "showAlreadyAuthorizedLink": true
+  "showAuthButton": false,
+  "showAlreadyAuthorizedLink": false
 }
