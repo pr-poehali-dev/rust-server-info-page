@@ -16,9 +16,7 @@ const Footer = () => {
               />
               <span className="text-xl font-bold tracking-wide" style={{fontFamily: 'Nunito, sans-serif', fontStyle: 'italic'}}>DevilRust</span>
             </div>
-            <p className="text-sm text-muted-foreground">
-              Лучшие Rust серверы в СНГ. Присоединяйтесь к тысячам игроков уже сегодня!
-            </p>
+            <p className="text-sm text-muted-foreground">Лучшие Rust серверы в СНГ. Присоединяйтесь к лучшему проекту уже сегодня!</p>
           </div>
 
           <div>
