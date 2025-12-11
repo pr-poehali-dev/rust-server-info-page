@@ -13,32 +13,51 @@ const PromotionModal = () => {
   } | null>(null);
 
   useEffect(() => {
-    if (!promotionData.enabled) return;
+    console.log('PromotionModal: useEffect started');
+    console.log('Promotion enabled:', promotionData.enabled);
+    
+    if (!promotionData.enabled) {
+      console.log('PromotionModal: disabled, exiting');
+      return;
+    }
+
+    const now = new Date().getTime();
+    const start = new Date(promotionData.startDate).getTime();
+    const end = new Date(promotionData.endDate).getTime();
+
+    console.log('PromotionModal dates:', {
+      now: new Date(now).toISOString(),
+      start: new Date(start).toISOString(),
+      end: new Date(end).toISOString(),
+      isActive: now >= start && now <= end
+    });
 
     const checkPromotion = () => {
-      const now = new Date().getTime();
-      const start = new Date(promotionData.startDate).getTime();
-      const end = new Date(promotionData.endDate).getTime();
-
-      if (now < start || now > end) {
+      if (now < start) {
+        console.log('PromotionModal: not started yet');
+        return false;
+      }
+      
+      if (now > end) {
+        console.log('PromotionModal: already ended');
         return false;
       }
 
       const cookieName = promotionData.behavior.cookieName;
       const seen = localStorage.getItem(cookieName);
       
+      console.log('PromotionModal: showOnce:', promotionData.behavior.showOnce, 'seen:', seen);
+      
       if (promotionData.behavior.showOnce && seen) {
+        console.log('PromotionModal: already shown, skipping');
         return false;
       }
 
+      console.log('PromotionModal: should show');
       return true;
     };
 
-    if (checkPromotion()) {
-      setTimeout(() => setIsOpen(true), 1000);
-    }
-
-    const timer = setInterval(() => {
+    const updateTimer = () => {
       const now = new Date().getTime();
       const end = new Date(promotionData.endDate).getTime();
       const distance = end - now;
@@ -46,8 +65,7 @@ const PromotionModal = () => {
       if (distance < 0) {
         setTimeLeft(null);
         setIsOpen(false);
-        clearInterval(timer);
-        return;
+        return false;
       }
 
       const days = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -56,6 +74,23 @@ const PromotionModal = () => {
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
       setTimeLeft({ days, hours, minutes, seconds });
+      return true;
+    };
+
+    updateTimer();
+
+    if (checkPromotion()) {
+      console.log('PromotionModal: opening in 1 second');
+      setTimeout(() => {
+        console.log('PromotionModal: opening now');
+        setIsOpen(true);
+      }, 1000);
+    }
+
+    const timer = setInterval(() => {
+      if (!updateTimer()) {
+        clearInterval(timer);
+      }
     }, 1000);
 
     return () => clearInterval(timer);
