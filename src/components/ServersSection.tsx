@@ -90,12 +90,11 @@ const ServersSection = () => {
   useEffect(() => {
     const fetchServerStats = async () => {
       try {
-        const response = await fetch('https://functions.poehali.dev/252183a3-255b-4343-a3d9-500fad656cc9');
+        const response = await fetch('https://devilrust.ru/api/v1/widgets.monitoring');
         
         if (!response.ok) throw new Error('Network response was not ok');
         
         const data = await response.json();
-        console.log('Monitoring API response:', data);
         
         if (data.result === 'success' && data.data?.servers) {
           const newStats: Record<string, { players: number; maxPlayers: number }> = {};
@@ -103,14 +102,6 @@ const ServersSection = () => {
           data.data.servers.forEach((server: any) => {
             const serverIp = `${server.ip}:${server.port}`;
             const matchedServer = [...pveServers, ...pvpServers].find(s => s.ip === serverIp);
-            
-            console.log(`Matching server ${serverIp}:`, {
-              found: !!matchedServer,
-              serverId: matchedServer?.id,
-              battlemetricsId: matchedServer?.battlemetricsId,
-              players: server.players,
-              maxPlayers: server.playersMax
-            });
             
             if (matchedServer) {
               newStats[matchedServer.battlemetricsId] = {
@@ -120,7 +111,6 @@ const ServersSection = () => {
             }
           });
           
-          console.log('Final stats object:', newStats);
           setServerStats(newStats);
         }
       } catch (error) {
