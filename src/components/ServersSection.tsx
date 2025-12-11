@@ -7,6 +7,13 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import Icon from '@/components/ui/icon';
 import { useToast } from '@/hooks/use-toast';
 
@@ -138,10 +145,15 @@ const pvpServers = [
   }
 ];
 
+type SortType = 'number' | 'rate-asc' | 'rate-desc';
+type FilterType = 'all' | 'pve' | 'pvp';
+
 const ServersSection = () => {
   const { toast } = useToast();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedServer, setSelectedServer] = useState<typeof pveServers[0] | null>(null);
+  const [sortBy, setSortBy] = useState<SortType>('number');
+  const [filterBy, setFilterBy] = useState<FilterType>('all');
 
   const handleConnect = (ip: string) => {
     const connectCommand = `connect ${ip}`;
@@ -189,13 +201,40 @@ const ServersSection = () => {
     return null;
   };
 
-  const ServerCard = ({ server }: { server: typeof pveServers[0] }) => (
-    <div className="bg-card border border-border rounded-lg p-6 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/10">
+  const extractRate = (mode: string): number => {
+    const match = mode.match(/x(\d+)/);
+    return match ? parseInt(match[1]) : 0;
+  };
+
+  const allServers = [...pveServers, ...pvpServers];
+  
+  const filteredServers = allServers.filter(server => {
+    if (filterBy === 'all') return true;
+    if (filterBy === 'pve') return server.mode.includes('PVE');
+    if (filterBy === 'pvp') return server.mode.includes('PVP');
+    return true;
+  });
+
+  const sortedServers = [...filteredServers].sort((a, b) => {
+    if (sortBy === 'number') return parseInt(a.id) - parseInt(b.id);
+    if (sortBy === 'rate-asc') return extractRate(a.mode) - extractRate(b.mode);
+    if (sortBy === 'rate-desc') return extractRate(b.mode) - extractRate(a.mode);
+    return 0;
+  });
+
+  const ServerCard = ({ server }: { server: typeof pveServers[0] }) => {
+    const isPVE = server.mode.includes('PVE');
+    const cardColor = isPVE ? 'border-green-500/30 hover:border-green-500/60 hover:shadow-green-500/20' : 'border-red-500/30 hover:border-red-500/60 hover:shadow-red-500/20';
+    const badgeColor = isPVE ? 'bg-green-500/15 text-green-400 border border-green-500/30' : 'bg-red-500/15 text-red-400 border border-red-500/30';
+    const numberColor = isPVE ? 'text-green-500' : 'text-red-500';
+    
+    return (
+    <div className={`bg-card border rounded-lg p-6 transition-all hover:shadow-lg ${cardColor}`}>
       <div className="flex items-start justify-between mb-4">
         <div>
-          <div className="text-4xl font-bold text-primary mb-2">{server.id}</div>
+          <div className={`text-4xl font-bold mb-2 ${numberColor}`}>{server.id}</div>
           <h3 className="text-lg font-semibold mb-1">{server.name}</h3>
-          <span className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary">
+          <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${badgeColor}`}>
             {server.mode}
           </span>
         </div>
@@ -234,7 +273,8 @@ const ServersSection = () => {
         </Button>
       </div>
     </div>
-  );
+    );
+  };
 
   return (
     <section id="servers" className="py-20 bg-muted/20 relative">
@@ -251,43 +291,62 @@ const ServersSection = () => {
             <div className="flex gap-3 items-start">
               <span className="text-green-500 font-bold mt-1">•</span>
               <p className="text-muted-foreground">
-                <span className="font-semibold text-foreground">PVE сервера</span> — игрок против окружения. Противостойте NPC, боссам и механикам мира.
+                <span className="font-semibold text-green-400">PVE сервера</span> — игрок против окружения. Противостойте NPC, боссам и механикам мира.
               </p>
             </div>
             <div className="flex gap-3 items-start">
               <span className="text-red-500 font-bold mt-1">•</span>
               <p className="text-muted-foreground">
-                <span className="font-semibold text-foreground">PVP сервера</span> — игрок против игрока. Соревнуйтесь с другими игроками в битве за выживание.
+                <span className="font-semibold text-red-400">PVP сервера</span> — игрок против игрока. Соревнуйтесь с другими игроками в битве за выживание.
               </p>
+            </div>
+          </div>
+          
+          <div className="mt-8 flex flex-wrap gap-4 justify-center items-center">
+            <div className="flex items-center gap-2">
+              <Icon name="Filter" className="w-5 h-5 text-muted-foreground" />
+              <Select value={filterBy} onValueChange={(value) => setFilterBy(value as FilterType)}>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Фильтр" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Все серверы</SelectItem>
+                  <SelectItem value="pve">Только PVE</SelectItem>
+                  <SelectItem value="pvp">Только PVP</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div className="flex items-center gap-2">
+              <Icon name="ArrowUpDown" className="w-5 h-5 text-muted-foreground" />
+              <Select value={sortBy} onValueChange={(value) => setSortBy(value as SortType)}>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Сортировка" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="number">По номеру</SelectItem>
+                  <SelectItem value="rate-asc">Рейт: возр.</SelectItem>
+                  <SelectItem value="rate-desc">Рейт: убыв.</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto space-y-12">
-          {/* PVE Servers Grid */}
+        <div className="max-w-7xl mx-auto">
           <div className="animate-fade-in">
-            <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
-              <Icon name="Shield" className="w-6 h-6 text-green-500" />
-              PVE Серверы:
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {pveServers.map((server) => (
-                <ServerCard key={server.id} server={server} />
-              ))}
-            </div>
-          </div>
-
-          {/* PVP Servers Grid */}
-          <div className="animate-fade-in">
-            <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
-              <Icon name="Swords" className="w-6 h-6 text-red-500" />
-              PVP Серверы
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {pvpServers.map((server) => (
-                <ServerCard key={server.id} server={server} />
-              ))}
-            </div>
+            {sortedServers.length === 0 ? (
+              <div className="text-center py-12">
+                <Icon name="ServerOff" className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+                <p className="text-muted-foreground text-lg">Нет серверов по выбранному фильтру</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {sortedServers.map((server) => (
+                  <ServerCard key={server.id} server={server} />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
