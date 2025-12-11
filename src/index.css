@@ -220,8 +220,8 @@
     );
     background-size: 400% 400%;
     animation:
-      diamondShine 3s ease-in-out infinite,
-      diamondPulse 2s ease-in-out infinite;
+      diamondShine 6s ease-in-out infinite,
+      diamondPulse 4s ease-in-out infinite;
     position: relative;
   }
 
@@ -238,7 +238,7 @@
       rgba(255, 255, 255, 0.3),
       transparent
     );
-    animation: diamondShine 3s ease-in-out infinite;
+    animation: diamondShine 6s ease-in-out infinite;
   }
 
   .diamond-shine::after {
@@ -248,13 +248,13 @@
     right: 15%;
     color: rgba(255, 255, 255, 0.8);
     font-size: 12px;
-    animation: sparkle 2s ease-in-out infinite;
+    animation: sparkle 4s ease-in-out infinite;
   }
 
   .diamond-shine:hover {
     animation:
-      diamondShine 1.5s ease-in-out infinite,
-      diamondPulse 1s ease-in-out infinite;
+      diamondShine 3s ease-in-out infinite,
+      diamondPulse 2s ease-in-out infinite;
     transform: scale(1.05);
   }
 }
