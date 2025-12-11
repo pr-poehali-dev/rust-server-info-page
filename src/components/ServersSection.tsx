@@ -261,11 +261,44 @@ const ServersSection = () => {
   }, []);
 
   const getDetailedDescription = (serverId: string) => {
-    if (['1', '2', '3', '4', '5'].includes(serverId)) {
+    if (serverId === '1') {
       return {
         title: 'Полное описание сервера',
         highlights: [
           { icon: 'Users', text: 'Кастомные NPC' },
+          { icon: 'Zap', text: 'Моментальный крафт' },
+          { icon: 'Home', text: 'Базы для рейда' },
+          { icon: 'Layers', text: 'Большие стаки' },
+          { icon: 'Lock', text: 'Приват личного транспорта' },
+          { icon: 'TreeDeciduous', text: 'Дерево навыков' },
+          { icon: 'Shield', text: 'Защита от рейдов' },
+          { icon: 'Sparkles', text: 'Система опыта и уровней' },
+          { icon: 'Store', text: 'Внутриигровой магазин' },
+          { icon: 'Trophy', text: 'Система достижений' },
+          { icon: 'Map', text: 'Расширенная карта' },
+          { icon: 'Wrench', text: 'Улучшенные инструменты' },
+          { icon: 'Target', text: 'Квесты и задания' },
+          { icon: 'Coins', text: 'Экономическая система' },
+          { icon: 'Calendar', text: 'Регулярные ивенты' },
+          { icon: 'Gift', text: 'Ежедневные награды' },
+          { icon: 'Swords', text: 'Улучшенное оружие' },
+          { icon: 'Heart', text: 'Расширенная медицина' },
+          { icon: 'Truck', text: 'Кастомный транспорт' },
+          { icon: 'Building', text: 'Расширенное строительство' },
+          { icon: 'Pickaxe', text: 'Улучшенная добыча' },
+          { icon: 'Backpack', text: 'Увеличенный инвентарь' },
+          { icon: 'Radio', text: 'Система связи' },
+          { icon: 'Timer', text: 'Ускоренный крафт' },
+          { icon: 'Settings', text: 'Гибкие настройки' },
+          { icon: 'Zap', text: 'Оптимизированная производительность' },
+        ],
+        description: ''
+      };
+    }
+    if (['2', '3', '4', '5'].includes(serverId)) {
+      return {
+        title: 'Полное описание сервера',
+        highlights: [
           { icon: 'Zap', text: 'Моментальный крафт' },
           { icon: 'Home', text: 'Базы для рейда' },
           { icon: 'Layers', text: 'Большие стаки' },
@@ -313,7 +346,6 @@ const ServersSection = () => {
       return {
         title: 'Полное описание сервера',
         highlights: [
-          { icon: 'Users', text: 'Кастомные NPC' },
           { icon: 'Zap', text: 'Моментальный крафт' },
           { icon: 'Home', text: 'Базы для рейда' },
           { icon: 'Layers', text: 'Большие стаки' },
