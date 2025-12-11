@@ -79,21 +79,23 @@ const HeroSection = () => {
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Button size="lg" className="text-lg shadow-lg shadow-primary/50 hover:shadow-primary/70 hover:scale-105 transition-all group" asChild>
-              <a href="#how-to-start">
-                <Icon name="Play" className="mr-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                Как начать играть
-              </a>
-            </Button>
-            <Button size="lg" variant="outline" className="text-lg border-primary/30 hover:border-primary hover:bg-primary/10" asChild>
-              <a href="#servers">
-                <Icon name="Server" className="mr-2 h-5 w-5" />
-                Выбрать сервер
-              </a>
-            </Button>
-            <Button size="lg" variant="default" className="text-lg bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50 hover:scale-105 transition-all border-0" asChild>
-              <a href="https://devilrust.ru" target="_blank" rel="noopener noreferrer">
+          <div className="flex flex-col items-center gap-4">
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Button size="lg" className="text-lg shadow-lg shadow-primary/50 hover:shadow-primary/70 hover:scale-105 transition-all group" asChild>
+                <a href="#how-to-start">
+                  <Icon name="Play" className="mr-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                  Как начать играть
+                </a>
+              </Button>
+              <Button size="lg" variant="outline" className="text-lg border-primary/30 hover:border-primary hover:bg-primary/10 h-auto" asChild>
+                <a href="#servers">
+                  <Icon name="Server" className="mr-2 h-5 w-5" />
+                  Выбрать сервер
+                </a>
+              </Button>
+            </div>
+            <Button size="lg" variant="default" className="text-lg diamond-shine relative overflow-hidden border-0" asChild>
+              <a href="https://devilrust.ru" target="_blank" rel="noopener noreferrer" className="relative z-10">
                 <Icon name="ShoppingBag" className="mr-2 h-5 w-5" />
                 Донат магазин
               </a>

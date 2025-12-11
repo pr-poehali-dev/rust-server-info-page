@@ -155,4 +155,106 @@
     background-size: 200% 200%;
     animation: steamGradient 3s ease infinite;
   }
+
+  @keyframes diamondShine {
+    0% {
+      background-position: -200% center;
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+    }
+    20% {
+      box-shadow:
+        0 0 30px rgba(16, 185, 129, 0.6),
+        0 0 60px rgba(16, 185, 129, 0.3);
+    }
+    50% {
+      background-position: 200% center;
+      box-shadow:
+        0 0 40px rgba(16, 185, 129, 0.8),
+        0 0 80px rgba(16, 185, 129, 0.4);
+    }
+    80% {
+      box-shadow:
+        0 0 30px rgba(16, 185, 129, 0.6),
+        0 0 60px rgba(16, 185, 129, 0.3);
+    }
+    100% {
+      background-position: -200% center;
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+    }
+  }
+
+  @keyframes diamondPulse {
+    0%,
+    100% {
+      opacity: 0.6;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+  }
+
+  @keyframes sparkle {
+    0%,
+    100% {
+      opacity: 0;
+      transform: rotate(0deg) scale(0);
+    }
+    50% {
+      opacity: 1;
+      transform: rotate(180deg) scale(1);
+    }
+  }
+
+  .diamond-shine {
+    background: linear-gradient(
+      135deg,
+      #059669 0%,
+      #10b981 25%,
+      #34d399 50%,
+      #6ee7b7 55%,
+      #34d399 60%,
+      #10b981 75%,
+      #059669 100%
+    );
+    background-size: 400% 400%;
+    animation:
+      diamondShine 3s ease-in-out infinite,
+      diamondPulse 2s ease-in-out infinite;
+    position: relative;
+  }
+
+  .diamond-shine::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
+    animation: diamondShine 3s ease-in-out infinite;
+  }
+
+  .diamond-shine::after {
+    content: "✦";
+    position: absolute;
+    top: 10%;
+    right: 15%;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 12px;
+    animation: sparkle 2s ease-in-out infinite;
+  }
+
+  .diamond-shine:hover {
+    animation:
+      diamondShine 1.5s ease-in-out infinite,
+      diamondPulse 1s ease-in-out infinite;
+    transform: scale(1.05);
+  }
 }
