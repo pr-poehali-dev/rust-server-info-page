@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import SteamIcon from '@/components/ui/icons/steam';
+import Icon from '@/components/ui/icon';
 import { useEffect, useState } from 'react';
 
 const Header = () => {
@@ -73,16 +74,30 @@ const Header = () => {
           </a>
         </nav>
 
-        <Button variant="default" size="lg" asChild className="hidden md:flex shadow-lg transition-all px-8 bg-gradient-to-r from-[#06BFFF] via-[#2A3F5F] to-[#06BFFF] steam-animate text-white border-0">
-          <a 
-            href={user ? "https://devilrust.ru/profile" : "https://devilrust.ru/api/v1/player.login?login"} 
-            onClick={handleAuthClick}
-            className="flex items-center"
-          >
-            <SteamIcon className="mr-3 h-28 w-28" />
-            {user ? user.nickname : 'Авторизоваться'}
-          </a>
-        </Button>
+        {user ? (
+          <Button variant="default" size="lg" asChild className="hidden md:flex shadow-lg transition-all px-8 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white border-0">
+            <a 
+              href="https://devilrust.ru/profile" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center"
+            >
+              <Icon name="User" className="mr-2 h-5 w-5" />
+              Профиль
+            </a>
+          </Button>
+        ) : (
+          <Button variant="default" size="lg" asChild className="hidden md:flex shadow-lg transition-all px-8 bg-gradient-to-r from-[#06BFFF] via-[#2A3F5F] to-[#06BFFF] steam-animate text-white border-0">
+            <a 
+              href="https://devilrust.ru/api/v1/player.login?login" 
+              onClick={handleAuthClick}
+              className="flex items-center"
+            >
+              <SteamIcon className="mr-3 h-28 w-28" />
+              Авторизоваться
+            </a>
+          </Button>
+        )}
       </div>
     </header>
   );
