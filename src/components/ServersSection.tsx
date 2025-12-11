@@ -310,7 +310,7 @@ const ServersSection = () => {
         description: ''
       };
     }
-    if (['6', '8', '9'].includes(serverId)) {
+    if (serverId === '6') {
       return {
         title: 'Полное описание сервера',
         highlights: [
@@ -341,6 +341,31 @@ const ServersSection = () => {
           { icon: 'Timer', text: 'Ускоренный крафт' },
           { icon: 'Settings', text: 'Гибкие настройки' },
           { icon: 'Zap', text: 'Оптимизированная производительность' },
+        ],
+        description: ''
+      };
+    }
+    if (serverId === '8') {
+      return {
+        title: 'Полное описание сервера',
+        highlights: [
+          { icon: 'Zap', text: 'Моментальный крафт' },
+          { icon: 'Zap', text: 'Оптимизированная производительность' },
+          { icon: 'Coins', text: 'Экономическая система' },
+          { icon: 'Store', text: 'Внутриигровой магазин' },
+        ],
+        description: ''
+      };
+    }
+    if (serverId === '9') {
+      return {
+        title: 'Полное описание сервера',
+        highlights: [
+          { icon: 'Zap', text: 'Моментальный крафт' },
+          { icon: 'Zap', text: 'Оптимизированная производительность' },
+          { icon: 'Coins', text: 'Экономическая система' },
+          { icon: 'Store', text: 'Внутриигровой магазин' },
+          { icon: 'Users2', text: 'Кланы и альянсы' },
         ],
         description: ''
       };
