@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import Icon from '@/components/ui/icon';
+import SteamIcon from '@/components/ui/icons/steam';
 
 const Header = () => {
   return (
@@ -29,9 +29,9 @@ const Header = () => {
           </a>
         </nav>
 
-        <Button variant="default" size="sm" asChild className="hidden md:flex shadow-lg shadow-primary/40 hover:shadow-primary/60 transition-all">
-          <a href="#how-to-start">
-            <Icon name="Rocket" className="mr-2 h-4 w-4" />
+        <Button variant="default" size="lg" asChild className="hidden md:flex shadow-lg shadow-primary/40 hover:shadow-primary/60 transition-all px-8">
+          <a href="https://devilrust.ru/api/v1/player.login?login" target="_blank" rel="noopener noreferrer">
+            <SteamIcon className="mr-2 h-5 w-5" />
             Играть
           </a>
         </Button>
