@@ -348,19 +348,6 @@ const ServersSection = () => {
             ))}
           </div>
 
-          <div className="mb-4 flex items-center gap-2 rounded-lg bg-background/50 p-3 backdrop-blur-sm">
-            <Icon name="Globe" className="h-4 w-4 text-muted-foreground" />
-            <code className="flex-1 text-sm font-mono">{server.ip}</code>
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              onClick={() => handleCopyIP(server.ip)}
-              className="h-8 w-8 p-0"
-            >
-              <Icon name="Copy" className="h-4 w-4" />
-            </Button>
-          </div>
-
           <div className="flex gap-2">
             <Button 
               className="flex-1 font-semibold uppercase tracking-wider" 
