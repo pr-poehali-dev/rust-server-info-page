@@ -443,10 +443,11 @@ const ServersSection = () => {
                     size="sm" 
                     variant="ghost"
                     onClick={() => {
-                      navigator.clipboard.writeText(selectedServer.ip);
+                      const connectCommand = `connect ${selectedServer.ip}`;
+                      navigator.clipboard.writeText(connectCommand);
                       toast({
-                        title: "IP скопирован!",
-                        description: `${selectedServer.ip}`,
+                        title: "Команда скопирована!",
+                        description: `${connectCommand} — вставьте в консоль F1`,
                       });
                     }}
                     className="flex-shrink-0"
