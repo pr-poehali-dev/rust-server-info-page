@@ -1,6 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 const HeroSection = () => {
   const [totalPlayers, setTotalPlayers] = useState<number | null>(null);
@@ -142,12 +148,21 @@ const HeroSection = () => {
               <div className="text-4xl font-bold text-primary glow-text">9</div>
               <div className="text-sm text-muted-foreground uppercase tracking-wider">Серверов</div>
             </div>
-<div className="flex flex-col items-center p-4 rounded-lg glow-border bg-card/50 backdrop-blur-sm">
-              <div className="text-4xl font-bold text-primary glow-text transition-all duration-300">
-                {totalPlayers !== null ? `≈ ${displayPlayers}` : '...'}
-              </div>
-              <div className="text-sm text-muted-foreground uppercase tracking-wider">Игроков онлайн</div>
-            </div>
+<TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="flex flex-col items-center p-4 rounded-lg glow-border bg-card/50 backdrop-blur-sm cursor-help">
+                    <div className="text-4xl font-bold text-primary glow-text transition-all duration-300">
+                      {totalPlayers !== null ? `≈ ${displayPlayers}` : '...'}
+                    </div>
+                    <div className="text-sm text-muted-foreground uppercase tracking-wider">Игроков онлайн</div>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent className="max-w-xs">
+                  <p>Количество онлайна показано примерное, из-за временных проблем с подключениям к иностранным сервисам</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
             <div className="flex flex-col items-center p-4 rounded-lg glow-border bg-card/50 backdrop-blur-sm">
               <div className="text-4xl font-bold text-primary glow-text">24/7</div>
               <div className="text-sm text-muted-foreground uppercase tracking-wider">Работаем</div>
