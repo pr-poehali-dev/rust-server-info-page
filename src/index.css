@@ -6,35 +6,35 @@
 
 @layer base {
   :root {
-    --background: 218 27% 12%;
-    --foreground: 0 0% 95%;
+    --background: 0 0% 8%;
+    --foreground: 0 0% 98%;
 
-    --card: 217 25% 15%;
-    --card-foreground: 0 0% 95%;
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 217 25% 15%;
-    --popover-foreground: 0 0% 95%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 17 88% 54%;
+    --primary: 14 100% 57%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 351 83% 58%;
+    --secondary: 0 84% 60%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 217 20% 20%;
-    --muted-foreground: 0 0% 70%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 65%;
 
-    --accent: 17 88% 54%;
+    --accent: 14 100% 57%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 351 83% 58%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 217 20% 25%;
-    --input: 217 20% 25%;
-    --ring: 17 88% 54%;
+    --border: 0 0% 20%;
+    --input: 0 0% 15%;
+    --ring: 14 100% 57%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
   }
 }
 
@@ -46,6 +46,18 @@
   body {
     @apply bg-background text-foreground;
     font-family: "Roboto", sans-serif;
+    background-image:
+      radial-gradient(
+        circle at top,
+        rgba(255, 68, 0, 0.08) 0%,
+        transparent 60%
+      ),
+      radial-gradient(
+        circle at bottom right,
+        rgba(255, 34, 0, 0.05) 0%,
+        transparent 50%
+      );
+    background-attachment: fixed;
   }
 
   h1,
@@ -55,6 +67,7 @@
   h5,
   h6 {
     font-family: "Oswald", sans-serif;
+    letter-spacing: 0.02em;
   }
 }
 
@@ -72,5 +85,33 @@
       opacity: 1;
       transform: translateY(0);
     }
+  }
+
+  .glow-text {
+    text-shadow:
+      0 0 20px rgba(255, 68, 0, 0.5),
+      0 0 40px rgba(255, 68, 0, 0.3);
+  }
+
+  .glow-border {
+    box-shadow:
+      0 0 20px rgba(255, 68, 0, 0.3),
+      inset 0 0 20px rgba(255, 68, 0, 0.1);
+  }
+
+  .game-card {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 68, 0, 0.05) 0%,
+      rgba(0, 0, 0, 0.3) 100%
+    );
+    border: 1px solid rgba(255, 68, 0, 0.2);
+    transition: all 0.3s ease;
+  }
+
+  .game-card:hover {
+    border-color: rgba(255, 68, 0, 0.5);
+    box-shadow: 0 0 30px rgba(255, 68, 0, 0.2);
+    transform: translateY(-2px);
   }
 }

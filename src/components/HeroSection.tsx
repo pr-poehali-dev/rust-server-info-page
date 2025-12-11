@@ -29,13 +29,17 @@ const HeroSection = () => {
 
   return (
     <section className="relative w-full py-24 md:py-32 lg:py-40 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-primary/20 via-background to-background" />
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/10 via-transparent to-background" />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[128px]" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-destructive/10 rounded-full blur-[128px]" />
+      </div>
       <div className="container relative z-10">
         <div className="flex flex-col items-center text-center space-y-8 animate-fade-in">
           <div className="space-y-4">
-            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
+            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl glow-text">
               Добро пожаловать на
-              <span className="block text-primary mt-2">DevilRust Servers</span>
+              <span className="block text-primary mt-2 drop-shadow-[0_0_25px_rgba(255,68,0,0.5)]">DevilRust Servers</span>
             </h1>
             <p className="mx-auto max-w-[700px] text-muted-foreground text-lg md:text-xl">
               9 уникальных серверов для каждого стиля игры. От хардкорного ванильного опыта до безумного модифицированного веселья.
@@ -43,13 +47,13 @@ const HeroSection = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4">
-            <Button size="lg" className="text-lg" asChild>
+            <Button size="lg" className="text-lg shadow-lg shadow-primary/50 hover:shadow-primary/70 transition-all" asChild>
               <a href="https://2.ru" target="_blank" rel="noopener noreferrer">
                 <Icon name="Download" className="mr-2 h-5 w-5" />
                 Скачать лаунчер
               </a>
             </Button>
-            <Button size="lg" variant="outline" className="text-lg" asChild>
+            <Button size="lg" variant="outline" className="text-lg border-primary/30 hover:border-primary hover:bg-primary/10" asChild>
               <a href="#servers">
                 <Icon name="Server" className="mr-2 h-5 w-5" />
                 Выбрать сервер
@@ -58,19 +62,19 @@ const HeroSection = () => {
           </div>
 
           <div className="grid grid-cols-3 gap-8 pt-8">
-            <div className="flex flex-col items-center">
-              <div className="text-4xl font-bold text-primary">9</div>
-              <div className="text-sm text-muted-foreground">Серверов</div>
+            <div className="flex flex-col items-center p-4 rounded-lg glow-border bg-card/50 backdrop-blur-sm">
+              <div className="text-4xl font-bold text-primary glow-text">9</div>
+              <div className="text-sm text-muted-foreground uppercase tracking-wider">Серверов</div>
             </div>
-            <div className="flex flex-col items-center">
-              <div className="text-4xl font-bold text-primary">
+            <div className="flex flex-col items-center p-4 rounded-lg glow-border bg-card/50 backdrop-blur-sm">
+              <div className="text-4xl font-bold text-primary glow-text">
                 {totalPlayers !== null ? totalPlayers : '...'}
               </div>
-              <div className="text-sm text-muted-foreground">Игроков онлайн</div>
+              <div className="text-sm text-muted-foreground uppercase tracking-wider">Игроков онлайн</div>
             </div>
-            <div className="flex flex-col items-center">
-              <div className="text-4xl font-bold text-primary">24/7</div>
-              <div className="text-sm text-muted-foreground">Работаем</div>
+            <div className="flex flex-col items-center p-4 rounded-lg glow-border bg-card/50 backdrop-blur-sm">
+              <div className="text-4xl font-bold text-primary glow-text">24/7</div>
+              <div className="text-sm text-muted-foreground uppercase tracking-wider">Работаем</div>
             </div>
           </div>
         </div>

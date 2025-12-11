@@ -202,10 +202,11 @@ const ServersSection = () => {
   };
 
   return (
-    <section id="servers" className="py-20 bg-muted/30">
-      <div className="container">
+    <section id="servers" className="py-20 bg-muted/20 relative">
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
+      <div className="container relative z-10">
         <div className="text-center mb-12 animate-fade-in">
-          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-4">
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-4 glow-text">
             Наши серверы
           </h2>
           <p className="text-muted-foreground text-lg max-w-[600px] mx-auto">
@@ -215,7 +216,7 @@ const ServersSection = () => {
 
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-6">
-            <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-green-500/20 border border-green-500/50">
+            <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-green-500/20 border border-green-500/50 shadow-lg shadow-green-500/20">
               <Icon name="Shield" className="h-5 w-5 text-green-500" />
             </div>
             <h3 className="text-2xl font-bold">PVE Серверы</h3>
@@ -226,10 +227,10 @@ const ServersSection = () => {
               <AccordionItem
                 key={server.id}
                 value={server.id}
-                className="border border-border rounded-lg overflow-hidden bg-card hover:border-green-500/50 transition-colors"
+                className="game-card rounded-lg overflow-hidden hover:border-green-500/50 animate-fade-in"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-muted/50 transition-colors">
+                <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-green-500/5 transition-all">
                   <div className="flex items-center justify-between w-full pr-4">
                     <div className="flex items-center gap-4">
                       <div className="flex items-center justify-center w-12 h-12 rounded-full bg-green-500/20 text-green-500 font-bold text-xl">
@@ -290,11 +291,11 @@ const ServersSection = () => {
                     </div>
 
                     <div className="pt-4 flex gap-3">
-                      <Button className="flex-1" onClick={() => handleConnect(server.ip)}>
+                      <Button className="flex-1 shadow-lg shadow-primary/30 hover:shadow-primary/50 transition-all" onClick={() => handleConnect(server.ip)}>
                         <Icon name="Gamepad2" className="mr-2 h-4 w-4" />
                         Подключиться
                       </Button>
-                      <Button variant="outline" asChild>
+                      <Button variant="outline" className="border-primary/30 hover:border-primary hover:bg-primary/10" asChild>
                         <a href="https://devilrust.ru" target="_blank" rel="noopener noreferrer">
                           Подробнее
                         </a>
@@ -309,7 +310,7 @@ const ServersSection = () => {
 
         <div>
           <div className="flex items-center gap-3 mb-6">
-            <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-destructive/20 border border-destructive/50">
+            <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-destructive/20 border border-destructive/50 shadow-lg shadow-destructive/20">
               <Icon name="Swords" className="h-5 w-5 text-destructive" />
             </div>
             <h3 className="text-2xl font-bold">PVP Серверы</h3>
@@ -320,10 +321,10 @@ const ServersSection = () => {
               <AccordionItem
                 key={server.id}
                 value={server.id}
-                className="border border-border rounded-lg overflow-hidden bg-card hover:border-destructive/50 transition-colors"
+                className="game-card rounded-lg overflow-hidden hover:border-destructive/50 animate-fade-in"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-muted/50 transition-colors">
+                <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-destructive/5 transition-all">
                   <div className="flex items-center justify-between w-full pr-4">
                     <div className="flex items-center gap-4">
                       <div className="flex items-center justify-center w-12 h-12 rounded-full bg-destructive/20 text-destructive font-bold text-xl">
@@ -381,11 +382,11 @@ const ServersSection = () => {
                     </div>
 
                     <div className="pt-4 flex gap-3">
-                      <Button className="flex-1" onClick={() => handleConnect(server.ip)}>
+                      <Button className="flex-1 shadow-lg shadow-primary/30 hover:shadow-primary/50 transition-all" onClick={() => handleConnect(server.ip)}>
                         <Icon name="Gamepad2" className="mr-2 h-4 w-4" />
                         Подключиться
                       </Button>
-                      <Button variant="outline" asChild>
+                      <Button variant="outline" className="border-primary/30 hover:border-primary hover:bg-primary/10" asChild>
                         <a href="https://devilrust.ru" target="_blank" rel="noopener noreferrer">
                           Подробнее
                         </a>
