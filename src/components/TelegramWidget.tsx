@@ -100,18 +100,11 @@ const TelegramWidget = () => {
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           onMouseMove={handleMouseMove}
-          className={`relative bg-gradient-to-br from-primary/20 to-primary/5 backdrop-blur-sm border-2 border-primary/40 rounded-2xl shadow-2xl shadow-primary/20 transition-all duration-500 overflow-visible ${
-            isOpen ? 'scale-100 opacity-100' : 'scale-75 opacity-0'
-          } ${isHovered ? 'animate-shake' : ''}`}
+          className={`relative bg-gradient-to-br from-primary/20 to-primary/5 backdrop-blur-sm border-2 border-primary/40 rounded-2xl shadow-2xl shadow-primary/20 transition-all duration-500 overflow-visible ${isHovered ? 'animate-shake' : ''}`}
         >
           <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent animate-pulse" />
           
           <div className="relative p-4">
-            <div
-              className={`transition-all duration-700 ${
-                isOpen ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-              }`}
-            >
               <div className="flex items-center gap-3 mb-3">
                 <div className="relative">
                   <div className="absolute inset-0 bg-primary/30 blur-xl animate-pulse" />
@@ -146,23 +139,10 @@ const TelegramWidget = () => {
             </div>
           </div>
 
-          <div
-            className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-primary/50 to-primary transition-all duration-1000 ${
-              isOpen ? 'scale-x-100' : 'scale-x-0'
-            }`}
-          />
+          <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-primary/50 to-primary" />
         </div>
 
-        <div
-          className={`absolute top-0 left-1/2 -translate-x-1/2 transition-all duration-700 ${
-            isOpen ? '-translate-y-8 opacity-0' : 'translate-y-0 opacity-100'
-          }`}
-        >
-          <div className="relative">
-            <div className="w-16 h-12 bg-gradient-to-br from-primary/30 to-primary/10 border-2 border-primary/40 rounded-t-lg" />
-            <div className="absolute top-0 left-0 right-0 h-1 bg-primary/60" />
-          </div>
-        </div>
+
       </div>
 
       <style>{`
