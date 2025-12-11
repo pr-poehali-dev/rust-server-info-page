@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Accordion,
@@ -5,6 +6,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from '@/components/ui/dialog';
 import Icon from '@/components/ui/icon';
 import { useToast } from '@/hooks/use-toast';
 
@@ -138,6 +146,8 @@ const pvpServers = [
 
 const ServersSection = () => {
   const { toast } = useToast();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedServer, setSelectedServer] = useState<typeof pveServers[0] | null>(null);
 
   const handleConnect = (ip: string) => {
     const connectCommand = `connect ${ip}`;
@@ -146,6 +156,35 @@ const ServersSection = () => {
       title: "Команда скопирована!",
       description: `${connectCommand} — вставьте в консоль F1`,
     });
+  };
+
+  const handleShowDetails = (server: typeof pveServers[0]) => {
+    setSelectedServer(server);
+    setIsDialogOpen(true);
+  };
+
+  const getDetailedDescription = (serverId: string) => {
+    if (['1', '2', '3', '4', '5'].includes(serverId)) {
+      return {
+        title: 'Полное описание сервера',
+        highlights: [
+          { icon: 'Zap', text: 'Увеличенная скорость добычи ресурсов' },
+          { icon: 'Users', text: 'Кастомные NPC на всех монументах' },
+          { icon: 'Skull', text: 'Уникальные боссы и испытания' },
+          { icon: 'Trophy', text: 'Боевой пропуск и мини-соревнования' },
+          { icon: 'Gift', text: 'Ежедневные бонусы для игроков' },
+          { icon: 'ShoppingCart', text: 'Продвинутая система экономики' },
+          { icon: 'Store', text: 'Внутриигровой магазин' },
+          { icon: 'Hammer', text: 'Большая система кастомного крафта' },
+          { icon: 'Gem', text: 'Кастомные добываемые руды' },
+          { icon: 'Package', text: 'Множество кит-наборов' },
+          { icon: 'TrendingUp', text: 'Система прокачки навыков и престижа' },
+          { icon: 'Backpack', text: 'Дополнительный рюкзак на 144 слота' },
+        ],
+        description: 'Сервер предлагает уникальный игровой опыт с кастомными NPC, которые добавляют сложности при PVE выживании. Встречайте боссов, участвуйте в кастомных мероприятиях с испытаниями, боевым пропуском и мини-соревнованиями.\n\nПродвинутая система экономики и внутриигровой магазин помогут упростить выживание, а большая система кастомного крафта и кастомные руды позволят воплотить любые фантазии.\n\nОсобенность сервера — система прокачки навыков и уровней престижа, дающая уникальные возможности. Ваш дополнительный рюкзак сохранит до 144 слотов лута на целый год — он не пропадет после смерти и перенесется даже после глобального вайпа!'
+      };
+    }
+    return null;
   };
 
   return (
@@ -236,12 +275,23 @@ const ServersSection = () => {
                         <Icon name="Gamepad2" className="mr-2 h-4 w-4" />
                         Подключиться
                       </Button>
-                      <Button variant="outline" className="flex-1 border-primary/30 hover:border-primary hover:bg-primary/10" asChild>
-                        <a href="https://devilrust.ru" target="_blank" rel="noopener noreferrer">
+                      {['1', '2', '3', '4', '5'].includes(server.id) ? (
+                        <Button 
+                          variant="outline" 
+                          className="flex-1 border-primary/30 hover:border-primary hover:bg-primary/10"
+                          onClick={() => handleShowDetails(server)}
+                        >
                           <Icon name="Info" className="mr-2 h-4 w-4" />
                           Подробнее
-                        </a>
-                      </Button>
+                        </Button>
+                      ) : (
+                        <Button variant="outline" className="flex-1 border-primary/30 hover:border-primary hover:bg-primary/10" asChild>
+                          <a href="https://devilrust.ru" target="_blank" rel="noopener noreferrer">
+                            <Icon name="Info" className="mr-2 h-4 w-4" />
+                            Подробнее
+                          </a>
+                        </Button>
+                      )}
                     </div>
                   </div>
                 </AccordionContent>
@@ -336,6 +386,92 @@ const ServersSection = () => {
           </Accordion>
         </div>
       </div>
+
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto game-card border-primary/30">
+          {selectedServer && getDetailedDescription(selectedServer.id) && (
+            <>
+              <DialogHeader>
+                <DialogTitle className="text-2xl font-bold text-primary glow-text">
+                  {selectedServer.name}
+                </DialogTitle>
+                <DialogDescription className="text-base text-muted-foreground">
+                  {getDetailedDescription(selectedServer.id)?.title}
+                </DialogDescription>
+              </DialogHeader>
+
+              <div className="space-y-6 pt-4">
+                <div className="space-y-3">
+                  <h3 className="text-lg font-semibold text-foreground flex items-center gap-2">
+                    <Icon name="Sparkles" className="h-5 w-5 text-primary" />
+                    Ключевые особенности
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {getDetailedDescription(selectedServer.id)?.highlights.map((highlight, idx) => (
+                      <div 
+                        key={idx} 
+                        className="flex items-center gap-3 p-3 rounded-lg bg-muted/30 border border-primary/10 hover:border-primary/30 transition-all"
+                      >
+                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
+                          <Icon name={highlight.icon} className="h-4 w-4 text-primary" />
+                        </div>
+                        <span className="text-sm">{highlight.text}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <h3 className="text-lg font-semibold text-foreground flex items-center gap-2">
+                    <Icon name="FileText" className="h-5 w-5 text-primary" />
+                    Полное описание
+                  </h3>
+                  <div className="p-4 rounded-lg bg-muted/20 border border-primary/10">
+                    <p className="text-muted-foreground leading-relaxed whitespace-pre-line">
+                      {getDetailedDescription(selectedServer.id)?.description}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 p-3 bg-muted/50 rounded-lg border border-primary/30">
+                  <Icon name="Globe" className="h-5 w-5 text-primary flex-shrink-0" />
+                  <div className="flex-1">
+                    <div className="text-xs text-muted-foreground mb-1">IP-адрес сервера:</div>
+                    <code className="text-sm font-mono text-foreground select-all">{selectedServer.ip}</code>
+                  </div>
+                  <Button 
+                    size="sm" 
+                    variant="ghost"
+                    onClick={() => {
+                      navigator.clipboard.writeText(selectedServer.ip);
+                      toast({
+                        title: "IP скопирован!",
+                        description: `${selectedServer.ip}`,
+                      });
+                    }}
+                    className="flex-shrink-0"
+                  >
+                    <Icon name="Copy" className="h-4 w-4" />
+                  </Button>
+                </div>
+
+                <div className="flex gap-3 pt-2">
+                  <Button 
+                    className="flex-1 shadow-lg shadow-primary/30 hover:shadow-primary/50 transition-all" 
+                    onClick={() => {
+                      handleConnect(selectedServer.ip);
+                      setIsDialogOpen(false);
+                    }}
+                  >
+                    <Icon name="Gamepad2" className="mr-2 h-4 w-4" />
+                    Подключиться к серверу
+                  </Button>
+                </div>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
