@@ -166,7 +166,7 @@ const ServersSection = () => {
             <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-green-500/20 border border-green-500/50 shadow-lg shadow-green-500/20">
               <Icon name="Shield" className="h-5 w-5 text-green-500" />
             </div>
-            <h3 className="text-2xl font-bold">PVE Серверы</h3>
+            <h3 className="text-2xl font-bold">PVE Серверы:</h3>
           </div>
 
           <Accordion type="single" collapsible className="w-full space-y-4">
