@@ -65,10 +65,7 @@ const HowToStartSection = () => {
                 </a>
               </Button>
               <Button size="lg" variant="outline" className="flex-1" asChild>
-                <a href="https://devilrust.ru" target="_blank" rel="noopener noreferrer">
-                  <Icon name="Globe" className="mr-2 h-5 w-5" />
-                  Посетить сайт
-                </a>
+                <a href="https://devilrust.ru" target="_blank" rel="noopener noreferrer">Посетить Донат магазин</a>
               </Button>
             </div>
           </CardContent>
