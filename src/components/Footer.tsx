@@ -8,14 +8,14 @@ const Footer = () => {
       <div className="container relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <div className="flex items-center space-x-2 mb-4 group">
+            <a href="/" className="flex items-center space-x-2 mb-4 group">
               <img 
                 src="https://s3.regru.cloud/img.devilrust/devilrust_logo.png" 
                 alt="DevilRust" 
                 className="h-6 w-auto group-hover:drop-shadow-[0_0_8px_rgba(255,68,0,0.8)] transition-all"
               />
               <span className="text-xl font-bold tracking-wide" style={{fontFamily: 'Nunito, sans-serif', fontStyle: 'italic'}}>DevilRust</span>
-            </div>
+            </a>
             <p className="text-sm text-muted-foreground">Лучшие Rust серверы в СНГ. Присоединяйтесь к лучшему проекту уже сегодня!</p>
           </div>
 
