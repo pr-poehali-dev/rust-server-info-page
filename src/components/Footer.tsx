@@ -57,9 +57,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-8 pt-8 border-t border-primary/20 text-center text-sm text-muted-foreground">
-          © 2024 DevilRust. Все права защищены.
-        </div>
+        <div className="mt-8 pt-8 border-t border-primary/20 text-center text-sm text-muted-foreground">© 2018 DevilRust. Все права защищены.</div>
       </div>
     </footer>
   );
