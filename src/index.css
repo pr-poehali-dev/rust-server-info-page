@@ -272,8 +272,79 @@
     }
   }
 
+  @keyframes fallCoin1 {
+    0% {
+      transform: translateY(-100%) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 0.3;
+    }
+    90% {
+      opacity: 0.3;
+    }
+    100% {
+      transform: translateY(200%) rotate(360deg);
+      opacity: 0;
+    }
+  }
+
+  @keyframes fallCoin2 {
+    0% {
+      transform: translateY(-120%) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 0.25;
+    }
+    90% {
+      opacity: 0.25;
+    }
+    100% {
+      transform: translateY(220%) rotate(-360deg);
+      opacity: 0;
+    }
+  }
+
+  @keyframes fallCoin3 {
+    0% {
+      transform: translateY(-80%) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 0.35;
+    }
+    90% {
+      opacity: 0.35;
+    }
+    100% {
+      transform: translateY(180%) rotate(360deg);
+      opacity: 0;
+    }
+  }
+
   .diamond-shine:hover .absolute.inset-0 > * {
     animation: floatCoin 2s ease-in-out infinite;
+  }
+
+  .diamond-shine:hover .absolute.inset-0 > *:nth-child(1) {
+    animation: fallCoin1 3s ease-in infinite;
+  }
+
+  .diamond-shine:hover .absolute.inset-0 > *:nth-child(2) {
+    animation: fallCoin2 3.5s ease-in infinite 0.5s;
+  }
+
+  .diamond-shine:hover .absolute.inset-0 > *:nth-child(3) {
+    animation: fallCoin3 3.2s ease-in infinite 1s;
+  }
+
+  .diamond-shine:hover .absolute.inset-0 > *:nth-child(4) {
+    animation: fallCoin1 3.8s ease-in infinite 1.5s;
+  }
+
+  .diamond-shine:hover .absolute.inset-0 > *:nth-child(5) {
+    animation: fallCoin2 3.3s ease-in infinite 0.8s;
   }
 
   .diamond-shine:hover .absolute.inset-0 {
