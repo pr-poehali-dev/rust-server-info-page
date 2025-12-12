@@ -1,0 +1,33 @@
+{
+  "tests": [
+    {
+      "name": "Test banlist endpoint",
+      "method": "GET",
+      "path": "/?endpoint=banlist",
+      "expectedStatus": 200
+    },
+    {
+      "name": "Test monitoring endpoint",
+      "method": "GET",
+      "path": "/?endpoint=monitoring",
+      "expectedStatus": 200,
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Test invalid endpoint",
+      "method": "GET",
+      "path": "/?endpoint=invalid",
+      "expectedStatus": 400,
+      "expectedBody": {
+        "error": "Invalid endpoint"
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Test OPTIONS method",
+      "method": "OPTIONS",
+      "path": "/",
+      "expectedStatus": 200
+    }
+  ]
+}

@@ -1,19 +1,23 @@
 import json
 import pymysql
+import urllib.request
+import urllib.error
 from typing import Dict, Any, List
 
 
 def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     """
-    Получает список банов из внешней MySQL базы данных DevilRust.
-    Подключается к базе IQBanSystem_Db и возвращает все активные баны.
+    Единая API функция для всех эндпоинтов DevilRust проекта.
+    Маршрутизация по query параметру 'endpoint':
+    - endpoint=banlist - получает список банов из MySQL базы
+    - endpoint=monitoring - получает данные мониторинга серверов
     
     Args:
-        event - dict с httpMethod, headers, queryStringParameters
-        context - объект с request_id, function_name и другими атрибутами
+        event - dict с httpMethod, queryStringParameters
+        context - объект с request_id, function_name
     
     Returns:
-        HTTP response dict с списком банов в формате JSON
+        HTTP response dict с данными в формате JSON
     """
     method: str = event.get('httpMethod', 'GET')
     
@@ -42,9 +46,33 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             'isBase64Encoded': False
         }
     
+    # Получаем endpoint из query параметров
+    query_params = event.get('queryStringParameters') or {}
+    endpoint = query_params.get('endpoint', '')
+    
+    if endpoint == 'banlist':
+        return handle_banlist()
+    elif endpoint == 'monitoring':
+        return handle_monitoring()
+    else:
+        return {
+            'statusCode': 400,
+            'headers': {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            'body': json.dumps({
+                'error': 'Invalid endpoint',
+                'message': 'Use ?endpoint=banlist or ?endpoint=monitoring'
+            }),
+            'isBase64Encoded': False
+        }
+
+
+def handle_banlist() -> Dict[str, Any]:
+    """Получает список банов из MySQL базы данных"""
     connection = None
     try:
-        # Подключение к внешней MySQL базе
         connection = pymysql.connect(
             host='37.230.228.84',
             port=3306,
@@ -57,7 +85,6 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         )
         
         with connection.cursor() as cursor:
-            # Получаем все баны из таблицы
             sql = """
                 SELECT 
                     id,
@@ -122,3 +149,56 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     finally:
         if connection:
             connection.close()
+
+
+def handle_monitoring() -> Dict[str, Any]:
+    """Получает данные мониторинга серверов из API devilrust.ru"""
+    try:
+        req = urllib.request.Request(
+            'https://devilrust.ru/api/v1/widgets.monitoring',
+            headers={
+                'User-Agent': 'Mozilla/5.0',
+                'Accept': 'application/json'
+            }
+        )
+        with urllib.request.urlopen(req, timeout=25) as response:
+            data = response.read().decode('utf-8')
+            
+        return {
+            'statusCode': 200,
+            'headers': {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Cache-Control': 'public, max-age=60'
+            },
+            'isBase64Encoded': False,
+            'body': data
+        }
+    except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError) as e:
+        return {
+            'statusCode': 200,
+            'headers': {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            'isBase64Encoded': False,
+            'body': json.dumps({
+                'result': 'error',
+                'data': {'total': {'players': 0}, 'servers': []},
+                'error': str(e)
+            })
+        }
+    except Exception as e:
+        return {
+            'statusCode': 200,
+            'headers': {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            'isBase64Encoded': False,
+            'body': json.dumps({
+                'result': 'error',
+                'data': {'total': {'players': 0}, 'servers': []},
+                'error': str(e)
+            })
+        }
