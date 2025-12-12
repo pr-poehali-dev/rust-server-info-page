@@ -101,13 +101,13 @@ const HowToStartSection = () => {
       </div>
 
       <Dialog open={isDialogOpen} onOpenChange={handleDialogClose}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-md border-destructive/30 shadow-destructive/20">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Icon name="AlertTriangle" className="h-5 w-5 text-destructive" />
+            <DialogTitle className="flex items-center gap-2 animate-fade-in">
+              <Icon name="AlertTriangle" className="h-5 w-5 text-destructive animate-pulse" />
               Важное предупреждение
             </DialogTitle>
-            <DialogDescription className="text-base pt-4 space-y-4">
+            <DialogDescription className="text-base pt-4 space-y-4 animate-fade-in">
               <p className="text-foreground leading-relaxed">
                 <span className="text-destructive font-bold">ВНИМАНИЕ!</span> При установке лаунчера во избежании ошибок <span className="text-destructive font-bold">НЕ ИСПОЛЬЗУЙТЕ КИРИЛЛИЦУ</span> в пути установки.
               </p>
@@ -118,16 +118,16 @@ const HowToStartSection = () => {
           </DialogHeader>
           
           <div className="space-y-6 pt-4">
-            <div className="flex items-start space-x-3 p-4 rounded-lg bg-muted/50">
+            <div className="flex items-start space-x-3 p-4 rounded-lg bg-muted/50 border border-primary/20 transition-all duration-300 hover:border-primary/40 animate-fade-in">
               <Checkbox 
                 id="agree" 
                 checked={hasAgreed}
                 onCheckedChange={(checked) => setHasAgreed(checked as boolean)}
-                className="mt-1"
+                className="mt-1 transition-all duration-200"
               />
               <label
                 htmlFor="agree"
-                className="text-sm leading-relaxed cursor-pointer select-none"
+                className="text-sm leading-relaxed cursor-pointer select-none transition-colors hover:text-foreground"
               >
                 Я прочитал условия и понимаю, что при использовании кириллицы в пути установки могут возникнуть ошибки
               </label>
@@ -135,12 +135,12 @@ const HowToStartSection = () => {
 
             <Button 
               size="lg" 
-              className="w-full" 
+              className="w-full transition-all duration-300 animate-fade-in" 
               disabled={!hasAgreed}
               asChild={hasAgreed}
             >
               {hasAgreed ? (
-                <a href="https://ulauncher.lol/" target="_blank" rel="noopener noreferrer">
+                <a href="https://ulauncher.lol/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center">
                   <Icon name="Download" className="mr-2 h-5 w-5" />
                   Скачать лаунчер
                 </a>
