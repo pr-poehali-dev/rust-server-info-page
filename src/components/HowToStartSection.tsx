@@ -1,11 +1,20 @@
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import Icon from '@/components/ui/icon';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Checkbox } from '@/components/ui/checkbox';
 
 const HowToStartSection = () => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [hasAgreed, setHasAgreed] = useState(false);
+
+  const handleDialogClose = () => {
+    setIsDialogOpen(false);
+    setHasAgreed(false);
+  };
+
   return (
-    <TooltipProvider>
     <section id="how-to-start" className="py-20 relative">
       <div className="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent" />
       <div className="container relative z-10">
@@ -72,32 +81,80 @@ const HowToStartSection = () => {
                   Купить игру в Steam
                 </a>
               </Button>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button size="lg" variant="outline" className="flex-1 border-primary/20 hover:border-primary/50 hover:bg-primary/10 hover:shadow-lg hover:shadow-primary/40 transition-all relative overflow-hidden group" asChild>
-                    <a href="https://ulauncher.lol/" target="_blank" rel="noopener noreferrer" className="relative z-10">
-                      <div className="absolute inset-0 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity">
-                        <Icon name="Swords" className="absolute top-2 right-2 w-8 h-8 text-primary" />
-                        <Icon name="Flame" className="absolute bottom-2 left-2 w-10 h-10 text-primary" />
-                        <Icon name="Shield" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 text-primary" />
-                      </div>
-                      <Icon name="Download" className="mr-2 h-5 w-5" />
-                      Скачать лаунчер
-                    </a>
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent className="z-[9999] max-w-xs bg-card border-2 border-destructive/50 shadow-2xl p-4">
-                  <p className="text-sm leading-relaxed">
-                    <span className="text-destructive font-bold">ВНИМАНИЕ!</span> При установке лаунчера во избежании ошибок <span className="text-destructive font-bold">НЕ ИСПОЛЬЗУЙТЕ КИРИЛЛИЦУ</span>
-                  </p>
-                </TooltipContent>
-              </Tooltip>
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="flex-1 border-primary/20 hover:border-primary/50 hover:bg-primary/10 hover:shadow-lg hover:shadow-primary/40 transition-all relative overflow-hidden group"
+                onClick={() => setIsDialogOpen(true)}
+              >
+                <div className="absolute inset-0 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity">
+                  <Icon name="Swords" className="absolute top-2 right-2 w-8 h-8 text-primary" />
+                  <Icon name="Flame" className="absolute bottom-2 left-2 w-10 h-10 text-primary" />
+                  <Icon name="Shield" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 text-primary" />
+                </div>
+                <Icon name="Download" className="mr-2 h-5 w-5" />
+                Скачать лаунчер
+              </Button>
             </div>
           </CardContent>
         </Card>
       </div>
+
+      <Dialog open={isDialogOpen} onOpenChange={handleDialogClose}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Icon name="AlertTriangle" className="h-5 w-5 text-destructive" />
+              Важное предупреждение
+            </DialogTitle>
+            <DialogDescription className="text-base pt-4 space-y-4">
+              <p className="text-foreground leading-relaxed">
+                <span className="text-destructive font-bold">ВНИМАНИЕ!</span> При установке лаунчера во избежании ошибок <span className="text-destructive font-bold">НЕ ИСПОЛЬЗУЙТЕ КИРИЛЛИЦУ</span> в пути установки.
+              </p>
+              <p className="text-muted-foreground text-sm">
+                Устанавливайте лаунчер только в папки с латинскими буквами (например: C:\Games\Launcher)
+              </p>
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-6 pt-4">
+            <div className="flex items-start space-x-3 p-4 rounded-lg bg-muted/50">
+              <Checkbox 
+                id="agree" 
+                checked={hasAgreed}
+                onCheckedChange={(checked) => setHasAgreed(checked as boolean)}
+                className="mt-1"
+              />
+              <label
+                htmlFor="agree"
+                className="text-sm leading-relaxed cursor-pointer select-none"
+              >
+                Я прочитал условия и понимаю, что при использовании кириллицы в пути установки могут возникнуть ошибки
+              </label>
+            </div>
+
+            <Button 
+              size="lg" 
+              className="w-full" 
+              disabled={!hasAgreed}
+              asChild={hasAgreed}
+            >
+              {hasAgreed ? (
+                <a href="https://ulauncher.lol/" target="_blank" rel="noopener noreferrer">
+                  <Icon name="Download" className="mr-2 h-5 w-5" />
+                  Скачать лаунчер
+                </a>
+              ) : (
+                <>
+                  <Icon name="Download" className="mr-2 h-5 w-5" />
+                  Скачать лаунчер
+                </>
+              )}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
-    </TooltipProvider>
   );
 };
 
