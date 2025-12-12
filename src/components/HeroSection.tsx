@@ -16,7 +16,9 @@ const HeroSection = () => {
   useEffect(() => {
     const fetchTotalPlayers = async () => {
       try {
-        const response = await fetch('https://functions.poehali.dev/252183a3-255b-4343-a3d9-500fad656cc9');
+        const response = await fetch('https://functions.poehali.dev/252183a3-255b-4343-a3d9-500fad656cc9', {
+          cache: 'no-store'
+        });
         
         if (!response.ok) throw new Error('Network response was not ok');
         
