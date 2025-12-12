@@ -26,6 +26,14 @@ const Footer = () => {
                 Банлист
               </a>
 
+              <a href="https://wiki.devilrust.ru/" target="_blank" rel="noopener noreferrer" className="block text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 transform">
+                Wiki
+              </a>
+
+              <a href="https://wiki.devilrust.ru/guides" target="_blank" rel="noopener noreferrer" className="block text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 transform">
+                Гайды
+              </a>
+
               <a href="https://devrus.gamestores.app/" target="_blank" rel="noopener noreferrer" className="block text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 transform">
                 Магазин
               </a>
