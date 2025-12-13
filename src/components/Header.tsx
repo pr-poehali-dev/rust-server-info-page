@@ -3,9 +3,11 @@ import SteamIcon from '@/components/ui/icons/steam';
 import Icon from '@/components/ui/icon';
 import { useEffect, useState } from 'react';
 import authConfig from '@/data/authorization.json';
+import RulesModal from '@/components/RulesModal';
 
 const Header = () => {
   const [user, setUser] = useState<{ nickname: string } | null>(null);
+  const [isRulesOpen, setIsRulesOpen] = useState(false);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -98,6 +100,9 @@ const Header = () => {
           <a href="/banlist" className="text-sm font-medium text-foreground hover:text-primary transition-colors uppercase tracking-wider">
             Банлист
           </a>
+          <button onClick={() => setIsRulesOpen(true)} className="text-sm font-medium text-foreground hover:text-primary transition-colors uppercase tracking-wider">
+            Правила
+          </button>
           <a href="https://wiki.devilrust.ru" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-foreground hover:text-primary transition-colors uppercase tracking-wider">
             Wiki
           </a>
@@ -148,6 +153,8 @@ const Header = () => {
           </div>
         )}
       </div>
+      
+      <RulesModal open={isRulesOpen} onOpenChange={setIsRulesOpen} />
     </header>
   );
 };

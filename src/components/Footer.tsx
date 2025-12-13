@@ -1,7 +1,11 @@
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
+import { useState } from 'react';
+import RulesModal from '@/components/RulesModal';
 
 const Footer = () => {
+  const [isRulesOpen, setIsRulesOpen] = useState(false);
+  
   return (
     <footer className="border-t border-primary/20 py-12 bg-card/50 backdrop-blur-sm relative">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-primary/5" />
@@ -25,6 +29,10 @@ const Footer = () => {
               <a href="/banlist" className="block text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 transform">
                 Банлист
               </a>
+
+              <button onClick={() => setIsRulesOpen(true)} className="block text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 transform text-left">
+                Правила
+              </button>
 
               <a href="https://wiki.devilrust.ru/" target="_blank" rel="noopener noreferrer" className="block text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 transform">
                 Wiki
@@ -68,6 +76,8 @@ const Footer = () => {
 
         <div className="mt-8 pt-8 border-t border-primary/20 text-center text-sm text-muted-foreground">© 2018 DevilRust. Все права защищены.</div>
       </div>
+      
+      <RulesModal open={isRulesOpen} onOpenChange={setIsRulesOpen} />
     </footer>
   );
 };
