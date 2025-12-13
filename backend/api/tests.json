@@ -7,6 +7,12 @@
       "expectedStatus": 200
     },
     {
+      "name": "Test monitoring GET request",
+      "method": "GET",
+      "path": "/?type=monitoring",
+      "expectedStatus": 200
+    },
+    {
       "name": "Test OPTIONS method for CORS",
       "method": "OPTIONS",
       "path": "/",

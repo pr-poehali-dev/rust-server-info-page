@@ -72,16 +72,11 @@ class MonitoringService {
     this.isFetching = true;
     try {
       const response = await fetch(
-        'https://devilrust.ru/api/v1/widgets.monitoring',
-        { cache: 'no-store' }
+        'https://functions.poehali.dev/00e6cb95-28f5-49b7-b342-db4f9ae8ffd1?type=monitoring'
       );
 
       if (!response.ok) {
-        if (!this.useFallback) {
-          console.warn('API недоступен, используются резервные данные');
-          this.useFallback = true;
-        }
-        return;
+        throw new Error('API недоступен');
       }
 
       const data = await response.json();
@@ -93,7 +88,7 @@ class MonitoringService {
       }
     } catch (error) {
       if (!this.useFallback) {
-        console.warn('API недоступен, используются резервные данные');
+        console.warn('Используются резервные данные');
         this.useFallback = true;
       }
     } finally {

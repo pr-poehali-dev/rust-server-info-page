@@ -1,21 +1,26 @@
 import json
 import pymysql
+import urllib.request
+import urllib.error
 from typing import Dict, Any, List
 
 
 def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     """
-    API функция для получения банлиста DevilRust.
-    Получает список банов из MySQL базы данных.
+    Объединенная API функция для DevilRust проекта.
+    Маршрутизация по path:
+    - /banlist - список банов из MySQL
+    - /monitoring - данные мониторинга (прокси к devilrust.ru API)
     
     Args:
-        event - dict с httpMethod, queryStringParameters
+        event - dict с httpMethod, path
         context - объект с request_id, function_name
     
     Returns:
-        HTTP response dict с данными банов в формате JSON
+        HTTP response dict с данными в формате JSON
     """
     method: str = event.get('httpMethod', 'GET')
+    path: str = event.get('path', '/')
     
     if method == 'OPTIONS':
         return {
@@ -41,7 +46,13 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             'isBase64Encoded': False
         }
     
-    return get_banlist()
+    query_params = event.get('queryStringParameters') or {}
+    endpoint = query_params.get('type', 'banlist')
+    
+    if endpoint == 'monitoring':
+        return get_monitoring()
+    else:
+        return get_banlist()
 
 
 def get_banlist() -> Dict[str, Any]:
@@ -124,3 +135,42 @@ def get_banlist() -> Dict[str, Any]:
     finally:
         if connection:
             connection.close()
+
+
+def get_monitoring() -> Dict[str, Any]:
+    """Прокси для API мониторинга devilrust.ru"""
+    try:
+        req = urllib.request.Request(
+            'https://devilrust.ru/api/v1/widgets.monitoring',
+            headers={
+                'User-Agent': 'Mozilla/5.0',
+                'Accept': 'application/json'
+            }
+        )
+        with urllib.request.urlopen(req, timeout=10) as response:
+            data = response.read().decode('utf-8')
+            
+        return {
+            'statusCode': 200,
+            'headers': {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Cache-Control': 'public, max-age=30'
+            },
+            'isBase64Encoded': False,
+            'body': data
+        }
+    except Exception as e:
+        return {
+            'statusCode': 500,
+            'headers': {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            'isBase64Encoded': False,
+            'body': json.dumps({
+                'result': 'error',
+                'data': {'total': {'players': 0}, 'servers': []},
+                'error': str(e)
+            })
+        }
