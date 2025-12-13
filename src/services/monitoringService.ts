@@ -72,7 +72,7 @@ class MonitoringService {
     this.isFetching = true;
     try {
       const response = await fetch(
-        'https://functions.poehali.dev/00e6cb95-28f5-49b7-b342-db4f9ae8ffd1?endpoint=monitoring',
+        'https://devilrust.ru/api/v1/widgets.monitoring',
         { cache: 'no-store' }
       );
 

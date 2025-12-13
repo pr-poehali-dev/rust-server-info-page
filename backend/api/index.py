@@ -1,27 +1,22 @@
 import json
 import pymysql
-import urllib.request
-import urllib.error
 from typing import Dict, Any, List
 
 
 def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     """
-    Единая API функция для всех эндпоинтов DevilRust проекта.
-    Маршрутизация по query параметру 'endpoint':
-    - endpoint=banlist - получает список банов из MySQL базы
-    - endpoint=monitoring - получает данные мониторинга серверов
+    API функция для получения банлиста DevilRust.
+    Получает список банов из MySQL базы данных.
     
     Args:
         event - dict с httpMethod, queryStringParameters
         context - объект с request_id, function_name
     
     Returns:
-        HTTP response dict с данными в формате JSON
+        HTTP response dict с данными банов в формате JSON
     """
     method: str = event.get('httpMethod', 'GET')
     
-    # Handle CORS OPTIONS request
     if method == 'OPTIONS':
         return {
             'statusCode': 200,
@@ -46,30 +41,10 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             'isBase64Encoded': False
         }
     
-    # Получаем endpoint из query параметров
-    query_params = event.get('queryStringParameters') or {}
-    endpoint = query_params.get('endpoint', '')
-    
-    if endpoint == 'banlist':
-        return handle_banlist()
-    elif endpoint == 'monitoring':
-        return handle_monitoring()
-    else:
-        return {
-            'statusCode': 400,
-            'headers': {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-            },
-            'body': json.dumps({
-                'error': 'Invalid endpoint',
-                'message': 'Use ?endpoint=banlist or ?endpoint=monitoring'
-            }),
-            'isBase64Encoded': False
-        }
+    return get_banlist()
 
 
-def handle_banlist() -> Dict[str, Any]:
+def get_banlist() -> Dict[str, Any]:
     """Получает список банов из MySQL базы данных"""
     connection = None
     try:
@@ -149,56 +124,3 @@ def handle_banlist() -> Dict[str, Any]:
     finally:
         if connection:
             connection.close()
-
-
-def handle_monitoring() -> Dict[str, Any]:
-    """Получает данные мониторинга серверов из API devilrust.ru"""
-    try:
-        req = urllib.request.Request(
-            'https://devilrust.ru/api/v1/widgets.monitoring',
-            headers={
-                'User-Agent': 'Mozilla/5.0',
-                'Accept': 'application/json'
-            }
-        )
-        with urllib.request.urlopen(req, timeout=25) as response:
-            data = response.read().decode('utf-8')
-            
-        return {
-            'statusCode': 200,
-            'headers': {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Cache-Control': 'public, max-age=60'
-            },
-            'isBase64Encoded': False,
-            'body': data
-        }
-    except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError) as e:
-        return {
-            'statusCode': 200,
-            'headers': {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-            },
-            'isBase64Encoded': False,
-            'body': json.dumps({
-                'result': 'error',
-                'data': {'total': {'players': 0}, 'servers': []},
-                'error': str(e)
-            })
-        }
-    except Exception as e:
-        return {
-            'statusCode': 200,
-            'headers': {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-            },
-            'isBase64Encoded': False,
-            'body': json.dumps({
-                'result': 'error',
-                'data': {'total': {'players': 0}, 'servers': []},
-                'error': str(e)
-            })
-        }
