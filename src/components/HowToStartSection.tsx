@@ -131,7 +131,7 @@ const HowToStartSection = () => {
               <label
                 htmlFor="agree"
                 className="text-sm leading-relaxed cursor-pointer select-none transition-colors hover:text-foreground"
-              >Я прочитал условия  понимаю что  проект DevilRust не несет ответственности за данный лаунчер.</label>
+              >Я прочитал условия и согласен с ними.</label>
             </div>
 
             <Button 
