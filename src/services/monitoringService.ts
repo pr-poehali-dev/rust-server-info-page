@@ -1,3 +1,6 @@
+import fallbackStats from '@/data/fallbackStats.json';
+import serversData from '@/data/servers.json';
+
 type MonitoringData = {
   result: string;
   data: {
@@ -18,9 +21,33 @@ class MonitoringService {
   private listeners: Set<Listener> = new Set();
   private fetchInterval: number | null = null;
   private isFetching = false;
+  private useFallback = false;
 
   constructor() {
+    this.loadFallbackData();
     this.startAutoFetch();
+  }
+
+  private loadFallbackData(): void {
+    const allServers = [...serversData.pveServers, ...serversData.pvpServers];
+    const servers = allServers.map(server => {
+      const stats = fallbackStats.servers[server.battlemetricsId] || { players: 0, maxPlayers: 150 };
+      const [ip, port] = server.serverIp.split(':');
+      return {
+        ip,
+        port: parseInt(port),
+        players: stats.players,
+        playersMax: stats.maxPlayers
+      };
+    });
+
+    this.data = {
+      result: 'success',
+      data: {
+        total: { players: fallbackStats.totalPlayers },
+        servers
+      }
+    };
   }
 
   subscribe(listener: Listener): () => void {
@@ -49,21 +76,26 @@ class MonitoringService {
         { cache: 'no-store' }
       );
 
-      if (!response.ok) throw new Error('Network response was not ok');
+      if (!response.ok) {
+        if (!this.useFallback) {
+          console.warn('API недоступен, используются резервные данные');
+          this.useFallback = true;
+        }
+        return;
+      }
 
       const data = await response.json();
 
       if (data.result === 'success' && data.data) {
         this.data = data;
+        this.useFallback = false;
         this.notify();
       }
     } catch (error) {
-      console.error('Failed to fetch monitoring data:', error);
-      this.data = {
-        result: 'error',
-        data: { total: { players: 0 }, servers: [] }
-      };
-      this.notify();
+      if (!this.useFallback) {
+        console.warn('API недоступен, используются резервные данные');
+        this.useFallback = true;
+      }
     } finally {
       this.isFetching = false;
     }
