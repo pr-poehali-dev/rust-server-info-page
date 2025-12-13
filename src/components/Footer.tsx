@@ -75,9 +75,7 @@ const Footer = () => {
         </div>
 
         <div className="mt-8 pt-8 border-t border-primary/20 space-y-3">
-          <div className="text-center text-sm text-muted-foreground">
-            © 2018-2024 DevilRust. Все права защищены.
-          </div>
+          <div className="text-center text-sm text-muted-foreground">© 2018 DevilRust. Все права защищены.</div>
           <div className="text-center text-xs text-muted-foreground/80 max-w-3xl mx-auto leading-relaxed">
             DevilRust — независимый проект игровых серверов, действующий с 2018 года. Данный сайт не принадлежит и не связан с Valve Corporation или Facepunch Studios. Rust® является зарегистрированным товарным знаком Facepunch Studios. Steam® и логотип Steam являются зарегистрированными товарными знаками Valve Corporation. Все торговые марки являются собственностью их владельцев.
           </div>
