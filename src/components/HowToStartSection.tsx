@@ -114,6 +114,9 @@ const HowToStartSection = () => {
               <p className="text-muted-foreground text-sm">
                 Устанавливайте лаунчер только в папки с латинскими буквами (например: C:\Games\Launcher)
               </p>
+              <p className="text-foreground leading-relaxed border-t border-destructive/20 pt-4 mt-4">
+                Данный проект <span className="font-bold">DevilRust</span> никак не относится к решению ошибок, проблем с подключением и т.д с данным лаунчером и в целом не поддерживает пиратство. Устанавливая бесплатную версию игры вы автоматически соглашаетесь с данной политикой.
+              </p>
             </DialogDescription>
           </DialogHeader>
           
