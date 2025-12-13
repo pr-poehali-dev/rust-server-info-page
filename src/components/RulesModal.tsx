@@ -41,7 +41,7 @@ const RulesModal = ({ open, onOpenChange }: RulesModalProps) => {
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="max-w-4xl max-h-[90vh] border-primary/30" onInteractOutside={(e) => {
+      <DialogContent className="max-w-4xl h-[90vh] flex flex-col border-primary/30" onInteractOutside={(e) => {
         // Блокируем закрытие по клику вне окна, если правила не приняты
         if (!hasAccepted) {
           e.preventDefault();
@@ -62,7 +62,7 @@ const RulesModal = ({ open, onOpenChange }: RulesModalProps) => {
           </DialogDescription>
         </DialogHeader>
         
-        <ScrollArea className="h-[calc(90vh-220px)] pr-4">
+        <ScrollArea className="flex-1 pr-4">
           <div className="space-y-6 text-sm">
             
             {/* 1. Основные правила */}
@@ -326,10 +326,10 @@ const RulesModal = ({ open, onOpenChange }: RulesModalProps) => {
           </div>
         </ScrollArea>
 
-        <DialogFooter className="border-t border-primary/20 pt-4 mt-4">
+        <DialogFooter className="border-t border-primary/20 pt-4 mt-0 flex-shrink-0">
           {!hasAccepted ? (
-            <div className="w-full space-y-4">
-              <div className="flex items-start space-x-3 p-4 rounded-lg bg-muted/50 border border-primary/20">
+            <div className="w-full space-y-3">
+              <div className="flex items-start space-x-3 p-3 rounded-lg bg-muted/50 border border-primary/20">
                 <Checkbox 
                   id="agree-rules" 
                   checked={hasAgreed}
@@ -347,7 +347,6 @@ const RulesModal = ({ open, onOpenChange }: RulesModalProps) => {
                 onClick={handleAccept}
                 disabled={!hasAgreed}
                 className="w-full"
-                size="lg"
               >
                 <Icon name="Check" className="mr-2 h-5 w-5" />
                 Принять правила
