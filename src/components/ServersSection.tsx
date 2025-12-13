@@ -23,6 +23,7 @@ import {
 import Icon from '@/components/ui/icon';
 import { useToast } from '@/hooks/use-toast';
 import serversData from '@/data/servers.json';
+import { monitoringService } from '@/services/monitoringService';
 
 const pveServers = serversData.pveServers as Array<{
   id: string;
@@ -67,6 +68,30 @@ const ServersSection = () => {
   const [filterBy, setFilterBy] = useState<FilterType>('all');
   const [serverStats, setServerStats] = useState<Record<string, { players: number; maxPlayers: number }>>({});
 
+  useEffect(() => {
+    const unsubscribe = monitoringService.subscribe((data) => {
+      if (data?.result === 'success' && data.data?.servers) {
+        const newStats: Record<string, { players: number; maxPlayers: number }> = {};
+        
+        data.data.servers.forEach((server: any) => {
+          const serverIp = `${server.ip}:${server.port}`;
+          const matchedServer = [...pveServers, ...pvpServers].find(s => s.serverIp === serverIp);
+          
+          if (matchedServer) {
+            newStats[matchedServer.battlemetricsId] = {
+              players: server.players,
+              maxPlayers: server.playersMax
+            };
+          }
+        });
+        
+        setServerStats(newStats);
+      }
+    });
+    
+    return unsubscribe;
+  }, []);
+
   const handleConnect = (ip: string) => {
     const connectCommand = `connect ${ip}`;
     navigator.clipboard.writeText(connectCommand);
@@ -89,43 +114,7 @@ const ServersSection = () => {
     setIsDialogOpen(true);
   };
 
-  useEffect(() => {
-    const fetchServerStats = async () => {
-      try {
-        const response = await fetch('https://functions.poehali.dev/00e6cb95-28f5-49b7-b342-db4f9ae8ffd1?endpoint=monitoring', {
-          cache: 'no-store'
-        });
-        
-        if (!response.ok) throw new Error('Network response was not ok');
-        
-        const data = await response.json();
-        
-        if (data.result === 'success' && data.data?.servers) {
-          const newStats: Record<string, { players: number; maxPlayers: number }> = {};
-          
-          data.data.servers.forEach((server: any) => {
-            const serverIp = `${server.ip}:${server.port}`;
-            const matchedServer = [...pveServers, ...pvpServers].find(s => s.serverIp === serverIp);
-            
-            if (matchedServer) {
-              newStats[matchedServer.battlemetricsId] = {
-                players: server.players,
-                maxPlayers: server.playersMax
-              };
-            }
-          });
-          
-          setServerStats(newStats);
-        }
-      } catch (error) {
-        console.error('Failed to fetch monitoring data:', error);
-      }
-    };
 
-    fetchServerStats();
-    const interval = setInterval(fetchServerStats, 60000);
-    return () => clearInterval(interval);
-  }, []);
 
   const getDetailedDescription = (serverId: string) => {
     const server = [...pveServers, ...pvpServers].find(s => s.id === serverId);

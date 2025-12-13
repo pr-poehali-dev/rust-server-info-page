@@ -7,6 +7,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { monitoringService } from '@/services/monitoringService';
 
 const HeroSection = () => {
   const [totalPlayers, setTotalPlayers] = useState<number | null>(null);
@@ -14,28 +15,13 @@ const HeroSection = () => {
   const [coinRain, setCoinRain] = useState(false);
 
   useEffect(() => {
-    const fetchTotalPlayers = async () => {
-      try {
-        const response = await fetch('https://functions.poehali.dev/00e6cb95-28f5-49b7-b342-db4f9ae8ffd1?endpoint=monitoring', {
-          cache: 'no-store'
-        });
-        
-        if (!response.ok) throw new Error('Network response was not ok');
-        
-        const data = await response.json();
-        
-        if (data.result === 'success' && data.data?.total?.players !== undefined) {
-          setTotalPlayers(data.data.total.players);
-        }
-      } catch (error) {
-        console.error('Failed to fetch monitoring data:', error);
+    const unsubscribe = monitoringService.subscribe((data) => {
+      if (data?.result === 'success' && data.data?.total?.players !== undefined) {
+        setTotalPlayers(data.data.total.players);
       }
-    };
-
-    fetchTotalPlayers();
-    const interval = setInterval(fetchTotalPlayers, 60000);
+    });
     
-    return () => clearInterval(interval);
+    return unsubscribe;
   }, []);
 
   useEffect(() => {
