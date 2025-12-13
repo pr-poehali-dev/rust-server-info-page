@@ -128,9 +128,7 @@ const HowToStartSection = () => {
               <label
                 htmlFor="agree"
                 className="text-sm leading-relaxed cursor-pointer select-none transition-colors hover:text-foreground"
-              >
-                Я прочитал условия и понимаю, что при использовании кириллицы в пути установки могут возникнуть ошибки
-              </label>
+              >Я прочитал условия  понимаю что  проект DevilRust не несет ответственности за данный лаунчер.</label>
             </div>
 
             <Button 
