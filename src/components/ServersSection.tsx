@@ -29,6 +29,7 @@ const pveServers = serversData.pveServers as Array<{
   name: string;
   mode: string;
   ip: string;
+  serverIp: string;
   battlemetricsId: string;
   description: string;
   features: string[];
@@ -44,6 +45,7 @@ const pvpServers = serversData.pvpServers as Array<{
   name: string;
   mode: string;
   ip: string;
+  serverIp: string;
   battlemetricsId: string;
   description: string;
   features: string[];
@@ -103,7 +105,7 @@ const ServersSection = () => {
           
           data.data.servers.forEach((server: any) => {
             const serverIp = `${server.ip}:${server.port}`;
-            const matchedServer = [...pveServers, ...pvpServers].find(s => s.ip === serverIp);
+            const matchedServer = [...pveServers, ...pvpServers].find(s => s.serverIp === serverIp);
             
             if (matchedServer) {
               newStats[matchedServer.battlemetricsId] = {

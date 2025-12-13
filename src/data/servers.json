@@ -5,6 +5,7 @@
       "name": "#1 [PVE] DevilRust X3",
       "mode": "PVE x3",
       "ip": "1.devilrust.ru",
+      "serverIp": "62.122.214.220:10000",
       "battlemetricsId": "30367639",
       "description": "Сервер с рейтингом добычи ресурсов х3. На сервере присутствуют кастомные NPC, которые немного сложнее стандартных NPC на Редтаунах. Более подробно о всех особенностях можно узнать ниже.",
       "features": [
@@ -55,6 +56,7 @@
       "name": "#2 [PVE] DevilRust X5",
       "mode": "PVE x5",
       "ip": "2.devilrust.ru",
+      "serverIp": "62.122.214.220:2000",
       "battlemetricsId": "30367642",
       "description": "Сервер с рейтингом добычи ресурсов x5 - что дает более быструю скорость развития вашего персонажа. Более подробно о всех особенностях можно узнать ниже.",
       "features": [
@@ -73,6 +75,7 @@
       "name": "#3 [PVE] DevilRust X8",
       "mode": "PVE x8",
       "ip": "3.devilrust.ru",
+      "serverIp": "62.122.214.220:3000",
       "battlemetricsId": "30367644",
       "description": "Сервер с рейтингом добычи ресурсов x8 - что дает более быструю скорость развития вашего персонажа. Более подробно о всех особенностях можно узнать ниже.",
       "features": [
@@ -91,6 +94,7 @@
       "name": "#4 [PVE] DevilRust X10",
       "mode": "PVE x10",
       "ip": "4.devilrust.ru",
+      "serverIp": "62.122.214.220:4000",
       "battlemetricsId": "30367643",
       "description": "Сервер с рейтингом добычи ресурсов x10 - что дает более быструю скорость развития вашего персонажа. Более подробно о всех особенностях можно узнать ниже.",
       "features": [
@@ -109,6 +113,7 @@
       "name": "#5 [PVE] DevilRust X20",
       "mode": "PVE x20",
       "ip": "5.devilrust.ru",
+      "serverIp": "62.122.214.220:5000",
       "battlemetricsId": "33982243",
       "description": "Сервер с рейтингом добычи ресурсов x20 - что дает более быструю скорость развития вашего персонажа. Более подробно о всех особенностях можно узнать ниже.",
       "features": [
@@ -127,6 +132,7 @@
       "name": "#6 [PVE] DevilRust EASYBUILD",
       "mode": "PVE EasyBuild",
       "ip": "6.devilrust.ru",
+      "serverIp": "62.122.214.220:6000",
       "battlemetricsId": "34635173",
       "description": "Долгоиграющий сервер с редкими вайпами. Для тех, кто любит строить большие проекты и развиваться долгосрочно.",
       "features": [
@@ -145,6 +151,7 @@
       "name": "#7 [PVE] DevilRust VANILLA",
       "mode": "PVE Vanilla",
       "ip": "7.devilrust.ru",
+      "serverIp": "62.122.214.220:7000",
       "battlemetricsId": "35130037",
       "description": "Ванильный сервер, в котором можно ощутить все особенности настоящего RUST, нет модификаций, которые ломают классические особенности игры.",
       "features": [
@@ -177,6 +184,7 @@
       "name": "#8 [PVP] DevilRust - MODDED | x2 | DUO",
       "mode": "PVP Modded x2",
       "ip": "8.devilrust.ru",
+      "serverIp": "62.122.214.220:8000",
       "battlemetricsId": "36442240",
       "description": "Модифицированный сервер для команд максимум из 2х игроков",
       "features": [
@@ -209,6 +217,7 @@
       "name": "#9 [PVP] DevilRust - MODDED | x2 | NOLIM",
       "mode": "PVP Modded x2",
       "ip": "9.devilrust.ru",
+      "serverIp": "62.122.214.220:9000",
       "battlemetricsId": "36442241",
       "description": "Модифицированный сервер без лимита игроков в команде.",
       "features": [
