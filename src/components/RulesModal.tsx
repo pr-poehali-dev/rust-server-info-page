@@ -1,6 +1,9 @@
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import Icon from '@/components/ui/icon';
+import { useState, useEffect } from 'react';
 
 interface RulesModalProps {
   open: boolean;
@@ -8,8 +11,31 @@ interface RulesModalProps {
 }
 
 const RulesModal = ({ open, onOpenChange }: RulesModalProps) => {
+  const [hasAccepted, setHasAccepted] = useState(false);
+  const [hasAgreed, setHasAgreed] = useState(false);
+
+  useEffect(() => {
+    const accepted = localStorage.getItem('rules_accepted');
+    if (accepted === 'true') {
+      setHasAccepted(true);
+    }
+  }, []);
+
+  const handleAccept = () => {
+    localStorage.setItem('rules_accepted', 'true');
+    setHasAccepted(true);
+    onOpenChange(false);
+  };
+
+  const handleOpenChange = (isOpen: boolean) => {
+    if (!isOpen) {
+      setHasAgreed(false);
+    }
+    onOpenChange(isOpen);
+  };
+
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className="max-w-4xl max-h-[90vh] border-primary/30">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-2xl">
@@ -21,7 +47,7 @@ const RulesModal = ({ open, onOpenChange }: RulesModalProps) => {
           </DialogDescription>
         </DialogHeader>
         
-        <ScrollArea className="h-[calc(90vh-120px)] pr-4">
+        <ScrollArea className="h-[calc(90vh-220px)] pr-4">
           <div className="space-y-6 text-sm">
             
             {/* 1. Основные правила */}
@@ -284,6 +310,43 @@ const RulesModal = ({ open, onOpenChange }: RulesModalProps) => {
 
           </div>
         </ScrollArea>
+
+        <DialogFooter className="border-t border-primary/20 pt-4 mt-4">
+          {!hasAccepted ? (
+            <div className="w-full space-y-4">
+              <div className="flex items-start space-x-3 p-4 rounded-lg bg-muted/50 border border-primary/20">
+                <Checkbox 
+                  id="agree-rules" 
+                  checked={hasAgreed}
+                  onCheckedChange={(checked) => setHasAgreed(checked as boolean)}
+                  className="mt-1"
+                />
+                <label
+                  htmlFor="agree-rules"
+                  className="text-sm leading-relaxed cursor-pointer select-none"
+                >
+                  Я прочитал и полностью согласен с правилами проекта DevilRust. Я понимаю, что несоблюдение правил приведет к блокировке моего аккаунта.
+                </label>
+              </div>
+              <Button 
+                onClick={handleAccept}
+                disabled={!hasAgreed}
+                className="w-full"
+                size="lg"
+              >
+                <Icon name="Check" className="mr-2 h-5 w-5" />
+                Принять правила
+              </Button>
+            </div>
+          ) : (
+            <div className="w-full text-center py-2">
+              <div className="inline-flex items-center gap-2 text-sm text-primary">
+                <Icon name="CheckCircle" className="h-5 w-5" />
+                <span>Вы уже приняли правила проекта</span>
+              </div>
+            </div>
+          )}
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
