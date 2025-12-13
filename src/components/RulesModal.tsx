@@ -28,6 +28,11 @@ const RulesModal = ({ open, onOpenChange }: RulesModalProps) => {
   };
 
   const handleOpenChange = (isOpen: boolean) => {
+    // Разрешаем закрытие только если правила уже приняты
+    if (!isOpen && !hasAccepted) {
+      return;
+    }
+    
     if (!isOpen) {
       setHasAgreed(false);
     }
@@ -36,7 +41,17 @@ const RulesModal = ({ open, onOpenChange }: RulesModalProps) => {
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="max-w-4xl max-h-[90vh] border-primary/30">
+      <DialogContent className="max-w-4xl max-h-[90vh] border-primary/30" onInteractOutside={(e) => {
+        // Блокируем закрытие по клику вне окна, если правила не приняты
+        if (!hasAccepted) {
+          e.preventDefault();
+        }
+      }} onEscapeKeyDown={(e) => {
+        // Блокируем закрытие по ESC, если правила не приняты
+        if (!hasAccepted) {
+          e.preventDefault();
+        }
+      }}>
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-2xl">
             <Icon name="Shield" className="h-6 w-6 text-primary" />
