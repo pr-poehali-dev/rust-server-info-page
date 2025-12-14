@@ -69,6 +69,19 @@ const ServersSection = () => {
   const [serverStats, setServerStats] = useState<Record<string, { players: number; maxPlayers: number }>>({});
   const [visibleCards, setVisibleCards] = useState<Set<string>>(new Set());
   const cardRefs = useRef<Map<string, HTMLDivElement>>(new Map());
+  const hoverSound = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    hoverSound.current = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTUIGGS47OihUhELTKXh8bllHAU2jdXvz38uBSh+y+/glEILElyw6OyrWhAJRJzd8sFuJQUrgc3y2oo0CBdhtuzpn08TC0yo4/K4ZBUF');
+  }, []);
+
+  const playHoverSound = () => {
+    if (hoverSound.current) {
+      hoverSound.current.currentTime = 0;
+      hoverSound.current.volume = 0.3;
+      hoverSound.current.play().catch(() => {});
+    }
+  };
 
   useEffect(() => {
     const unsubscribe = monitoringService.subscribe((data) => {
@@ -262,6 +275,7 @@ const ServersSection = () => {
               <Button 
                 className="flex-1 font-semibold uppercase tracking-wider" 
                 onClick={() => handleConnect(server.ip)}
+                onMouseEnter={playHoverSound}
               >
                 <Icon name="Rocket" className="mr-2 h-4 w-4" />
                 Играть
@@ -389,6 +403,7 @@ const ServersSection = () => {
                   setIsDialogOpen(false);
                 }
               }}
+              onMouseEnter={playHoverSound}
             >
               <Icon name="Rocket" className="mr-2 h-5 w-5" />
               Подключиться к серверу
