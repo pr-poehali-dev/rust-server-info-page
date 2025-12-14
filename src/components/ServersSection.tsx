@@ -101,22 +101,31 @@ const ServersSection = () => {
           if (entry.isIntersecting) {
             const cardId = entry.target.getAttribute('data-card-id');
             if (cardId) {
-              setVisibleCards((prev) => new Set(prev).add(cardId));
+              setVisibleCards((prev) => {
+                const newSet = new Set(prev);
+                newSet.add(cardId);
+                return newSet;
+              });
             }
           }
         });
       },
       {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
+        threshold: 0.05,
+        rootMargin: '50px'
       }
     );
 
-    cardRefs.current.forEach((card) => {
-      if (card) observer.observe(card);
-    });
+    const timer = setTimeout(() => {
+      cardRefs.current.forEach((card) => {
+        if (card) observer.observe(card);
+      });
+    }, 100);
 
-    return () => observer.disconnect();
+    return () => {
+      clearTimeout(timer);
+      observer.disconnect();
+    };
   }, [sortBy, filterBy]);
 
   const handleConnect = (ip: string) => {
