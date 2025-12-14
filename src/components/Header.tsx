@@ -4,10 +4,18 @@ import Icon from '@/components/ui/icon';
 import { useEffect, useState } from 'react';
 import authConfig from '@/data/authorization.json';
 import RulesModal from '@/components/RulesModal';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
 
 const Header = () => {
   const [user, setUser] = useState<{ nickname: string } | null>(null);
   const [isRulesOpen, setIsRulesOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -152,6 +160,117 @@ const Header = () => {
             )}
           </div>
         )}
+
+        <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+          <SheetTrigger asChild className="md:hidden">
+            <Button variant="ghost" size="icon">
+              <Icon name="Menu" className="h-6 w-6" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+            <SheetHeader>
+              <SheetTitle className="text-left" style={{fontFamily: 'Nunito, sans-serif', fontStyle: 'italic'}}>DEVILRUST</SheetTitle>
+            </SheetHeader>
+            <nav className="flex flex-col space-y-4 mt-8">
+              <a 
+                href="/" 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-base font-medium text-foreground hover:text-primary transition-colors uppercase tracking-wider py-2"
+              >
+                Главная
+              </a>
+              <a 
+                href="/banlist" 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-base font-medium text-foreground hover:text-primary transition-colors uppercase tracking-wider py-2"
+              >
+                Банлист
+              </a>
+              <button 
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  setIsRulesOpen(true);
+                }} 
+                className="text-base font-medium text-foreground hover:text-primary transition-colors uppercase tracking-wider py-2 text-left"
+              >
+                Правила
+              </button>
+              <a 
+                href="https://wiki.devilrust.ru" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-base font-medium text-foreground hover:text-primary transition-colors uppercase tracking-wider py-2"
+              >
+                Wiki
+              </a>
+              <a 
+                href="https://devrus.gamestores.app/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-base font-medium text-foreground hover:text-primary transition-colors uppercase tracking-wider py-2"
+              >
+                Магазин
+              </a>
+              <a 
+                href="https://devilrust.ru/support/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-base font-medium text-foreground hover:text-primary transition-colors uppercase tracking-wider py-2"
+              >
+                Поддержка
+              </a>
+              
+              <div className="pt-4 border-t border-primary/20">
+                {user ? (
+                  <Button variant="default" size="lg" asChild className="w-full shadow-lg bg-gradient-to-r from-primary to-primary/80 text-white border-0">
+                    <a 
+                      href="https://devilrust.ru/profile" 
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      <Icon name="User" className="mr-2 h-5 w-5" />
+                      Профиль
+                    </a>
+                  </Button>
+                ) : (
+                  <div className="flex flex-col gap-3">
+                    {authConfig.showAuthButton && (
+                      <Button variant="default" size="lg" asChild className="w-full shadow-lg bg-gradient-to-r from-[#06BFFF] via-[#2A3F5F] to-[#06BFFF] steam-animate text-white border-0">
+                        <a 
+                          href="https://devilrust.ru/api/v1/player.login?login" 
+                          onClick={(e) => {
+                            handleAuthClick(e);
+                            setIsMobileMenuOpen(false);
+                          }}
+                          className="flex items-center justify-center"
+                        >
+                          <SteamIcon className="mr-2 h-6 w-6" />
+                          Авторизоваться
+                        </a>
+                      </Button>
+                    )}
+                    {authConfig.showAlreadyAuthorizedLink && (
+                      <a 
+                        href="https://devilrust.ru/profile" 
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="text-center text-sm text-muted-foreground hover:text-primary transition-colors"
+                      >
+                        Уже авторизованы?
+                      </a>
+                    )}
+                  </div>
+                )}
+              </div>
+            </nav>
+          </SheetContent>
+        </Sheet>
       </div>
       
       <RulesModal open={isRulesOpen} onOpenChange={setIsRulesOpen} />
