@@ -69,23 +69,16 @@ const ServersSection = () => {
   const [serverStats, setServerStats] = useState<Record<string, { players: number; maxPlayers: number }>>({});
   const [visibleCards, setVisibleCards] = useState<Set<string>>(new Set());
   const cardRefs = useRef<Map<string, HTMLDivElement>>(new Map());
-  const hoverSound = useRef<HTMLAudioElement | null>(null);
-  const isPlayingSound = useRef(false);
-
-  useEffect(() => {
-    hoverSound.current = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTUIGGS47OihUhELTKXh8bllHAU2jdXvz38uBSh+y+/glEILElyw6OyrWhAJRJzd8sFuJQUrgc3y2oo0CBdhtuzpn08TC0yo4/K4ZBUF');
-  }, []);
+  const lastSoundTime = useRef(0);
 
   const playHoverSound = () => {
-    if (hoverSound.current && !isPlayingSound.current) {
-      isPlayingSound.current = true;
-      hoverSound.current.currentTime = 0;
-      hoverSound.current.volume = 0.2;
-      hoverSound.current.play().catch(() => {});
-      setTimeout(() => {
-        isPlayingSound.current = false;
-      }, 100);
-    }
+    const now = Date.now();
+    if (now - lastSoundTime.current < 150) return;
+    
+    lastSoundTime.current = now;
+    const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTUIGGS47OihUhELTKXh8bllHAU2jdXvz38uBSh+y+/glEILElyw6OyrWhAJRJzd8sFuJQUrgc3y2oo0CBdhtuzpn08TC0yo4/K4ZBUF');
+    audio.volume = 0.15;
+    audio.play().catch(() => {});
   };
 
   useEffect(() => {
@@ -217,11 +210,7 @@ const ServersSection = () => {
         className={`group relative overflow-hidden rounded-xl border ${borderColor} bg-gradient-to-br ${cardColor} p-6 transition-all hover:shadow-xl hover:shadow-primary/10 flex flex-col h-full ${
           isVisible ? 'server-card-visible' : 'server-card-animate'
         }`}
-        style={{ 
-          animationDelay: isVisible ? `${index * 0.1}s` : '0s',
-          opacity: isVisible ? undefined : 0,
-          transform: isVisible ? undefined : 'translateY(40px)'
-        }}
+        style={isVisible ? { animationDelay: `${index * 0.1}s` } : undefined}
       >
         <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-background/50 opacity-0 transition-opacity group-hover:opacity-100" />
         <div className="relative z-10 flex flex-col h-full">
