@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -67,6 +67,8 @@ const ServersSection = () => {
   const [sortBy, setSortBy] = useState<SortType>('number');
   const [filterBy, setFilterBy] = useState<FilterType>('all');
   const [serverStats, setServerStats] = useState<Record<string, { players: number; maxPlayers: number }>>({});
+  const [visibleCards, setVisibleCards] = useState<Set<string>>(new Set());
+  const cardRefs = useRef<Map<string, HTMLDivElement>>(new Map());
 
   useEffect(() => {
     const unsubscribe = monitoringService.subscribe((data) => {
@@ -91,6 +93,31 @@ const ServersSection = () => {
     
     return unsubscribe;
   }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const cardId = entry.target.getAttribute('data-card-id');
+            if (cardId) {
+              setVisibleCards((prev) => new Set(prev).add(cardId));
+            }
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      }
+    );
+
+    cardRefs.current.forEach((card) => {
+      if (card) observer.observe(card);
+    });
+
+    return () => observer.disconnect();
+  }, [sortBy, filterBy]);
 
   const handleConnect = (ip: string) => {
     const connectCommand = `connect ${ip}`;
@@ -142,7 +169,7 @@ const ServersSection = () => {
     return 0;
   });
 
-  const ServerCard = ({ server }: { server: typeof pveServers[0] }) => {
+  const ServerCard = ({ server, index }: { server: typeof pveServers[0]; index: number }) => {
     const isPVE = server.mode.includes('PVE');
     const cardColor = isPVE ? 'from-green-500/10 to-green-500/5' : 'from-red-500/10 to-red-500/5';
     const borderColor = isPVE ? 'border-green-500/30' : 'border-red-500/30';
@@ -152,9 +179,19 @@ const ServersSection = () => {
     const stats = serverStats[server.battlemetricsId];
     const online = stats?.players ?? '—';
     const slots = stats?.maxPlayers ?? '—';
+    const isVisible = visibleCards.has(server.id);
 
     return (
-      <div className={`group relative overflow-hidden rounded-xl border ${borderColor} bg-gradient-to-br ${cardColor} p-6 transition-all hover:shadow-xl hover:shadow-primary/10 flex flex-col h-full`}>
+      <div 
+        ref={(el) => {
+          if (el) cardRefs.current.set(server.id, el);
+        }}
+        data-card-id={server.id}
+        className={`group relative overflow-hidden rounded-xl border ${borderColor} bg-gradient-to-br ${cardColor} p-6 transition-all hover:shadow-xl hover:shadow-primary/10 flex flex-col h-full ${
+          isVisible ? 'server-card-visible' : 'server-card-animate'
+        }`}
+        style={{ animationDelay: `${index * 0.1}s` }}
+      >
         <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-background/50 opacity-0 transition-opacity group-hover:opacity-100" />
         <div className="relative z-10 flex flex-col h-full">
           <div className="mb-4 flex items-start justify-between">
@@ -278,8 +315,8 @@ const ServersSection = () => {
         </div>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {sortedServers.map((server) => (
-            <ServerCard key={server.id} server={server} />
+          {sortedServers.map((server, index) => (
+            <ServerCard key={server.id} server={server} index={index} />
           ))}
         </div>
       </div>
