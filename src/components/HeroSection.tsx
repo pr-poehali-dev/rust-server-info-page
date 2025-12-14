@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
 import {
@@ -13,6 +13,35 @@ const HeroSection = () => {
   const [totalPlayers, setTotalPlayers] = useState<number | null>(null);
   const [displayPlayers, setDisplayPlayers] = useState<number>(0);
   const [coinRain, setCoinRain] = useState(false);
+  const lastVendingSound = useRef(0);
+
+  const playVendingSound = () => {
+    const now = Date.now();
+    if (now - lastVendingSound.current < 500) return;
+    
+    lastVendingSound.current = now;
+    
+    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    
+    const playTone = (freq: number, startTime: number, duration: number, volume: number) => {
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.setValueAtTime(freq, startTime);
+      gainNode.gain.setValueAtTime(volume, startTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + duration);
+      
+      oscillator.start(startTime);
+      oscillator.stop(startTime + duration);
+    };
+    
+    playTone(600, audioContext.currentTime, 0.08, 0.2);
+    playTone(800, audioContext.currentTime + 0.08, 0.08, 0.15);
+    playTone(1000, audioContext.currentTime + 0.16, 0.12, 0.1);
+  };
 
   useEffect(() => {
     const unsubscribe = monitoringService.subscribe((data) => {
@@ -121,6 +150,7 @@ const HeroSection = () => {
                 className="relative z-10"
                 onMouseEnter={() => setCoinRain(true)}
                 onMouseLeave={() => setCoinRain(false)}
+                onClick={playVendingSound}
               >
                 <div className="absolute inset-0 opacity-[0.25] pointer-events-none">
                   <Icon name="Coins" className="absolute top-2 left-4 w-7 h-7 text-yellow-300" />
