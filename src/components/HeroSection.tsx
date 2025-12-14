@@ -82,17 +82,28 @@ const HeroSection = () => {
 
           <div className="flex flex-col items-center gap-4">
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className="text-lg shadow-lg shadow-primary/50 hover:shadow-primary/70 hover:scale-105 transition-all group" asChild>
-                <a href="#how-to-start">
-                  <Icon name="Play" className="mr-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                  Как начать играть
-                </a>
+              <Button 
+                size="lg" 
+                className="text-lg shadow-lg shadow-primary/50 hover:shadow-primary/70 hover:scale-105 transition-all group"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById('how-to-start')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+              >
+                <Icon name="Play" className="mr-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                Как начать играть
               </Button>
-              <Button size="lg" variant="outline" className="text-lg border-primary/30 hover:border-primary hover:bg-primary/10 h-auto" asChild>
-                <a href="#servers">
-                  <Icon name="Server" className="mr-2 h-5 w-5" />
-                  Выбрать сервер
-                </a>
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="text-lg border-primary/30 hover:border-primary hover:bg-primary/10 h-auto"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById('servers')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+              >
+                <Icon name="Server" className="mr-2 h-5 w-5" />
+                Выбрать сервер
               </Button>
             </div>
             <Button 
