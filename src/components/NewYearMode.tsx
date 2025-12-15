@@ -72,7 +72,7 @@ const Snowflakes = () => {
 
 const ChristmasLights = () => {
   return (
-    <div className="fixed top-0 left-0 right-0 pointer-events-none z-40 h-16">
+    <div className="fixed top-0 left-0 right-0 pointer-events-none z-[60] h-16">
       <div className="flex justify-around items-start h-full">
         {Array.from({ length: 20 }).map((_, i) => (
           <div
@@ -105,12 +105,12 @@ const ChristmasLights = () => {
 
 const SantaHat = () => {
   return (
-    <div className="fixed top-4 right-4 pointer-events-none z-50 animate-bounce" style={{ animationDuration: '3s' }}>
-      <div className="relative w-16 h-16">
-        <div className="absolute bottom-0 w-16 h-8 bg-red-600 rounded-b-full" />
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 w-12 h-12 bg-red-600 rotate-45 origin-bottom-left" />
-        <div className="absolute -bottom-1 w-16 h-3 bg-white rounded-full" />
-        <div className="absolute top-0 right-0 w-4 h-4 bg-white rounded-full" />
+    <div className="fixed top-8 right-8 pointer-events-none z-[60] animate-bounce" style={{ animationDuration: '3s' }}>
+      <div className="relative w-20 h-20">
+        <div className="absolute bottom-0 w-20 h-10 bg-red-600 rounded-b-full shadow-lg" />
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-16 h-16 bg-red-600 rotate-45 origin-bottom-left shadow-lg" />
+        <div className="absolute -bottom-1 w-20 h-4 bg-white rounded-full shadow-md" />
+        <div className="absolute top-0 right-0 w-5 h-5 bg-white rounded-full shadow-md" />
       </div>
     </div>
   );
