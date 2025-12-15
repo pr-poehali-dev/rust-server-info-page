@@ -93,7 +93,7 @@ const Header = () => {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-primary/20 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 shadow-lg shadow-primary/5 relative">
       <ChristmasGarland />
-      <div className="container flex h-16 items-center justify-between my-2">
+      <div className="container flex h-16 items-center justify-between my-0.5">
         <a href="/" className="flex items-center space-x-2 group">
           <img 
             src="https://s3.regru.cloud/img.devilrust/devilrust_logo.png" 
