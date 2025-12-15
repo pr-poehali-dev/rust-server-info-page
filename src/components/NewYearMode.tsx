@@ -72,33 +72,16 @@ const Snowflakes = () => {
 
 const ChristmasLights = () => {
   return (
-    <div className="fixed top-0 left-0 right-0 pointer-events-none z-[60] h-16">
-      <div className="flex justify-around items-start h-full">
-        {Array.from({ length: 20 }).map((_, i) => (
-          <div
-            key={i}
-            className="w-3 h-3 rounded-full animate-pulse"
-            style={{
-              backgroundColor: ['#ff0000', '#00ff00', '#ffff00', '#0000ff', '#ff00ff'][i % 5],
-              animationDelay: `${i * 0.2}s`,
-              animationDuration: '1.5s',
-              marginTop: `${Math.sin(i) * 10 + 10}px`,
-            }}
-          />
-        ))}
-      </div>
-      <svg className="absolute top-0 left-0 w-full h-16" xmlns="http://www.w3.org/2000/svg">
-        <path
-          d={`M 0,15 ${Array.from({ length: 20 }).map((_, i) => {
-            const x = (i / 19) * 100;
-            const y = Math.sin(i * 0.5) * 10 + 10;
-            return `L ${x}%,${y}`;
-          }).join(' ')}`}
-          fill="none"
-          stroke="rgba(255,255,255,0.2)"
-          strokeWidth="2"
-        />
-      </svg>
+    <div className="fixed top-0 left-0 right-0 pointer-events-none z-[60] h-32 overflow-hidden">
+      <img 
+        src="https://cdn.poehali.dev/files/vecteezy_christmas-tree-branches-with-lights-garland_23865915.jpg"
+        alt="Christmas garland"
+        className="w-full h-full object-cover object-top"
+        style={{ 
+          maskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)'
+        }}
+      />
     </div>
   );
 };
@@ -106,12 +89,38 @@ const ChristmasLights = () => {
 const SantaHat = () => {
   return (
     <div className="fixed top-8 right-8 pointer-events-none z-[60] animate-bounce" style={{ animationDuration: '3s' }}>
-      <div className="relative w-20 h-20">
-        <div className="absolute bottom-0 w-20 h-10 bg-red-600 rounded-b-full shadow-lg" />
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-16 h-16 bg-red-600 rotate-45 origin-bottom-left shadow-lg" />
-        <div className="absolute -bottom-1 w-20 h-4 bg-white rounded-full shadow-md" />
-        <div className="absolute top-0 right-0 w-5 h-5 bg-white rounded-full shadow-md" />
-      </div>
+      <svg width="80" height="100" viewBox="0 0 80 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+            <feDropShadow dx="0" dy="2" stdDeviation="3" floodOpacity="0.3"/>
+          </filter>
+          <linearGradient id="redGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style={{ stopColor: '#dc2626', stopOpacity: 1 }} />
+            <stop offset="50%" style={{ stopColor: '#b91c1c', stopOpacity: 1 }} />
+            <stop offset="100%" style={{ stopColor: '#991b1b', stopOpacity: 1 }} />
+          </linearGradient>
+        </defs>
+        
+        <path 
+          d="M 15 85 Q 15 70, 25 60 L 40 25 L 55 60 Q 65 70, 65 85 Z" 
+          fill="url(#redGradient)"
+          filter="url(#shadow)"
+        />
+        
+        <ellipse cx="40" cy="85" rx="32" ry="8" fill="white" filter="url(#shadow)" />
+        
+        <path 
+          d="M 25 60 Q 30 55, 35 58 Q 38 60, 40 58 Q 42 60, 45 58 Q 50 55, 55 60" 
+          fill="white" 
+          opacity="0.6"
+        />
+        
+        <circle cx="62" cy="28" r="10" fill="white" filter="url(#shadow)" />
+        <circle cx="62" cy="28" r="7" fill="#f3f4f6" />
+        
+        <ellipse cx="30" cy="70" rx="8" ry="12" fill="#b91c1c" opacity="0.3" />
+        <ellipse cx="50" cy="70" rx="8" ry="12" fill="#991b1b" opacity="0.3" />
+      </svg>
     </div>
   );
 };
