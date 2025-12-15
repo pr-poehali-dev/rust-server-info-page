@@ -28,7 +28,7 @@ const NewYearMode = () => {
 
 const Snowflakes = () => {
   return (
-    <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden">
+    <div className="fixed inset-0 pointer-events-none z-40 overflow-hidden">
       {Array.from({ length: 150 }).map((_, i) => (
         <div
           key={i}

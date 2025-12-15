@@ -51,7 +51,7 @@ const TelegramWidget = () => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed bottom-6 left-6 z-50 animate-fade-in">
+    <div className="fixed bottom-6 left-6 z-[60] animate-fade-in">
       <div className="relative">
         {showFireworks && (
           <div className="absolute inset-0 pointer-events-none">
@@ -70,7 +70,7 @@ const TelegramWidget = () => {
         )}
 
         {isHovered && (
-          <div className="absolute inset-0 pointer-events-none z-50">
+          <div className="absolute inset-0 pointer-events-none z-[61]">
             {Array.from({ length: 30 }).map((_, i) => {
               const colors = ['#ff4400', '#ffaa00', '#ffdd00', '#00ff88', '#0088ff', '#ff00ff', '#ff0066', '#00ffff'];
               const isConfetti = i >= 20;

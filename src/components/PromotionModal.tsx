@@ -122,9 +122,9 @@ const PromotionModal = () => {
 
   return (
     <>
-      <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 animate-fade-in" onClick={handleRemindLater} />
+      <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[60] animate-fade-in" onClick={handleRemindLater} />
       
-      <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-lg px-4">
+      <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[60] w-full max-w-lg px-4">
         <div className="relative bg-gradient-to-br from-card via-card to-primary/5 border-2 border-primary rounded-2xl shadow-2xl shadow-primary/20 overflow-hidden animate-scale-in">
           
           {promotionData.styling.showGifts && (
