@@ -186,8 +186,8 @@ const HeroSection = () => {
               </Tooltip>
             </TooltipProvider>
             <div className="flex flex-col items-center p-4 rounded-lg glow-border bg-card/50 backdrop-blur-sm">
-              <div className="text-4xl font-bold text-primary glow-text">24/7</div>
-              <div className="text-sm text-muted-foreground uppercase tracking-wider">Работаем</div>
+              <div className="text-3xl font-bold text-primary glow-text">PVP и PVE</div>
+              <div className="text-sm text-muted-foreground uppercase tracking-wider">Сервера</div>
             </div>
           </div>
         </div>
