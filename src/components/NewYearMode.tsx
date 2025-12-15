@@ -22,7 +22,6 @@ const NewYearMode = () => {
   return (
     <>
       {config.snowflakes && <Snowflakes />}
-      {config.lights && <ChristmasLights />}
     </>
   );
 };
@@ -68,23 +67,6 @@ const Snowflakes = () => {
     </div>
   );
 };
-
-const ChristmasLights = () => {
-  return (
-    <div className="fixed top-0 left-0 right-0 pointer-events-none z-[5] h-32 overflow-hidden">
-      <img 
-        src="https://cdn.poehali.dev/files/vecteezy_christmas-tree-branches-with-lights-garland_23865915.jpg"
-        alt="Christmas garland"
-        className="w-full h-full object-cover object-top"
-        style={{ 
-          maskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)',
-          WebkitMaskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)'
-        }}
-      />
-    </div>
-  );
-};
-
 
 
 export default NewYearMode;

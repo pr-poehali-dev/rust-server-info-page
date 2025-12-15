@@ -4,6 +4,7 @@ import Icon from '@/components/ui/icon';
 import { useEffect, useState } from 'react';
 import authConfig from '@/data/authorization.json';
 import RulesModal from '@/components/RulesModal';
+import ChristmasGarland from '@/components/ChristmasGarland';
 import {
   Sheet,
   SheetContent,
@@ -90,7 +91,8 @@ const Header = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-primary/20 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 shadow-lg shadow-primary/5">
+    <header className="sticky top-0 z-50 w-full border-b border-primary/20 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 shadow-lg shadow-primary/5 relative">
+      <ChristmasGarland />
       <div className="container flex h-16 items-center justify-between my-2">
         <a href="/" className="flex items-center space-x-2 group">
           <img 
