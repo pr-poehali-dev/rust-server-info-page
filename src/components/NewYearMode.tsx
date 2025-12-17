@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 interface NewYearConfig {
-  enabled: false;
+  enabled: boolean;
   snowflakes: boolean;
   lights: boolean;
   santa: boolean;
@@ -11,15 +11,19 @@ const NewYearMode = () => {
   const [config, setConfig] = useState<NewYearConfig | null>(null);
 
   useEffect(() => {
-    fetch("/data/newyear.json")
-      .then((res) => res.json())
-      .then((data) => setConfig(data))
+    fetch('/data/newyear.json')
+      .then(res => res.json())
+      .then(data => setConfig(data))
       .catch(() => setConfig(null));
   }, []);
 
   if (!config?.enabled) return null;
 
-  return <>{config.snowflakes && <Snowflakes />}</>;
+  return (
+    <>
+      {config.snowflakes && <Snowflakes />}
+    </>
+  );
 };
 
 const Snowflakes = () => {
@@ -63,5 +67,6 @@ const Snowflakes = () => {
     </div>
   );
 };
+
 
 export default NewYearMode;
